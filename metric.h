@@ -1,50 +1,57 @@
 #pragma once
 
 #include <QVariant>
+#include <QDate>
 
-#include <string>
+#include <vector>
 
 class Metric
 {
 public:
 
-    enum class Type : uint8_t {
+    enum class DataType : uint8_t {
         Boolean,
         Integer,
-        Time
+        Time,
+        Unknown
+    };
+
+    enum class UpsertDataStatus {
+        Inserted,
+        Updated,
+        NoChanges
     };
 
     Metric() = delete;
-    Metric(const QString &name, bool val);
-    Metric(const QString &name, int val);
-    Metric(const QString &name, const QTime &val);
+    Metric(const QString &name);
+    Metric(const QString &name, const QDate &start);
 
     const QString & name() const;
 
-    template <class T>
-    T data() const {
-        if constexpr (std::is_same_v<T, bool>) {
-            if (type_ == Type::Boolean) {
-                return qvariant_cast<T>(data_);
-            } else if constexpr (std::is_integral_v<T>) {
-                return static_cast<T>(qvariant_cast<int>(data_));
-            } else if constexpr (std::is_same_v<T, QString>) {
-                return qvariant_cast<QString>(data_);
-            }
+    UpsertDataStatus upsertData(const QDate &date, const QVariant &val);
 
-            throw std::runtime_error("Cannot cast to given type");
-        }
-    }
+    const QDate &startDate() const;
+    void setStartDate(const QDate &date);
+
+    DataType dataType() const noexcept;
+
+    inline auto begin() { return data_.begin(); }
+    inline auto end() { return data_.end(); }
+    inline auto cbegin() const { return data_.cbegin(); }
+    inline auto cend() const { return data_.cend(); }
 
 private:
 
     /// Наименование метрики.
     QString name_;
 
-    /// Значение.
-    QVariant data_;
+    /// Дата начала.
+    QDate start_date_;
+
+    /// Значения.
+    std::vector<std::pair<QDate,QVariant>> data_;
 
     /// Тип метрики.
-    Type type_;
+    DataType data_type_ = DataType::Unknown;
 
 };

@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 
 import QtQuick.Controls.Material 2.12
 
+import "js/Icons.js" as Icons
+
 ApplicationWindow {
     id: window
     visible: true
@@ -20,12 +22,17 @@ ApplicationWindow {
         ToolButton {
             id: callMenuButton
 
-            icon.source: "qrc:/icons/icons/lined_menu.svg"
+            icon.source: Icons.linedMenuSvg()
 
             onClicked: {
                 drawer.open();
             }
         }
+    }
+
+    StackView {
+        id: stackView
+
     }
 
     Drawer {
@@ -38,5 +45,4 @@ ApplicationWindow {
             anchors.centerIn: parent
         }
     }
-
 }

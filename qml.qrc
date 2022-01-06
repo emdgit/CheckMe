@@ -3,4 +3,7 @@
         <file>main.qml</file>
         <file>MSideMenu.qml</file>
     </qresource>
+    <qresource prefix="/js">
+        <file>js/Icons.js</file>
+    </qresource>
 </RCC>
