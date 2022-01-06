@@ -38,6 +38,11 @@ void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
     m->upsertData(date, value);
 }
 
+int MetricStorage::metricsCount() const
+{
+    return metrics_.size();
+}
+
 void MetricStorage::save()
 {
     settings_.clear();

@@ -24,7 +24,7 @@ void AppAPI::loadMetrics()
                               Qt::QueuedConnection);
 }
 
-bool AppAPI::metricFamilyExists(const QString &name)
+bool AppAPI::metricFamilyExists(const QString &name) const
 {
     return env_.metrics->familyExists(name);
 }
@@ -35,5 +35,10 @@ void AppAPI::registerNewMetricFamily(const QString &name)
                               "registerNewMetricFamilyImpl",
                               Qt::QueuedConnection,
                               Q_ARG(QString, name));
+}
+
+int AppAPI::metricFamilyCount() const
+{
+    return env_.metrics->metricsCount();
 }
 

@@ -5,6 +5,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/js/js/Icons.js" as Icons
+import App 1.0
 
 ApplicationWindow {
     id: window
@@ -30,9 +31,52 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: Notifier
+        function onMetricsLoaded() {
+            let written = API.metricFamilyCount();
+            if (written === 0) {
+                stackView.push(noMetricsComponent);
+            }
+        }
+    }
+
+    Component {
+        id: noMetricsComponent
+        Item {
+            anchors.centerIn: parent
+
+            width: window.width / 2
+            height: window.height / 2
+
+            Label {
+                text: qsTr("Nothing added yet..")
+                horizontalAlignment: Text.AlignHCenter
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+            }
+
+            Image {
+                source: Icons.saimonCatPng()
+                sourceSize {
+                    width: 150
+                    height: 150
+                }
+                anchors.centerIn: parent
+            }
+        }
+    }
+
     StackView {
         id: stackView
 
+        anchors {
+            top: toolBar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
     }
 
     Drawer {
@@ -44,5 +88,9 @@ ApplicationWindow {
             text: "Content goes here!"
             anchors.centerIn: parent
         }
+    }
+
+    Component.onCompleted: {
+        API.loadMetrics();
     }
 }

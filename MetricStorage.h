@@ -19,6 +19,8 @@ public:
                      const QDate &date,
                      const QVariant &value);
 
+    int metricsCount() const;
+
     void save();
     void load();
 

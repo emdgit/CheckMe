@@ -27,10 +27,13 @@ public:
     void loadMetrics();
 
     Q_INVOKABLE
-    bool metricFamilyExists(const QString &name);
+    bool metricFamilyExists(const QString &name) const;
 
     Q_INVOKABLE
     void registerNewMetricFamily(const QString &name);
+
+    Q_INVOKABLE
+    int metricFamilyCount() const;
 
 private:
 
