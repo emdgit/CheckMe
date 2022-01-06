@@ -77,13 +77,10 @@ void MetricStorage::load()
     };
 
     for (const auto &g : groups) {
-        auto k = key(g, data_type_key);
         Metric::DataType dt
             = static_cast<Metric::DataType>(settings_.value(key(g, data_type_key)).toUInt());
         (void)dt;
-        k = key(g, start_date_key);
         QDate start = settings_.value(key(g, start_date_key)).toDate();
-
 
         Metric metric(g, start);
 

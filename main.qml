@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 
 import QtQuick.Controls.Material 2.12
 
-import "js/Icons.js" as Icons
+import "qrc:/js/js/Icons.js" as Icons
 
 ApplicationWindow {
     id: window
