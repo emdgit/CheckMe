@@ -23,8 +23,7 @@ public:
     };
 
     Metric() = delete;
-    Metric(const QString &name);
-    Metric(const QString &name, const QDate &start);
+    Metric(const QString &name, const QDate &start = QDate::currentDate());
 
     const QString & name() const;
 
@@ -32,6 +31,8 @@ public:
 
     const QDate &startDate() const;
     void setStartDate(const QDate &date);
+
+    void normalize();
 
     DataType dataType() const noexcept;
 

@@ -26,25 +26,6 @@ int main(int argc, char *argv[])
 
     AppAPI api(env);
 
-    QString name = "My Metric";
-    QDate date = QDate::currentDate().addDays(-3);
-
-    ms.registerNewFamily(name);
-    ms.upsertValue(name, date, 42); date = date.addDays(1);
-    ms.upsertValue(name, date, 142); date = date.addDays(1);
-    ms.upsertValue(name, date, 1042);
-
-    name = "Another one";
-    date = date.addDays(-3);
-
-    ms.registerNewFamily(name);
-    ms.upsertValue(name, date, 10); date = date.addDays(1);
-    ms.upsertValue(name, date, 100); date = date.addDays(1);
-    ms.upsertValue(name, date, 1000);
-
-    ms.save();
-    ms.load();
-
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

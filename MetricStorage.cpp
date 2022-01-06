@@ -97,6 +97,7 @@ void MetricStorage::load()
           }
           settings_.endArray();
 
+          metric.normalize();
           metrics_.push_back(metric);
     }
 }
