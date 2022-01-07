@@ -41,6 +41,13 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: drawer
+        function onNewMetricClicked() {
+            addMetricPopup.open();
+        }
+    }
+
     Component {
         id: noMetricsComponent
         Item {
@@ -84,23 +91,32 @@ ApplicationWindow {
         width: 0.35 * window.width
         height: window.height
 
+        signal newMetricClicked()
+
         ListView {
             id: listView
             anchors.fill: parent
 
             headerPositioning: ListView.OverlayHeader
-            header: Pane {
-                id: header
-                z: 2
-                width: parent.width
 
-                contentHeight: logo.height
+            model: 1
 
-                MenuSeparator {
-                    parent: header
-                    width: parent.width
-                    anchors.verticalCenter: parent.bottom
-                    visible: !listView.atYBeginning
+            function itemClicked(num) {
+                drawer.close();
+
+                switch (num) {
+                case 0:
+                    drawer.newMetricClicked();
+                    break;
+                }
+            }
+
+            function itemText(num) {
+                switch (num) {
+                case 0:
+                    return qsTr("Добавить новую метрику");
+                default:
+                    return qsTr("Не задано..")
                 }
             }
 
@@ -116,19 +132,43 @@ ApplicationWindow {
                 }
             }
 
-            model: 5
-
             delegate: ItemDelegate {
-                text: qsTr("Title %1").arg(index + 1)
+                text: listView.itemText(index)
                 width: parent.width
                 onClicked: {
-                    drawer.close();
+                    listView.itemClicked(index);
                 }
             }
 
             ScrollIndicator.vertical: ScrollIndicator { }
         }
     }
+
+    Popup {
+            id: addMetricPopup
+
+            focus: true
+            modal: true
+            anchors.centerIn: parent
+
+            width: parent.width * 0.6
+            height: parent.height * 0.55
+
+            closePolicy: Popup.CloseOnPressOutside
+
+//            Overlay.modal: Rectangle {
+//                color: "#aa000000"
+//            }
+
+            background: Rectangle {
+                color: Material.backgroundColor
+                radius: 14
+            }
+
+            contentItem: NewMetricCard {
+
+            }
+        }
 
     Component.onCompleted: {
         API.loadMetrics();
