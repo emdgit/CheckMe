@@ -81,12 +81,52 @@ ApplicationWindow {
 
     Drawer {
         id: drawer
-        width: 0.66 * window.width
+        width: 0.35 * window.width
         height: window.height
 
-        Label {
-            text: "Content goes here!"
-            anchors.centerIn: parent
+        ListView {
+            id: listView
+            anchors.fill: parent
+
+            headerPositioning: ListView.OverlayHeader
+            header: Pane {
+                id: header
+                z: 2
+                width: parent.width
+
+                contentHeight: logo.height
+
+                MenuSeparator {
+                    parent: header
+                    width: parent.width
+                    anchors.verticalCenter: parent.bottom
+                    visible: !listView.atYBeginning
+                }
+            }
+
+            footer: ItemDelegate {
+                id: footer
+                text: qsTr("Footer")
+                width: parent.width
+
+                MenuSeparator {
+                    parent: footer
+                    width: parent.width
+                    anchors.verticalCenter: parent.top
+                }
+            }
+
+            model: 5
+
+            delegate: ItemDelegate {
+                text: qsTr("Title %1").arg(index + 1)
+                width: parent.width
+                onClicked: {
+                    drawer.close();
+                }
+            }
+
+            ScrollIndicator.vertical: ScrollIndicator { }
         }
     }
 
