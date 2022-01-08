@@ -35,6 +35,9 @@ public:
     Q_INVOKABLE
     int metricFamilyCount() const;
 
+public slots:
+    void finalize();
+
 private:
 
     ApiEnv env_;

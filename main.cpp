@@ -33,12 +33,16 @@ int main(int argc, char *argv[])
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
+        if (!obj && url == objUrl) {
             QCoreApplication::exit(-1);
+        }
     }, Qt::QueuedConnection);
 
     engine.rootContext()->setContextProperty("Notifier", &sn);
     engine.load(url);
+
+    QObject::connect(&app, &QGuiApplication::aboutToQuit,
+                     &api, &AppAPI::finalize, Qt::DirectConnection);
 
     return app.exec();
 }

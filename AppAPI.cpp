@@ -4,11 +4,17 @@
 
 #include <QThread>
 
+#include <iostream>
+
 AppAPI::AppAPI(ApiEnv env, QObject *parent) :
     QObject(parent), env_(env), impl_(new AppAPI_impl(&env_))
 {
     thread_ = new QThread(this);
     impl_->moveToThread(thread_);
+
+    connect(thread_, &QThread::finished,
+            impl_,   &AppAPI_impl::deleteLater);
+
     thread_->start();
 }
 
@@ -40,5 +46,15 @@ void AppAPI::registerNewMetricFamily(const QString &name)
 int AppAPI::metricFamilyCount() const
 {
     return env_.metrics->metricsCount();
+}
+
+void AppAPI::finalize()
+{
+    try {
+        thread_->quit();
+        thread_->wait();
+    }  catch (const std::exception &ex) {
+        std::cout << "Exception: " << ex.what() << std::endl;
+    }
 }
 
