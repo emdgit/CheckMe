@@ -151,14 +151,9 @@ ApplicationWindow {
             modal: true
             anchors.centerIn: parent
 
-            width: parent.width * 0.6
-            height: parent.height * 0.55
+            width: parent.width * 0.75
 
-            closePolicy: Popup.CloseOnPressOutside
-
-//            Overlay.modal: Rectangle {
-//                color: "#aa000000"
-//            }
+            closePolicy: Popup.NoAutoClose
 
             background: Rectangle {
                 color: Material.backgroundColor

@@ -1,14 +1,17 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
 import QtQuick.Controls.Material 2.12
 
 /// Карточка создания новой метрики.
 Item {
-    anchors.fill: parent
 
     readonly property int sideMargin: 20
     readonly property int verticalMargin: 15
+    readonly property real buttonWidth: 113.46875
+
+    implicitHeight: buttonsRow.y + buttonsRow.height + 2 * verticalMargin
 
     MouseArea {
         anchors.fill: parent
@@ -98,7 +101,9 @@ Item {
         orientation: Qt.Horizontal
     }
 
-    Button {
+    RowLayout {
+        id: buttonsRow
+
         anchors {
             top: separator.bottom
             left: parent.left
@@ -107,6 +112,23 @@ Item {
             rightMargin: sideMargin
         }
 
-        text: qsTr("Добавляем!")
+        Button {
+            id: cancelButton
+            text: qsTr("Отмена")
+            Layout.preferredWidth: buttonWidth
+            Layout.minimumWidth: buttonWidth
+        }
+
+        Item {
+            height: 5
+            Layout.fillWidth: true
+        }
+
+        Button {
+            id: applyButton
+            text: qsTr("Добавляем!")
+            Layout.preferredWidth: buttonWidth
+            Layout.minimumWidth: buttonWidth
+        }
     }
 }
