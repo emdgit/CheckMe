@@ -1,6 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>MSideMenu.qml</file>
+        <file>NewMetricCard.qml</file>
+    </qresource>
+    <qresource prefix="/js">
+        <file>js/Icons.js</file>
     </qresource>
 </RCC>

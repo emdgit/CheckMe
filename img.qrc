@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/lined_menu.svg</file>
+        <file>icons/cat_1.png</file>
+    </qresource>
+</RCC>
