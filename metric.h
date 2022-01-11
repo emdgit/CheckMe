@@ -5,17 +5,12 @@
 
 #include <vector>
 
+#include "Enums.h"
+
 class Metric
 {
+    using DataType = Enums::MetricDataType;
 public:
-
-    enum class DataType : uint8_t {
-        Boolean,
-        Integer,
-        Time,
-        Unknown
-    };
-
     enum class UpsertDataStatus {
         Inserted,
         Updated,
@@ -23,7 +18,9 @@ public:
     };
 
     Metric() = delete;
-    Metric(const QString &name, const QDate &start = QDate::currentDate());
+    Metric(const QString &name,
+           Enums::MetricDataType type,
+           const QDate &start = QDate::currentDate());
 
     const QString & name() const;
 
@@ -49,10 +46,9 @@ private:
     /// Дата начала.
     QDate start_date_;
 
+    /// Тип метрики.
+    DataType data_type_ = DataType::Boolean;
+
     /// Значения.
     std::vector<std::pair<QDate,QVariant>> data_;
-
-    /// Тип метрики.
-    DataType data_type_ = DataType::Unknown;
-
 };

@@ -1,7 +1,7 @@
 #include "metric.h"
 
-Metric::Metric(const QString &name, const QDate &start) :
-    name_(name), start_date_(start) {}
+Metric::Metric(const QString &name, Enums::MetricDataType type, const QDate &start) :
+    name_(name), start_date_(start), data_type_(type) {}
 
 const QString &Metric::name() const
 {

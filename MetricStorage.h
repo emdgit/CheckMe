@@ -13,7 +13,8 @@ public:
 
     bool familyExists(const QString &name) const;
 
-    bool registerNewFamily(const QString &name);
+    bool registerNewFamily(const QString &name,
+                           Enums::MetricDataType type);
 
     void upsertValue(const QString &family_name,
                      const QDate &date,

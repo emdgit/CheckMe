@@ -4,12 +4,30 @@ import QtQuick.Layouts 1.12
 
 import QtQuick.Controls.Material 2.12
 
+import AppEnums 1.0
+
 /// Карточка создания новой метрики.
 Item {
+    id: newMetricCard
 
     readonly property int sideMargin: 20
     readonly property int verticalMargin: 15
     readonly property real buttonWidth: 113.46875
+
+    readonly property alias metricName: nameField.text
+
+    signal applyClicked(string name, int dataType)
+    signal cancelClicked()
+
+    function dataType() {
+        if (checkBoolean.checked) {
+            return Enums.Boolean;
+        } else if (checkInteger.checked) {
+            return Enums.Integer;
+        } else {
+            return Enums.Time;
+        }
+    }
 
     implicitHeight: buttonsRow.y + buttonsRow.height + 2 * verticalMargin
 
@@ -117,6 +135,9 @@ Item {
             text: qsTr("Отмена")
             Layout.preferredWidth: buttonWidth
             Layout.minimumWidth: buttonWidth
+            onClicked: {
+                newMetricCard.cancelClicked();
+            }
         }
 
         Item {
@@ -129,6 +150,9 @@ Item {
             text: qsTr("Добавляем!")
             Layout.preferredWidth: buttonWidth
             Layout.minimumWidth: buttonWidth
+            onClicked: {
+                newMetricCard.applyClicked(metricName, dataType());
+            }
         }
     }
 }

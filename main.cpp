@@ -1,8 +1,9 @@
-#include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QGuiApplication>
 #include <QQuickStyle>
 #include <QQmlContext>
 
+#include "Enums.h"
 #include "AppAPI.h"
 #include "MetricStorage.h"
 #include "SignalNotifier.h"
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     qmlRegisterSingletonInstance<AppAPI>("App", 1, 0, "API", &api);
+    qmlRegisterUncreatableType<Enums>("AppEnums", 1, 0, "Enums", "");
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

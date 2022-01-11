@@ -1,4 +1,5 @@
 #include "MetricStorage.h"
+#include "Enums.h"
 
 #include <QtDebug>
 
@@ -8,6 +9,8 @@ constexpr auto metric_data_key = "metric_data";
 constexpr auto date_key = "date";
 constexpr auto value_key = "value";
 
+using DataType = Enums::MetricDataType;
+
 MetricStorage::MetricStorage() :
     settings_(QSettings("OGF Labs", "CheckMe")) {}
 
@@ -16,13 +19,13 @@ bool MetricStorage::familyExists(const QString &name) const
     return metricFamily(name) != nullptr;
 }
 
-bool MetricStorage::registerNewFamily(const QString &name)
+bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType type)
 {
     if (familyExists(name)) {
         return false;
     }
 
-    metrics_.emplace_back(name, QDate::currentDate());
+    metrics_.emplace_back(name, type, QDate::currentDate());
     return true;
 }
 
@@ -82,12 +85,11 @@ void MetricStorage::load()
     };
 
     for (const auto &g : groups) {
-        Metric::DataType dt
-            = static_cast<Metric::DataType>(settings_.value(key(g, data_type_key)).toUInt());
-        (void)dt;
+        DataType dt
+            = static_cast<DataType>(settings_.value(key(g, data_type_key)).toUInt());
         QDate start = settings_.value(key(g, start_date_key)).toDate();
 
-        Metric metric(g, start);
+        Metric metric(g, dt, start);
 
         int size = settings_.beginReadArray(key(g, metric_data_key));
         for (int i = 0; i < size; ++i) {

@@ -32,6 +32,7 @@ ApplicationWindow {
     }
 
     Connections {
+        id: notofierConnections
         target: Notifier
         function onMetricsLoaded() {
             let written = API.metricFamilyCount();
@@ -39,9 +40,13 @@ ApplicationWindow {
                 stackView.push(noMetricsComponent);
             }
         }
+        function onRegisteredNewMetricFamily(name) {
+            console.log("Registered: ", name);
+        }
     }
 
     Connections {
+        id: drawerConnections
         target: drawer
         function onNewMetricClicked() {
             addMetricPopup.open();
@@ -161,7 +166,12 @@ ApplicationWindow {
             }
 
             contentItem: NewMetricCard {
-
+                id: metricCard
+                onApplyClicked: {
+                    API.registerNewMetricFamily(name, dataType);
+                    addMetricPopup.close();
+                }
+                onCancelClicked: { addMetricPopup.close(); }
             }
         }
 

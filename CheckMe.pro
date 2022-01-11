@@ -7,6 +7,7 @@ CONFIG      += c++17
 HEADERS     += \
             AppAPI.h \
             AppAPI_impl.h \
+            Enums.h \
             MetricStorage.h \
             SignalNotifier.h \
             metric.h
@@ -14,6 +15,7 @@ HEADERS     += \
 SOURCES     += \
             AppAPI.cpp \
             AppAPI_impl.cpp \
+            Enums.cpp \
             MetricStorage.cpp \
             SignalNotifier.cpp \
             main.cpp \

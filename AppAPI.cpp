@@ -35,12 +35,13 @@ bool AppAPI::metricFamilyExists(const QString &name) const
     return env_.metrics->familyExists(name);
 }
 
-void AppAPI::registerNewMetricFamily(const QString &name)
+void AppAPI::registerNewMetricFamily(const QString &name, int dataType)
 {
     QMetaObject::invokeMethod(impl_,
                               "registerNewMetricFamilyImpl",
                               Qt::QueuedConnection,
-                              Q_ARG(QString, name));
+                              Q_ARG(QString, name),
+                              Q_ARG(int, dataType));
 }
 
 int AppAPI::metricFamilyCount() const

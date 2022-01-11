@@ -16,7 +16,7 @@ class AppAPI_impl : public QObject
     void loadMetricsImpl();
 
     Q_INVOKABLE
-    void registerNewMetricFamilyImpl(const QString &name);
+    void registerNewMetricFamilyImpl(const QString &name, int dataType);
 
     ApiEnv * env_;
 };
