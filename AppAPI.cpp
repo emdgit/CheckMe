@@ -44,11 +44,6 @@ void AppAPI::registerNewMetricFamily(const QString &name, int dataType)
                               Q_ARG(int, dataType));
 }
 
-int AppAPI::metricFamilyCount() const
-{
-    return env_.metrics->metricsCount();
-}
-
 void AppAPI::finalize()
 {
     try {

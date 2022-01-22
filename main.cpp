@@ -26,11 +26,13 @@ int main(int argc, char *argv[])
     env.notifier = &sn;
 
     AppAPI api(env);
+    MetricModel model(&ms);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
     QQmlApplicationEngine engine;
     qmlRegisterSingletonInstance<AppAPI>("App", 1, 0, "API", &api);
+    qmlRegisterSingletonInstance<MetricModel>("App", 1, 0, "MetricModel", &model);
     qmlRegisterUncreatableType<Enums>("AppEnums", 1, 0, "Enums", "");
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

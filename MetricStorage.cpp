@@ -116,3 +116,31 @@ Metric *MetricStorage::metricFamily(const QString &name) const
     return it == metrics_.cend() ? nullptr
                                  : const_cast<Metric*>(&*it);
 }
+
+
+
+
+MetricModel::MetricModel(MetricStorage *ms, QObject *parent) :
+    QAbstractListModel(parent), st_(ms) {}
+
+int MetricModel::rowCount(const QModelIndex &parent) const
+{
+    if (parent.isValid()) {
+        return 0;
+    }
+
+    return metricsCount();
+}
+
+QVariant MetricModel::data(const QModelIndex &index, int role) const
+{
+    Q_UNUSED(index);
+    Q_UNUSED(role);
+
+    return {};
+}
+
+int MetricModel::metricsCount() const
+{
+    return st_->metricsCount();
+}

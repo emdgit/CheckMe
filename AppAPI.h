@@ -32,9 +32,6 @@ public:
     Q_INVOKABLE
     void registerNewMetricFamily(const QString &name, int dataType);
 
-    Q_INVOKABLE
-    int metricFamilyCount() const;
-
 public slots:
     void finalize();
 
