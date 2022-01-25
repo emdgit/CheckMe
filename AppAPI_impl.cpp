@@ -15,6 +15,7 @@ void AppAPI_impl::loadMetricsImpl()
 void AppAPI_impl::registerNewMetricFamilyImpl(const QString &name, int dataType)
 {
     if (env_->metrics->registerNewFamily(name, static_cast<Enums::MetricDataType>(dataType))) {
+        env_->metrics->save();
         env_->notifier->emitRegisteredNewMetricFamily(name);
     }
 }

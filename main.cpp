@@ -32,8 +32,15 @@ int main(int argc, char *argv[])
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
-    QObject::connect(&sn, &SignalNotifier::registeredNewMetricFamily,
-                     &model, &MetricModel::updateModel);
+    QObject::connect(&sn,    &SignalNotifier::registeredNewMetricFamily,
+                     &model, &MetricModel::updateModel,
+                     Qt::QueuedConnection);
+
+    QObject::connect(&sn, &SignalNotifier::metricsLoaded,
+                     &model, &MetricModel::updateModel,
+                     Qt::QueuedConnection);
+
+    ms.load();
 
     QQmlApplicationEngine engine;
     qmlRegisterSingletonInstance<AppAPI>("App", 1, 0, "API", &api);
