@@ -137,7 +137,7 @@ Metric *MetricStorage::metricFamily(const QString &name) const
 {
     auto it = std::find_if(metrics_.cbegin(), metrics_.cend(),
                         [&name](const auto &m){
-        return m.name() == name;
+        return !m.name().compare(name, Qt::CaseInsensitive);
     });
 
     return it == metrics_.cend() ? nullptr
