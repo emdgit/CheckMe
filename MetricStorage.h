@@ -22,6 +22,8 @@ public:
                      const QVariant &value);
 
     int metricsCount() const;
+    int metricType(int index) const;
+    QString metricName(int index) const;
 
     int metricType(int index) const;
 
@@ -60,6 +62,9 @@ public:
 
     Q_INVOKABLE
     int metricType(int row) const;
+
+    Q_INVOKABLE
+    QString metricName(int row) const;
 
 
 public slots:

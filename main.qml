@@ -42,7 +42,6 @@ ApplicationWindow {
             newMetricHandler();
         }
         function onRegisteredNewMetricFamily(name) {
-            console.log("Registered: ", name);
             newMetricHandler();
         }
     }

@@ -21,11 +21,28 @@ bool MetricStorage::familyExists(const QString &name) const
 
 bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType type)
 {
-    if (familyExists(name)) {
+    QString formatted;
+    formatted += name.front().toUpper();
+
+    std::generate_n(std::back_inserter(formatted), name.size() - 1,
+                    [it = name.begin()]() mutable {
+        return (++it)->toLower();
+    });
+
+    qDebug() << "Add new Family. Name = "
+             << formatted
+             << ", type = "
+             << type;
+
+    if (familyExists(formatted)) {
+        qDebug() << "Family with name = "
+                 << formatted
+                 << " already exists. "
+                 << "won't be registed.";
         return false;
     }
 
-    metrics_.emplace_back(name, type, QDate::currentDate());
+    metrics_.emplace_back(formatted, type, QDate::currentDate());
     return true;
 }
 
@@ -49,6 +66,11 @@ int MetricStorage::metricsCount() const
 int MetricStorage::metricType(int index) const
 {
     return metrics_[index].dataType();
+}
+
+QString MetricStorage::metricName(int index) const
+{
+    return metrics_[index].name();
 }
 
 void MetricStorage::save()
@@ -152,7 +174,20 @@ int MetricModel::metricsCount() const
 
 int MetricModel::metricType(int row) const
 {
+    if (row < 0) {
+        return -1;
+    }
+
     return st_->metricType(row);
+}
+
+QString MetricModel::metricName(int row) const
+{
+    if (row < 0) {
+        return {};
+    }
+
+    return st_->metricName(row);
 }
 
 void MetricModel::updateModel()

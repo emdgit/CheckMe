@@ -3,5 +3,7 @@
         <file>icons/lined_menu.svg</file>
         <file>icons/cat_1.png</file>
         <file>icons/tick.svg</file>
+        <file>icons/number.svg</file>
+        <file>icons/time.svg</file>
     </qresource>
 </RCC>
