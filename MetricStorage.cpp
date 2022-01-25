@@ -21,7 +21,16 @@ bool MetricStorage::familyExists(const QString &name) const
 
 bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType type)
 {
+    qDebug() << "Add new Family. Name = "
+             << name
+             << ", type = "
+             << type;
+
     if (familyExists(name)) {
+        qDebug() << "Family with name = "
+                 << name
+                 << " already exists. "
+                 << "won't be registed.";
         return false;
     }
 
@@ -44,6 +53,11 @@ void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
 int MetricStorage::metricsCount() const
 {
     return metrics_.size();
+}
+
+int MetricStorage::metricType(int index) const
+{
+    return metrics_[index].dataType();
 }
 
 void MetricStorage::save()
@@ -143,4 +157,15 @@ QVariant MetricModel::data(const QModelIndex &index, int role) const
 int MetricModel::metricsCount() const
 {
     return st_->metricsCount();
+}
+
+int MetricModel::metricType(int row) const
+{
+    return st_->metricType(row);
+}
+
+void MetricModel::updateModel()
+{
+    beginResetModel();
+    endResetModel();
 }

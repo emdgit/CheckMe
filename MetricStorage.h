@@ -23,6 +23,8 @@ public:
 
     int metricsCount() const;
 
+    int metricType(int index) const;
+
     void save();
     void load();
 
@@ -55,6 +57,14 @@ public:
 
     Q_INVOKABLE
     int metricsCount() const;
+
+    Q_INVOKABLE
+    int metricType(int row) const;
+
+
+public slots:
+
+    void updateModel();
 
 
 protected:

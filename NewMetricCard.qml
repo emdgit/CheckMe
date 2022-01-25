@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.12
 
 import QtQuick.Controls.Material 2.12
 
-import AppEnums 1.0
+import App.Enums 1.0
 
 /// Карточка создания новой метрики.
 Item {

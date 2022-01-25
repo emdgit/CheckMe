@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QIcon>
 
 class AppAPI_impl;
 class MetricStorage;
@@ -31,6 +32,9 @@ public:
 
     Q_INVOKABLE
     void registerNewMetricFamily(const QString &name, int dataType);
+
+    Q_INVOKABLE
+    QIcon icon() { return QIcon::fromTheme("qrc:/icons/icons/tick.svg"); };
 
 public slots:
     void finalize();
