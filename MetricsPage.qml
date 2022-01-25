@@ -14,6 +14,8 @@ import App.Enums 1.0
 /// Страница показвыает созданные метрики.
 Item {
 
+    Material.theme: Material.Dark
+
     ListView {
         id: metricsList
 
@@ -50,12 +52,17 @@ Item {
                 id: dataRect
                 width: parent.width
                 height: 30
-                color: "#3F51B5"
                 radius: 8
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
+                }
+
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "#3F51B5" }
+                    GradientStop { position: 0.5; color: "#4b51bb" }
+                    GradientStop { position: 1.0; color: "#3F51B5" }
                 }
 
                 Image {
@@ -82,6 +89,16 @@ Item {
                     source: icon
                     color: "#EEFFFFFF"
                     antialiasing: true
+                }
+
+                Label {
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: icon.right
+                        leftMargin: 20
+                    }
+                    text: MetricModel.metricName(index)
+                    color: Material.primaryTextColor
                 }
             }
 

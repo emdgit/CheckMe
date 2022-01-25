@@ -136,6 +136,7 @@ Item {
             Layout.preferredWidth: buttonWidth
             Layout.minimumWidth: buttonWidth
             onClicked: {
+                nameField.clear();
                 newMetricCard.cancelClicked();
             }
         }
@@ -151,7 +152,9 @@ Item {
             Layout.preferredWidth: buttonWidth
             Layout.minimumWidth: buttonWidth
             onClicked: {
-                newMetricCard.applyClicked(metricName, dataType());
+                let name = metricName;
+                nameField.clear();
+                newMetricCard.applyClicked(name, dataType());
             }
         }
     }
