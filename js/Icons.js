@@ -6,3 +6,7 @@ function linedMenuSvg() {
 function saimonCatPng() {
     return "qrc:/icons/icons/cat_1.png";
 }
+
+function tickSvg() {
+    return "qrc:/icons/icons/tick.svg";
+}

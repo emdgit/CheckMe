@@ -46,6 +46,11 @@ int MetricStorage::metricsCount() const
     return metrics_.size();
 }
 
+int MetricStorage::metricType(int index) const
+{
+    return metrics_[index].dataType();
+}
+
 void MetricStorage::save()
 {
     settings_.clear();
@@ -143,4 +148,15 @@ QVariant MetricModel::data(const QModelIndex &index, int role) const
 int MetricModel::metricsCount() const
 {
     return st_->metricsCount();
+}
+
+int MetricModel::metricType(int row) const
+{
+    return st_->metricType(row);
+}
+
+void MetricModel::updateModel()
+{
+    beginResetModel();
+    endResetModel();
 }

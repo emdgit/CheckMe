@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QQuickStyle>
 #include <QQmlContext>
+#include <QIcon>
 
 #include "Enums.h"
 #include "AppAPI.h"
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQuickStyle::setStyle("Material");
+    QIcon::setThemeName("Material");
 
     MetricStorage ms;
     SignalNotifier sn;
@@ -29,6 +31,9 @@ int main(int argc, char *argv[])
     MetricModel model(&ms);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
+
+    QObject::connect(&sn, &SignalNotifier::registeredNewMetricFamily,
+                     &model, &MetricModel::updateModel);
 
     QQmlApplicationEngine engine;
     qmlRegisterSingletonInstance<AppAPI>("App", 1, 0, "API", &api);
