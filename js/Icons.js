@@ -22,3 +22,13 @@ function clockSvg() {
 function numbersSvg() {
     return "qrc:/icons/icons/number.svg";
 }
+
+/// Иконка с карандашом.
+function editSvg() {
+    return "qrc:/icons/icons/edit.svg";
+}
+
+/// Иконка с корзиной.
+function trashSvg() {
+    return "qrc:/icons/icons/trash.svg";
+}

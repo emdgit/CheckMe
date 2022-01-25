@@ -50,6 +50,9 @@ Item {
 
             Rectangle {
                 id: dataRect
+
+                readonly property int sideMargin: 10
+
                 width: parent.width
                 height: 30
                 radius: 8
@@ -65,40 +68,54 @@ Item {
                     GradientStop { position: 1.0; color: "#3F51B5" }
                 }
 
-                Image {
-                    id: icon
-                    readonly property int imgSize: 18
+                MIcon {
+                    id: metricImage
 
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
-                        leftMargin: 10
+                        leftMargin: dataRect.sideMargin
                     }
-                    height: imgSize
-                    width: imgSize
 
-                    source: delegateElement.metricIcon(index)
-                    sourceSize {
-                        width: icon.imgSize
-                        height: icon.imgSize
-                    }
-                }
-
-                ColorOverlay {
-                    anchors.fill: icon
-                    source: icon
+                    source: metricIcon(index)
                     color: "#EEFFFFFF"
-                    antialiasing: true
                 }
 
                 Label {
+                    id: nameLabel
                     anchors {
                         verticalCenter: parent.verticalCenter
-                        left: icon.right
+                        left: metricImage.right
                         leftMargin: 20
                     }
                     text: MetricModel.metricName(index)
                     color: Material.primaryTextColor
+                }
+
+                MIcon {
+                    id: removeIcon
+
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                        rightMargin: dataRect.sideMargin
+                    }
+
+                    source: Icons.trashSvg()
+                    color: "#D9413D"
+                }
+
+                MIcon {
+                    id: editIcon
+
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        right: removeIcon.left
+                        rightMargin: dataRect.sideMargin
+                    }
+
+                    source: Icons.editSvg()
+                    color: "#EEFFFFFF"
                 }
             }
 
