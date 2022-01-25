@@ -4,7 +4,6 @@
         <file>NewMetricCard.qml</file>
         <file>MetricsPage.qml</file>
         <file>NoDataPage.qml</file>
-        <file>IconLabel.qml</file>
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>

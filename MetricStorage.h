@@ -25,8 +25,6 @@ public:
     int metricType(int index) const;
     QString metricName(int index) const;
 
-    int metricType(int index) const;
-
     void save();
     void load();
 
