@@ -7,5 +7,6 @@
         <file>icons/time.svg</file>
         <file>icons/edit.svg</file>
         <file>icons/trash.svg</file>
+        <file>icons/question.svg</file>
     </qresource>
 </RCC>

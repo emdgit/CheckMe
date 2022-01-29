@@ -7,6 +7,8 @@ import QtQuick.Controls.Material 2.12
 import App 1.0
 import App.Enums 1.0
 
+import "qrc:/js/js/Icons.js" as Icons
+
 /// Карточка создания новой метрики.
 Item {
     id: newMetricCard
@@ -28,6 +30,10 @@ Item {
         } else {
             return Enums.Time;
         }
+    }
+
+    function onQuestionClicked(key) {
+
     }
 
     implicitHeight: buttonsRow.y + buttonsRow.height + 2 * verticalMargin
@@ -166,6 +172,60 @@ Item {
                 nameField.clear();
                 newMetricCard.applyClicked(name, dataType());
             }
+        }
+    }
+
+    MClickableIcon {
+        id: hintBool
+
+        anchors {
+            verticalCenter: checkBoolean.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: "#B39DDB"
+        side: 20
+
+        onClicked: {
+            console.log("bool")
+        }
+    }
+
+    MClickableIcon {
+        id: hintInt
+
+        anchors {
+            verticalCenter: checkInteger.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: "#B39DDB"
+        side: 20
+
+        onClicked: {
+            console.log("int")
+        }
+    }
+
+    MClickableIcon {
+        id: hintTime
+
+        anchors {
+            verticalCenter: checkTime.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: "#B39DDB"
+        side: 20
+
+        onClicked: {
+            console.log("time")
         }
     }
 }

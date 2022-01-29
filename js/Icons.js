@@ -32,3 +32,8 @@ function editSvg() {
 function trashSvg() {
     return "qrc:/icons/icons/trash.svg";
 }
+
+/// Иконка с вопросом.
+function questionSvg() {
+    return "qrc:/icons/icons/question.svg";
+}
