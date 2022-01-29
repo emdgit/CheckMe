@@ -5,9 +5,13 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/js/js/Icons.js" as Icons
+
 import App 1.0
 
 ApplicationWindow {
+    readonly property string noDataPage: "qrc:/NoDataPage.qml"
+    readonly property string metricListPage: "qrc:/MetricsPage.qml"
+
     id: window
     visible: true
 
@@ -35,13 +39,23 @@ ApplicationWindow {
         id: notofierConnections
         target: Notifier
         function onMetricsLoaded() {
-            let written = API.metricFamilyCount();
-            if (written === 0) {
-                stackView.push(noMetricsComponent);
-            }
+            newMetricHandler();
         }
         function onRegisteredNewMetricFamily(name) {
-            console.log("Registered: ", name);
+            newMetricHandler();
+        }
+        function onMetricStorageCleared() {
+            cmpLoader.source = "";
+            cmpLoader.source = noDataPage;
+        }
+    }
+
+    function newMetricHandler() {
+        let count = MetricModel.metricsCount();
+        if (count > 0) {
+            if (cmpLoader.source == noDataPage) {
+                cmpLoader.source = metricListPage;
+            }
         }
     }
 
@@ -53,35 +67,9 @@ ApplicationWindow {
         }
     }
 
-    Component {
-        id: noMetricsComponent
-        Item {
-            anchors.centerIn: parent
-
-            width: window.width / 2
-            height: window.height / 2
-
-            Label {
-                text: qsTr("Nothing added yet..")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-            }
-
-            Image {
-                source: Icons.saimonCatPng()
-                sourceSize {
-                    width: 150
-                    height: 150
-                }
-                anchors.centerIn: parent
-            }
-        }
-    }
-
-    StackView {
-        id: stackView
+    Loader {
+        id: cmpLoader
+        asynchronous: true
 
         anchors {
             top: toolBar.bottom
@@ -150,32 +138,33 @@ ApplicationWindow {
     }
 
     Popup {
-            id: addMetricPopup
+        id: addMetricPopup
 
-            focus: true
-            modal: true
-            anchors.centerIn: parent
+        focus: true
+        modal: true
+        anchors.centerIn: parent
 
-            width: parent.width * 0.75
+        width: parent.width * 0.75
 
-            closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.NoAutoClose
 
-            background: Rectangle {
-                color: Material.backgroundColor
-                radius: 14
-            }
-
-            contentItem: NewMetricCard {
-                id: metricCard
-                onApplyClicked: {
-                    API.registerNewMetricFamily(name, dataType);
-                    addMetricPopup.close();
-                }
-                onCancelClicked: { addMetricPopup.close(); }
-            }
+        background: Rectangle {
+            color: Material.backgroundColor
+            radius: 14
         }
 
+        contentItem: NewMetricCard {
+            id: metricCard
+            onApplyClicked: {
+                API.registerNewMetricFamily(name, dataType);
+                addMetricPopup.close();
+            }
+            onCancelClicked: { addMetricPopup.close(); }
+        }
+    }
+
     Component.onCompleted: {
+        cmpLoader.source = noDataPage;
         API.loadMetrics();
     }
 }

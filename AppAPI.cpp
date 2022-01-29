@@ -44,9 +44,12 @@ void AppAPI::registerNewMetricFamily(const QString &name, int dataType)
                               Q_ARG(int, dataType));
 }
 
-int AppAPI::metricFamilyCount() const
+void AppAPI::removeMetricFamily(const QString &name)
 {
-    return env_.metrics->metricsCount();
+    QMetaObject::invokeMethod(impl_,
+                              "removeMetricFamilyImpl",
+                              Qt::QueuedConnection,
+                              Q_ARG(QString, name));
 }
 
 void AppAPI::finalize()

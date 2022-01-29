@@ -4,7 +4,8 @@ import QtQuick.Layouts 1.12
 
 import QtQuick.Controls.Material 2.12
 
-import AppEnums 1.0
+import App 1.0
+import App.Enums 1.0
 
 /// Карточка создания новой метрики.
 Item {
@@ -136,6 +137,7 @@ Item {
             Layout.preferredWidth: buttonWidth
             Layout.minimumWidth: buttonWidth
             onClicked: {
+                nameField.clear();
                 newMetricCard.cancelClicked();
             }
         }
@@ -147,11 +149,22 @@ Item {
 
         Button {
             id: applyButton
+
+            function isEnabled() {
+                if (metricName === "") {
+                    return false;
+                }
+                return !API.metricFamilyExists(metricName);
+            }
+
             text: qsTr("Добавляем!")
             Layout.preferredWidth: buttonWidth
             Layout.minimumWidth: buttonWidth
+            enabled: isEnabled()
             onClicked: {
-                newMetricCard.applyClicked(metricName, dataType());
+                let name = metricName;
+                nameField.clear();
+                newMetricCard.applyClicked(name, dataType());
             }
         }
     }

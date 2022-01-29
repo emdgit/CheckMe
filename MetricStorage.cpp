@@ -21,11 +21,45 @@ bool MetricStorage::familyExists(const QString &name) const
 
 bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType type)
 {
-    if (familyExists(name)) {
+    QString formatted;
+    formatted += name.front().toUpper();
+
+    std::generate_n(std::back_inserter(formatted), name.size() - 1,
+                    [it = name.begin()]() mutable {
+        return (++it)->toLower();
+    });
+
+    qDebug() << "Add new Family. Name = "
+             << formatted
+             << ", type = "
+             << type;
+
+    if (familyExists(formatted)) {
+        qDebug() << "Family with name = "
+                 << formatted
+                 << " already exists. "
+                 << "won't be registed.";
         return false;
     }
 
-    metrics_.emplace_back(name, type, QDate::currentDate());
+    metrics_.emplace_back(formatted, type, QDate::currentDate());
+    return true;
+}
+
+bool MetricStorage::removeFamily(const QString &name)
+{
+    auto it = std::find_if(metrics_.begin(), metrics_.end(),
+                           [&name](const Metric &m){
+        return !m.name().compare(name, Qt::CaseInsensitive);
+    });
+
+    if (it == metrics_.end()) {
+        return false;
+    }
+
+    metrics_.erase(it);
+    metrics_.shrink_to_fit();
+
     return true;
 }
 
@@ -44,6 +78,16 @@ void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
 int MetricStorage::metricsCount() const
 {
     return metrics_.size();
+}
+
+int MetricStorage::metricType(int index) const
+{
+    return metrics_[index].dataType();
+}
+
+QString MetricStorage::metricName(int index) const
+{
+    return metrics_[index].name();
 }
 
 void MetricStorage::save()
@@ -110,9 +154,61 @@ Metric *MetricStorage::metricFamily(const QString &name) const
 {
     auto it = std::find_if(metrics_.cbegin(), metrics_.cend(),
                         [&name](const auto &m){
-        return m.name() == name;
+        return !m.name().compare(name, Qt::CaseInsensitive);
     });
 
     return it == metrics_.cend() ? nullptr
                                  : const_cast<Metric*>(&*it);
+}
+
+
+
+
+MetricModel::MetricModel(MetricStorage *ms, QObject *parent) :
+    QAbstractListModel(parent), st_(ms) {}
+
+int MetricModel::rowCount(const QModelIndex &parent) const
+{
+    if (parent.isValid()) {
+        return 0;
+    }
+
+    return metricsCount();
+}
+
+QVariant MetricModel::data(const QModelIndex &index, int role) const
+{
+    Q_UNUSED(index);
+    Q_UNUSED(role);
+
+    return {};
+}
+
+int MetricModel::metricsCount() const
+{
+    return st_->metricsCount();
+}
+
+int MetricModel::metricType(int row) const
+{
+    if (row < 0) {
+        return -1;
+    }
+
+    return st_->metricType(row);
+}
+
+QString MetricModel::metricName(int row) const
+{
+    if (row < 0) {
+        return {};
+    }
+
+    return st_->metricName(row);
+}
+
+void MetricModel::updateModel()
+{
+    beginResetModel();
+    endResetModel();
 }

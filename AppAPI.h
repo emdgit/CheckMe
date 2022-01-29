@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QIcon>
 
 class AppAPI_impl;
 class MetricStorage;
@@ -33,7 +34,8 @@ public:
     void registerNewMetricFamily(const QString &name, int dataType);
 
     Q_INVOKABLE
-    int metricFamilyCount() const;
+    void removeMetricFamily(const QString &name);
+
 
 public slots:
     void finalize();

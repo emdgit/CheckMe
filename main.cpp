@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QQuickStyle>
 #include <QQmlContext>
+#include <QIcon>
 
 #include "Enums.h"
 #include "AppAPI.h"
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQuickStyle::setStyle("Material");
+    QIcon::setThemeName("Material");
 
     MetricStorage ms;
     SignalNotifier sn;
@@ -26,12 +28,28 @@ int main(int argc, char *argv[])
     env.notifier = &sn;
 
     AppAPI api(env);
+    MetricModel model(&ms);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
+    QObject::connect(&sn,    &SignalNotifier::registeredNewMetricFamily,
+                     &model, &MetricModel::updateModel,
+                     Qt::QueuedConnection);
+
+    QObject::connect(&sn,    &SignalNotifier::metricsLoaded,
+                     &model, &MetricModel::updateModel,
+                     Qt::QueuedConnection);
+
+    QObject::connect(&sn,    &SignalNotifier::removedMetricFamily,
+                     &model, &MetricModel::updateModel,
+                     Qt::QueuedConnection);
+
+    ms.load();
+
     QQmlApplicationEngine engine;
     qmlRegisterSingletonInstance<AppAPI>("App", 1, 0, "API", &api);
-    qmlRegisterUncreatableType<Enums>("AppEnums", 1, 0, "Enums", "");
+    qmlRegisterSingletonInstance<MetricModel>("App", 1, 0, "MetricModel", &model);
+    qmlRegisterUncreatableType<Enums>("App.Enums", 1, 0, "Enums", "");
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
