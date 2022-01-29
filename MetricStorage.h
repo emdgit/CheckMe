@@ -17,6 +17,8 @@ public:
     bool registerNewFamily(const QString &name,
                            Enums::MetricDataType type);
 
+    bool removeFamily(const QString &name);
+
     void upsertValue(const QString &family_name,
                      const QDate &date,
                      const QVariant &value);

@@ -92,7 +92,7 @@ Item {
                     color: Material.primaryTextColor
                 }
 
-                MIcon {
+                MClickableIcon {
                     id: removeIcon
 
                     anchors {
@@ -103,9 +103,13 @@ Item {
 
                     source: Icons.trashSvg()
                     color: "#D9413D"
+
+                    onClicked: {
+                        API.removeMetricFamily(nameLabel.text);
+                    }
                 }
 
-                MIcon {
+                MClickableIcon {
                     id: editIcon
 
                     anchors {

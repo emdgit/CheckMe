@@ -44,6 +44,10 @@ ApplicationWindow {
         function onRegisteredNewMetricFamily(name) {
             newMetricHandler();
         }
+        function onMetricStorageCleared() {
+            cmpLoader.source = "";
+            cmpLoader.source = noDataPage;
+        }
     }
 
     function newMetricHandler() {

@@ -36,7 +36,11 @@ int main(int argc, char *argv[])
                      &model, &MetricModel::updateModel,
                      Qt::QueuedConnection);
 
-    QObject::connect(&sn, &SignalNotifier::metricsLoaded,
+    QObject::connect(&sn,    &SignalNotifier::metricsLoaded,
+                     &model, &MetricModel::updateModel,
+                     Qt::QueuedConnection);
+
+    QObject::connect(&sn,    &SignalNotifier::removedMetricFamily,
                      &model, &MetricModel::updateModel,
                      Qt::QueuedConnection);
 

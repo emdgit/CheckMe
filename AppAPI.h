@@ -34,7 +34,8 @@ public:
     void registerNewMetricFamily(const QString &name, int dataType);
 
     Q_INVOKABLE
-    QIcon icon() { return QIcon::fromTheme("qrc:/icons/icons/tick.svg"); };
+    void removeMetricFamily(const QString &name);
+
 
 public slots:
     void finalize();

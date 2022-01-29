@@ -46,6 +46,23 @@ bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType
     return true;
 }
 
+bool MetricStorage::removeFamily(const QString &name)
+{
+    auto it = std::find_if(metrics_.begin(), metrics_.end(),
+                           [&name](const Metric &m){
+        return !m.name().compare(name, Qt::CaseInsensitive);
+    });
+
+    if (it == metrics_.end()) {
+        return false;
+    }
+
+    metrics_.erase(it);
+    metrics_.shrink_to_fit();
+
+    return true;
+}
+
 void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
                                 const QVariant &value)
 {

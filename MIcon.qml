@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
+/// Иконка с цветной .svg картинкой.
 Item {
 
     id: mIconTop

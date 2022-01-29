@@ -17,9 +17,16 @@ public:
     Q_INVOKABLE
     void emitRegisteredNewMetricFamily(const QString &name);
 
+    Q_INVOKABLE
+    void emitRemovedMetricFamily();
+
+    Q_INVOKABLE
+    void emitMetricStorageCleared();
+
 signals:
 
     void metricsLoaded();
     void registeredNewMetricFamily(QString);
-
+    void removedMetricFamily();
+    void metricStorageCleared();
 };
