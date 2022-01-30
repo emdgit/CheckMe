@@ -199,6 +199,16 @@ Item {
 
         text: qsTr("Требовать на каждый день.")
         checked: false
+
+        contentItem: Label {
+            text: eachDayCheckBox.text
+            font: eachDayCheckBox.font
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            leftPadding: eachDayCheckBox.indicator.width +
+                         eachDayCheckBox.spacing
+            wrapMode: Label.Wrap
+        }
     }
 
     MClickableIcon {
