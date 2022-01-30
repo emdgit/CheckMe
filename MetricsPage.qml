@@ -14,6 +14,7 @@ import App.Enums 1.0
 
 /// Страница показвыает созданные метрики.
 Item {
+    id: metricsPageTop
 
     Material.theme: Material.Dark
 
@@ -91,6 +92,17 @@ Item {
                     }
                     text: MetricModel.metricName(index)
                     color: Material.primaryTextColor
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        _d._name = nameLabel.text;
+                        _d._dataType = MetricModel.metricType(index);
+                        // Function defined in Loader
+                        // main.qml (cmpLoader)
+                        _onMetricSelected();
+                    }
                 }
 
                 MClickableIcon {

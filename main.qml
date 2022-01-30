@@ -7,10 +7,12 @@ import QtQuick.Controls.Material 2.12
 import "qrc:/js/js/Icons.js" as Icons
 
 import App 1.0
+import App.Enums 1.0
 
 ApplicationWindow {
     readonly property string noDataPage: "qrc:/NoDataPage.qml"
     readonly property string metricListPage: "qrc:/MetricsPage.qml"
+    readonly property string metricDataPage: "qrc:/MetricDataPage.qml"
 
     id: window
     visible: true
@@ -35,6 +37,15 @@ ApplicationWindow {
         }
     }
 
+    function newMetricHandler() {
+        let count = MetricModel.metricsCount();
+        if (count > 0) {
+            if (cmpLoader.source == noDataPage) {
+                cmpLoader.source = metricListPage;
+            }
+        }
+    }
+
     Connections {
         id: notofierConnections
         target: Notifier
@@ -47,15 +58,6 @@ ApplicationWindow {
         function onMetricStorageCleared() {
             cmpLoader.source = "";
             cmpLoader.source = noDataPage;
-        }
-    }
-
-    function newMetricHandler() {
-        let count = MetricModel.metricsCount();
-        if (count > 0) {
-            if (cmpLoader.source == noDataPage) {
-                cmpLoader.source = metricListPage;
-            }
         }
     }
 
@@ -76,6 +78,22 @@ ApplicationWindow {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+        }
+
+        /// Handler for MetricsPage when metric is clicked.
+        function _onMetricSelected() {
+            source = metricDataPage;
+        }
+
+        function _closeMetricDataPage() {
+            source = metricListPage;
+        }
+
+        /// Data sharing between loaded objects.
+        QtObject {
+            id: _d
+            property int _dataType: -1
+            property string _name: ""
         }
     }
 

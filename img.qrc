@@ -8,5 +8,6 @@
         <file>icons/edit.svg</file>
         <file>icons/trash.svg</file>
         <file>icons/question.svg</file>
+        <file>icons/exit.svg</file>
     </qresource>
 </RCC>

@@ -38,3 +38,7 @@ function questionSvg() {
     return "qrc:/icons/icons/question.svg";
 }
 
+/// Иконка кнопки выхода.
+function exitSvg() {
+    return "qrc:/icons/icons/exit.svg";
+}
