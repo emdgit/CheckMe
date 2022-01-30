@@ -7,6 +7,7 @@ import QtQuick.Templates 2.12
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/js/js/Icons.js" as Icons
+import "qrc:/js/js/Colors.js" as Colors
 
 import App 1.0
 import App.Enums 1.0
@@ -63,9 +64,9 @@ Item {
                 }
 
                 gradient: Gradient {
-                    GradientStop { position: 0.0; color: "#3F51B5" }
-                    GradientStop { position: 0.5; color: "#4b51bb" }
-                    GradientStop { position: 1.0; color: "#3F51B5" }
+                    GradientStop { position: 0.0; color: Colors.itemBlue(); }
+                    GradientStop { position: 0.5; color: Colors.itemBlueGradient(); }
+                    GradientStop { position: 1.0; color: Colors.itemBlue(); }
                 }
 
                 MIcon {
@@ -78,7 +79,7 @@ Item {
                     }
 
                     source: metricIcon(index)
-                    color: "#EEFFFFFF"
+                    color: Colors.white()
                 }
 
                 Label {
@@ -102,7 +103,7 @@ Item {
                     }
 
                     source: Icons.trashSvg()
-                    color: "#D9413D"
+                    color: Colors.red()
 
                     onClicked: {
                         API.removeMetricFamily(nameLabel.text);
@@ -119,7 +120,7 @@ Item {
                     }
 
                     source: Icons.editSvg()
-                    color: "#EEFFFFFF"
+                    color: Colors.white()
                 }
             }
 
@@ -130,7 +131,7 @@ Item {
                 verticalOffset: 3
                 radius: 8.0
                 samples: 16
-                color: "#80000000"
+                color: Colors.shadow()
                 source: dataRect
             }
         }

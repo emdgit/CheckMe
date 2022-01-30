@@ -8,6 +8,7 @@ import App 1.0
 import App.Enums 1.0
 
 import "qrc:/js/js/Icons.js" as Icons
+import "qrc:/js/js/Colors.js" as Colors
 
 /// Карточка создания новой метрики.
 Item {
@@ -32,8 +33,18 @@ Item {
         }
     }
 
+    /// Question Label click handler.
     function onQuestionClicked(key) {
-
+        // ToDo
+        switch (key) {
+        case Enums.Boolean:
+            return;
+        case Enums.Integer:
+            return;
+        case Enums.Time:
+            return;
+        default: return;
+        }
     }
 
     implicitHeight: buttonsRow.y + buttonsRow.height + 2 * verticalMargin
@@ -61,6 +72,7 @@ Item {
         horizontalAlignment: TextInput.AlignHCenter
     }
 
+    // Swapable item starts here...
     Label {
         id: questionLabel
         anchors {
@@ -126,6 +138,61 @@ Item {
         orientation: Qt.Horizontal
     }
 
+    MClickableIcon {
+        id: hintBool
+
+        anchors {
+            verticalCenter: checkBoolean.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+
+        onClicked: {
+            onQuestionClicked(Enums.Boolean);
+        }
+    }
+
+    MClickableIcon {
+        id: hintInt
+
+        anchors {
+            verticalCenter: checkInteger.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+
+        onClicked: {
+            onQuestionClicked(Enums.Integer);
+        }
+    }
+
+    MClickableIcon {
+        id: hintTime
+
+        anchors {
+            verticalCenter: checkTime.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+
+        onClicked: {
+            onQuestionClicked(Enums.Time);
+        }
+    }
+    // ... Swapable item ends here.
+
     RowLayout {
         id: buttonsRow
 
@@ -172,60 +239,6 @@ Item {
                 nameField.clear();
                 newMetricCard.applyClicked(name, dataType());
             }
-        }
-    }
-
-    MClickableIcon {
-        id: hintBool
-
-        anchors {
-            verticalCenter: checkBoolean.verticalCenter
-            right: parent.right
-            rightMargin: sideMargin
-        }
-
-        source: Icons.questionSvg()
-        color: "#B39DDB"
-        side: 20
-
-        onClicked: {
-            console.log("bool")
-        }
-    }
-
-    MClickableIcon {
-        id: hintInt
-
-        anchors {
-            verticalCenter: checkInteger.verticalCenter
-            right: parent.right
-            rightMargin: sideMargin
-        }
-
-        source: Icons.questionSvg()
-        color: "#B39DDB"
-        side: 20
-
-        onClicked: {
-            console.log("int")
-        }
-    }
-
-    MClickableIcon {
-        id: hintTime
-
-        anchors {
-            verticalCenter: checkTime.verticalCenter
-            right: parent.right
-            rightMargin: sideMargin
-        }
-
-        source: Icons.questionSvg()
-        color: "#B39DDB"
-        side: 20
-
-        onClicked: {
-            console.log("time")
         }
     }
 }
