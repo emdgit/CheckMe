@@ -12,9 +12,9 @@ void AppAPI_impl::loadMetricsImpl()
     env_->notifier->emitMetricsLoaded();
 }
 
-void AppAPI_impl::registerNewMetricFamilyImpl(const QString &name, int dataType)
+void AppAPI_impl::registerNewMetricFamilyImpl(const QString &name, int dataType, bool eachDay)
 {
-    if (env_->metrics->registerNewFamily(name, static_cast<Enums::MetricDataType>(dataType))) {
+    if (env_->metrics->registerNewFamily(name, static_cast<Enums::MetricDataType>(dataType), eachDay)) {
         env_->metrics->save();
         env_->notifier->emitRegisteredNewMetricFamily(name);
     }

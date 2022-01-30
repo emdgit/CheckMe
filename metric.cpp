@@ -1,7 +1,11 @@
 #include "metric.h"
 
-Metric::Metric(const QString &name, Enums::MetricDataType type, const QDate &start) :
-    name_(name), start_date_(start), data_type_(type) {}
+Metric::Metric(const QString &name, Enums::MetricDataType type, bool forEachDay,
+               const QDate &start) :
+    name_(name),
+    start_date_(start),
+    data_type_(type),
+    for_each_day_(forEachDay) {}
 
 const QString &Metric::name() const
 {
@@ -46,6 +50,11 @@ const QDate &Metric::startDate() const
 void Metric::setStartDate(const QDate &date)
 {
     start_date_ = date;
+}
+
+bool Metric::forEachDay() const noexcept
+{
+    return for_each_day_;
 }
 
 void Metric::normalize()

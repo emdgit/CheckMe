@@ -20,6 +20,7 @@ public:
     Metric() = delete;
     Metric(const QString &name,
            Enums::MetricDataType type,
+           bool forEachDay = false,
            const QDate &start = QDate::currentDate());
 
     const QString & name() const;
@@ -28,6 +29,8 @@ public:
 
     const QDate &startDate() const;
     void setStartDate(const QDate &date);
+
+    bool forEachDay() const noexcept;
 
     void normalize();
 
@@ -48,6 +51,9 @@ private:
 
     /// Тип метрики.
     DataType data_type_ = DataType::Boolean;
+
+    /// Нужно ли требовать заполнения на каждый день.
+    bool for_each_day_ = false;
 
     /// Значения.
     std::vector<std::pair<QDate,QVariant>> data_;

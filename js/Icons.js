@@ -37,3 +37,4 @@ function trashSvg() {
 function questionSvg() {
     return "qrc:/icons/icons/question.svg";
 }
+
