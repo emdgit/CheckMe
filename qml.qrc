@@ -9,5 +9,6 @@
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>
+        <file>js/Colors.js</file>
     </qresource>
 </RCC>

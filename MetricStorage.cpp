@@ -6,6 +6,7 @@
 constexpr auto data_type_key = "data_type";
 constexpr auto start_date_key = "start_date";
 constexpr auto metric_data_key = "metric_data";
+constexpr auto metric_each_day_key = "for_each_day";
 constexpr auto date_key = "date";
 constexpr auto value_key = "value";
 
@@ -19,7 +20,9 @@ bool MetricStorage::familyExists(const QString &name) const
     return metricFamily(name) != nullptr;
 }
 
-bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType type)
+bool MetricStorage::registerNewFamily(const QString &name,
+                                      Enums::MetricDataType type,
+                                      bool eachDay)
 {
     QString formatted;
     formatted += name.front().toUpper();
@@ -42,7 +45,7 @@ bool MetricStorage::registerNewFamily(const QString &name, Enums::MetricDataType
         return false;
     }
 
-    metrics_.emplace_back(formatted, type, QDate::currentDate());
+    metrics_.emplace_back(formatted, type, eachDay, QDate::currentDate());
     return true;
 }
 
@@ -99,6 +102,7 @@ void MetricStorage::save()
 
         settings_.setValue(data_type_key, static_cast<uint32_t>(m.dataType()));
         settings_.setValue(start_date_key, m.startDate());
+        settings_.setValue(metric_each_day_key, m.forEachDay());
 
         if (m.cbegin() != m.cend()) {
             settings_.beginWriteArray(metric_data_key);
@@ -132,8 +136,9 @@ void MetricStorage::load()
         DataType dt
             = static_cast<DataType>(settings_.value(key(g, data_type_key)).toUInt());
         QDate start = settings_.value(key(g, start_date_key)).toDate();
+        bool for_each_day = settings_.value(key(g, metric_each_day_key)).toBool();
 
-        Metric metric(g, dt, start);
+        Metric metric(g, dt, for_each_day, start);
 
         int size = settings_.beginReadArray(key(g, metric_data_key));
         for (int i = 0; i < size; ++i) {
@@ -145,7 +150,9 @@ void MetricStorage::load()
           }
           settings_.endArray();
 
-          metric.normalize();
+          if (metric.forEachDay()) {
+              metric.normalize();
+          }
           metrics_.push_back(metric);
     }
 }

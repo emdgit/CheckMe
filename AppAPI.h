@@ -31,7 +31,9 @@ public:
     bool metricFamilyExists(const QString &name) const;
 
     Q_INVOKABLE
-    void registerNewMetricFamily(const QString &name, int dataType);
+    void registerNewMetricFamily(const QString &name,
+                                 int dataType,
+                                 bool eachDay);
 
     Q_INVOKABLE
     void removeMetricFamily(const QString &name);

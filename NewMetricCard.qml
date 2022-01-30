@@ -7,6 +7,9 @@ import QtQuick.Controls.Material 2.12
 import App 1.0
 import App.Enums 1.0
 
+import "qrc:/js/js/Icons.js" as Icons
+import "qrc:/js/js/Colors.js" as Colors
+
 /// Карточка создания новой метрики.
 Item {
     id: newMetricCard
@@ -17,7 +20,7 @@ Item {
 
     readonly property alias metricName: nameField.text
 
-    signal applyClicked(string name, int dataType)
+    signal applyClicked(string name, int dataType, bool forEachDay)
     signal cancelClicked()
 
     function dataType() {
@@ -30,7 +33,25 @@ Item {
         }
     }
 
-    implicitHeight: buttonsRow.y + buttonsRow.height + 2 * verticalMargin
+    /// Text for ToolTips.
+    function questionText(key) {
+        switch (key) {
+        case Enums.NMCE_QuestionBool:
+            return qsTr("Записи с этим типом данных могут принимать толко 2 значения: \
+'Да' или 'Нет'.");
+        case Enums.NMCE_QuestionInt:
+            return qsTr("В таких записях можно будет сохранять целые числа. Например, 42.");
+        case Enums.NMCE_QuestionTime:
+            return qsTr("Эти записи будут хранить значение времени. Как, допустим, 22:22. \
+Ну, или 07:00. Как пожелаете.");
+        case Enums.NMCE_QuestionEachDay:
+            return qsTr("Выбрав эту опцию, приложение будет просить заполнять данные \
+каждый день. Пропуск дня будет считаться незаполненным и обязательным к заполнению.");
+        default: return "";
+        }
+    }
+
+    implicitHeight: buttonsRow.y + 4 * verticalMargin
 
     MouseArea {
         anchors.fill: parent
@@ -120,11 +141,100 @@ Item {
         orientation: Qt.Horizontal
     }
 
+    MClickableIcon {
+        id: hintBool
+
+        anchors {
+            verticalCenter: checkBoolean.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+        toolTipText: questionText(Enums.NMCE_QuestionBool)
+    }
+
+    MClickableIcon {
+        id: hintInt
+
+        anchors {
+            verticalCenter: checkInteger.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+        toolTipText: questionText(Enums.NMCE_QuestionInt)
+    }
+
+    MClickableIcon {
+        id: hintTime
+
+        anchors {
+            verticalCenter: checkTime.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+        toolTipText: questionText(Enums.NMCE_QuestionTime)
+    }
+
+    CheckBox {
+        id: eachDayCheckBox
+
+        anchors {
+            top: separator.bottom
+            left: parent.left
+            leftMargin: sideMargin
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        text: qsTr("Требовать на каждый день.")
+        checked: false
+    }
+
+    MClickableIcon {
+        id: hintEachDay
+
+        anchors {
+            verticalCenter: eachDayCheckBox.verticalCenter
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        source: Icons.questionSvg()
+        color: Colors.materialPink()
+        side: 20
+        toolTipText: questionText(Enums.NMCE_QuestionEachDay)
+        toolTipTimeout: 8000
+    }
+
+    ToolSeparator {
+        id: separatorBottom
+        anchors {
+            top: eachDayCheckBox.bottom
+            left: parent.left
+            leftMargin: sideMargin
+            right: parent.right
+            rightMargin: sideMargin
+        }
+
+        orientation: Qt.Horizontal
+    }
+
     RowLayout {
         id: buttonsRow
 
         anchors {
-            top: separator.bottom
+            top: separatorBottom.bottom
             left: parent.left
             leftMargin: sideMargin
             right: parent.right
@@ -164,7 +274,9 @@ Item {
             onClicked: {
                 let name = metricName;
                 nameField.clear();
-                newMetricCard.applyClicked(name, dataType());
+                newMetricCard.applyClicked(name,
+                                           dataType(),
+                                           eachDayCheckBox.checked);
             }
         }
     }

@@ -156,7 +156,7 @@ ApplicationWindow {
         contentItem: NewMetricCard {
             id: metricCard
             onApplyClicked: {
-                API.registerNewMetricFamily(name, dataType);
+                API.registerNewMetricFamily(name, dataType, forEachDay);
                 addMetricPopup.close();
             }
             onCancelClicked: { addMetricPopup.close(); }

@@ -15,7 +15,8 @@ public:
     bool familyExists(const QString &name) const;
 
     bool registerNewFamily(const QString &name,
-                           Enums::MetricDataType type);
+                           Enums::MetricDataType type,
+                           bool eachDay);
 
     bool removeFamily(const QString &name);
 
