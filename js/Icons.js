@@ -42,3 +42,13 @@ function questionSvg() {
 function exitSvg() {
     return "qrc:/icons/icons/exit.svg";
 }
+
+/// Иконка стрелки влево.
+function leftArrowSvg() {
+    return "qrc:/icons/icons/left_arrow.svg";
+}
+
+/// Иконка стрелки вправо.
+function rightArrowSvg() {
+    return "qrc:/icons/icons/right_arrow.svg";
+}

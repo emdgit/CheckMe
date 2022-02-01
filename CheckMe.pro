@@ -10,7 +10,8 @@ HEADERS     += \
             Enums.h \
             MetricStorage.h \
             SignalNotifier.h \
-            metric.h
+            metric.h \
+            servicefunctions.h
 
 SOURCES     += \
             AppAPI.cpp \
@@ -19,7 +20,8 @@ SOURCES     += \
             MetricStorage.cpp \
             SignalNotifier.cpp \
             main.cpp \
-            metric.cpp
+            metric.cpp \
+            servicefunctions.cpp
 
 RESOURCES   += \
             qml.qrc \

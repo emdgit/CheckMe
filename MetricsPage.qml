@@ -97,8 +97,9 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        _d._name = nameLabel.text;
-                        _d._dataType = MetricModel.metricType(index);
+                        _name = nameLabel.text;
+                        _dataType = MetricModel.metricType(index);
+                        _startDate = MetricModel.metricStartDate(index);
                         // Function defined in Loader
                         // main.qml (cmpLoader)
                         _onMetricSelected();

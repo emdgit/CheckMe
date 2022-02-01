@@ -93,6 +93,25 @@ QString MetricStorage::metricName(int index) const
     return metrics_[index].name();
 }
 
+QDate MetricStorage::startDate(int index) const
+{
+    return metrics_[index].startDate();
+}
+
+Metric MetricStorage::metric(const QString &name) const
+{
+    const auto it = std::find_if(metrics_.cbegin(), metrics_.cend(),
+                                 [&name](const Metric &m) {
+        return !m.name().compare(name, Qt::CaseInsensitive);
+    });
+
+    if (it == metrics_.cend()) {
+        throw std::runtime_error("Cannot find Metric");
+    }
+
+    return *it;
+}
+
 void MetricStorage::save()
 {
     settings_.clear();
@@ -212,6 +231,15 @@ QString MetricModel::metricName(int row) const
     }
 
     return st_->metricName(row);
+}
+
+QDate MetricModel::metricStartDate(int row) const
+{
+    if (row < 0) {
+        return {};
+    }
+
+    return st_->startDate(row);
 }
 
 void MetricModel::updateModel()

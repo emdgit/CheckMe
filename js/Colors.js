@@ -27,3 +27,18 @@ function red() {
 function shadow() {
     return "#80000000";
 }
+
+/// Полностью прозрачный.
+function transparent() {
+    return "transparent";
+}
+
+/// Material.Indigo
+function indigo() {
+    return "#673AB7";
+}
+
+/// 'Неактивный' серый.
+function unactiveGray() {
+    return "#6E6E6E";
+}

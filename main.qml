@@ -80,6 +80,10 @@ ApplicationWindow {
             bottom: parent.bottom
         }
 
+        property string _name: ""
+        property int _dataType: -1
+        property date _startDate: new Date()
+
         /// Handler for MetricsPage when metric is clicked.
         function _onMetricSelected() {
             source = metricDataPage;
@@ -87,13 +91,6 @@ ApplicationWindow {
 
         function _closeMetricDataPage() {
             source = metricListPage;
-        }
-
-        /// Data sharing between loaded objects.
-        QtObject {
-            id: _d
-            property int _dataType: -1
-            property string _name: ""
         }
     }
 

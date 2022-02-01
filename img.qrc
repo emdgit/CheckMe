@@ -9,5 +9,7 @@
         <file>icons/trash.svg</file>
         <file>icons/question.svg</file>
         <file>icons/exit.svg</file>
+        <file>icons/left_arrow.svg</file>
+        <file>icons/right_arrow.svg</file>
     </qresource>
 </RCC>
