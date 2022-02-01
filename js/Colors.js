@@ -1,5 +1,5 @@
 /// Как RadioButton в MaterialDark.
-function materialPink() {
+function pink() {
     return "#B39DDB";
 }
 
@@ -41,4 +41,9 @@ function indigo() {
 /// 'Неактивный' серый.
 function unactiveGray() {
     return "#6E6E6E";
+}
+
+/// Material.LightGreen.
+function lightGreen() {
+    return "#8BC34A";
 }

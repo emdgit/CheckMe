@@ -109,8 +109,6 @@ Item {
                     anchors {
                         top: parent.top
                         topMargin: 10
-//                        left: parent.left
-//                        leftMargin: 10
                         right: navigationText.left
                         rightMargin: sideMargin
                     }
@@ -130,8 +128,6 @@ Item {
                     anchors {
                         top: parent.top
                         topMargin: 10
-//                        right: parent.right
-//                        rightMargin: 10
                         left: navigationText.right
                         leftMargin: sideMargin
                     }
@@ -166,7 +162,7 @@ Item {
                     anchors.centerIn: parent
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    color: parent.currentDay ? Colors.materialPink()
+                    color: parent.currentDay ? Colors.pink()
                                              : Material.primaryTextColor
 
                     function day(num) {
@@ -192,17 +188,23 @@ Item {
 
             dayDelegate: Item {
                 Rectangle {
+                    id: dayDlg
+
+                    readonly property bool inPeriod: {
+                        const start = _startDate;
+                        const date = styleData.date;
+                        const today = metricCalendar.today;
+
+                        return Funcs.dateLessEqual(start, date) &&
+                            Funcs.dateLessEqual(date, today);
+                    }
+
                     anchors.fill: parent
                     anchors.margins: 2.4
                     color: dayColor()
 
                     function dayColor() {
-                        const start = _startDate;
-                        const date = styleData.date;
-                        const today = metricCalendar.today;
-
-                        if (Funcs.dateLessEqual(start, date) &&
-                            Funcs.dateLessEqual(date, today)) {
+                        if (inPeriod) {
                             if (styleData.selected) {
                                 return Colors.indigo();
                             }
@@ -220,23 +222,44 @@ Item {
                     Text {
                         text: styleData.date.toLocaleDateString(Qt.locale("ru_ru"),
                                                                 "d")
-                        anchors.fill: parent
-                        verticalAlignment: Text.AlignVCenter
+                        anchors {
+                            top: parent.top
+                            topMargin: parent.height * 0.1
+                            horizontalCenter: parent.horizontalCenter
+                        }
+
+                        verticalAlignment: Text.AlignTop
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: 16
                         font.capitalization: Font.AllUppercase
                         color: {
-                            const start = _startDate;
-                            const date = styleData.date;
-                            const today = metricCalendar.today;
-
-                            if (Funcs.dateLessEqual(start, date) &&
-                                Funcs.dateLessEqual(date, today)) {
+                            if (dayDlg.inPeriod) {
                                 return Colors.white();
                             } else {
                                 return Colors.unactiveGray();
                             }
                         }
+                    }
+
+                    Component {
+                        id: doubleTick
+                        MIcon {
+                            source: Icons.doubleTickSvg()
+                            side: 15
+                            // light green
+                            color: "#8BC34A"
+                        }
+                    }
+
+
+                    Loader {
+                        anchors {
+                            right: parent.right
+                            bottom: parent.bottom
+                        }
+
+                        sourceComponent: dayDlg.inPeriod ? doubleTick
+                                                         : undefined
                     }
                 }
             }

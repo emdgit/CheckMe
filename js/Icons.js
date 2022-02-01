@@ -52,3 +52,8 @@ function leftArrowSvg() {
 function rightArrowSvg() {
     return "qrc:/icons/icons/right_arrow.svg";
 }
+
+/// Иконка с двумя галочками как в WhatsApp.
+function doubleTickSvg() {
+    return "qrc:/icons/icons/double_tick.svg";
+}
