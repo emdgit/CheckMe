@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.12
 
+import App 1.0
 import App.Funcs 1.0
 
 import "qrc:/js/js/Icons.js" as Icons
@@ -80,15 +81,14 @@ Item {
         readonly property date today: Funcs.currentDate()
 
         style: CalendarStyle {
-            gridColor: "transparent"
+            gridColor: Colors.transparent()
 
             background: Rectangle {
-                color: "transparent"
+                color: Colors.transparent()
             }
 
             navigationBar: Rectangle {
-//                color: Colors.itemBlue()
-                color: "transparent"
+                color: Colors.transparent()
                 width: metricCalendar.width
                 height: 40
 
@@ -244,13 +244,11 @@ Item {
                     Component {
                         id: doubleTick
                         MIcon {
-                            source: Icons.doubleTickSvg()
                             side: 15
-                            // light green
-                            color: "#8BC34A"
+                            source: Icons.doubleTickSvg()
+                            color: Colors.lightGreen()
                         }
                     }
-
 
                     Loader {
                         anchors {
@@ -258,8 +256,17 @@ Item {
                             bottom: parent.bottom
                         }
 
-                        sourceComponent: dayDlg.inPeriod ? doubleTick
-                                                         : undefined
+                        sourceComponent: {
+                            if (dayDlg.inPeriod) {
+                                const number = Funcs.dateDayDiff(_startDate,
+                                                                 styleData.date);
+                                if (MetricModel.hasData(_metricIndex, number)) {
+                                    return doubleTick;
+                                }
+                            } else {
+                                return undefined;
+                            }
+                        }
                     }
                 }
             }

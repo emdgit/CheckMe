@@ -34,6 +34,8 @@ public:
 
     void normalize();
 
+    size_t size() const noexcept;
+
     DataType dataType() const noexcept;
 
     inline auto begin() { return data_.begin(); }

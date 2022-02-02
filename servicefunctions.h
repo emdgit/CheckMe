@@ -21,6 +21,9 @@ public:
     bool dateLessEqual(const QDate &d1, const QDate &d2) const noexcept;
 
     Q_INVOKABLE
+    int dateDayDiff(const QDate &d1, const QDate &d2) const noexcept;
+
+    Q_INVOKABLE
     QDate currentDate() const;
 
 };

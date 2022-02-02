@@ -82,6 +82,7 @@ ApplicationWindow {
 
         property string _name: ""
         property int _dataType: -1
+        property int _metricIndex: -1
         property date _startDate: new Date()
 
         /// Handler for MetricsPage when metric is clicked.

@@ -28,11 +28,18 @@ public:
 
     int metricsCount() const;
     int metricType(int index) const;
+
     QString metricName(int index) const;
 
     QDate startDate(int index) const;
 
-    Metric metric(const QString &name) const;
+    /*!
+     * \param[in] index Номер семейства метрики.
+     * \param[in] number Порядковый номер значения
+     * внутри конкретной метрики.
+     * \return Значение или QVariant().
+     */
+    QVariant data(int index, int number) const;
 
     void save();
     void load();
@@ -69,6 +76,9 @@ public:
 
     Q_INVOKABLE
     int metricType(int row) const;
+
+    Q_INVOKABLE
+    bool hasData(int row, int number) const;
 
     Q_INVOKABLE
     QString metricName(int row) const;

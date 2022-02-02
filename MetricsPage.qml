@@ -100,6 +100,7 @@ Item {
                         _name = nameLabel.text;
                         _dataType = MetricModel.metricType(index);
                         _startDate = MetricModel.metricStartDate(index);
+                        _metricIndex = index;
                         // Function defined in Loader
                         // main.qml (cmpLoader)
                         _onMetricSelected();

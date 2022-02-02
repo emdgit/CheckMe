@@ -67,7 +67,7 @@ void Metric::normalize()
     auto p = q;
     ++p;
 
-    const auto insert_empty = [&](int diff, QDate from, auto it) {
+    const auto insert_empty = [&](int diff, auto from, auto it) -> auto {
         decltype (data_) gap(diff - 1);
         for (int i(0); i < diff - 1; ++i) {
             gap[i] = std::make_pair<QDate, QVariant>(from.addDays(1), {});
@@ -99,6 +99,11 @@ void Metric::normalize()
     }
 
     data_.shrink_to_fit();
+}
+
+size_t Metric::size() const noexcept
+{
+    return data_.size();
 }
 
 Metric::DataType Metric::dataType() const noexcept
