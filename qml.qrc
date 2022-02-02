@@ -7,6 +7,7 @@
         <file>MIcon.qml</file>
         <file>MClickableIcon.qml</file>
         <file>MetricDataPage.qml</file>
+        <file>MetricCard.qml</file>
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>

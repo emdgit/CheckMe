@@ -81,6 +81,9 @@ public:
     bool hasData(int row, int number) const;
 
     Q_INVOKABLE
+    QVariant metricData(int row, int number) const;
+
+    Q_INVOKABLE
     QString metricName(int row) const;
 
     Q_INVOKABLE

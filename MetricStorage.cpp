@@ -226,6 +226,11 @@ bool MetricModel::hasData(int row, int number) const
     return st_->data(row, number).isValid();
 }
 
+QVariant MetricModel::metricData(int row, int number) const
+{
+    return st_->data(row, number);
+}
+
 QString MetricModel::metricName(int row) const
 {
     if (row < 0) {
