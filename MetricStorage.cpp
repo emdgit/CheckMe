@@ -171,6 +171,11 @@ void MetricStorage::load()
           }
           metrics_.push_back(metric);
     }
+
+    std::sort(metrics_.begin(), metrics_.end(),
+              [](const Metric &m1, const Metric &m2){
+        return m1.startDate() < m2.startDate();
+    });
 }
 
 Metric *MetricStorage::metricFamily(const QString &name) const
