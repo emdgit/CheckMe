@@ -63,6 +63,36 @@ Item {
         }
     }
 
+    Popup {
+        id: dayDataPopup
+
+        property int familyNumber
+        property int dataNumber
+        property date selectedDate: new Date()
+
+        anchors.centerIn: parent
+        width: parent.width * 0.5
+
+        focus: true
+        modal: true
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            color: Material.backgroundColor
+            radius: 14
+        }
+
+        contentItem: MetricCard {
+            id: metricCard
+
+            metricFamilyNumber: dayDataPopup.familyNumber
+            metricDataNumber: dayDataPopup.dataNumber
+            metricDate: dayDataPopup.selectedDate
+
+            onClose: { dayDataPopup.close(); }
+        }
+    }
+
     Calendar {
         id: metricCalendar
 
@@ -219,6 +249,8 @@ Item {
                         }
                     }
 
+                    function day() { return styleData.date; }
+
                     Text {
                         text: styleData.date.toLocaleDateString(Qt.locale("ru_ru"),
                                                                 "d")
@@ -266,6 +298,14 @@ Item {
                             } else {
                                 return undefined;
                             }
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            dayDataPopup.selectedDate = dayDlg.day();
+                            dayDataPopup.open();
                         }
                     }
                 }

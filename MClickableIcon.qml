@@ -34,7 +34,7 @@ Item {
     width: mIcon.side
     height: mIcon.side
 
-    MIcon { id: mIcon }
+    MIcon { id: mIcon; anchors.centerIn: parent; }
 
     ToolTip {
         id: mToolTip
@@ -44,6 +44,8 @@ Item {
 
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
         onClicked: {
             mClickableIcon.clicked();
 
