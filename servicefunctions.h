@@ -26,4 +26,7 @@ public:
     Q_INVOKABLE
     QDate currentDate() const;
 
+    Q_INVOKABLE
+    QTime currentTime() const;
+
 };

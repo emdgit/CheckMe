@@ -66,9 +66,10 @@ Item {
     Popup {
         id: dayDataPopup
 
-        property int familyNumber
-        property int dataNumber
         property date selectedDate: new Date()
+
+        property int familyNumber: _metricIndex
+        property int dataNumber
 
         anchors.centerIn: parent
         width: parent.width * 0.5
@@ -76,6 +77,16 @@ Item {
         focus: true
         modal: true
         closePolicy: Popup.NoAutoClose
+
+        onOpened: {
+            metricCard.reloadData();
+        }
+
+        onSelectedDateChanged: {
+            let d = Funcs.dateDayDiff(_startDate,
+                                      selectedDate);
+            dataNumber = d;
+        }
 
         background: Rectangle {
             color: Material.backgroundColor

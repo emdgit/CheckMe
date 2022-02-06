@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 
 import App 1.0
 import App.Enums 1.0
+import App.Funcs 1.0
 
 import "qrc:/js/js/Icons.js" as Icons
 import "qrc:/js/js/Colors.js" as Colors
@@ -24,9 +25,25 @@ Item {
         MetricModel.metricData(metricFamilyNumber,
                                metricDataNumber)
 
+    property var editorData
+
     signal close()
 
     implicitHeight: dataEditorLoader.x + 200
+
+    function reloadData() {
+        editorData
+            = MetricModel.metricData(
+                    metricCardTop.metricFamilyNumber,
+                    metricCardTop.metricDataNumber);
+
+        if (editorData === undefined) {
+            dataEditorLoader.sourceComponent = noDataCmp;
+            return;
+        }
+
+        dataEditorLoader.updateSourceComponent();
+    }
 
     Label {
         id: dateLabel
@@ -51,6 +68,8 @@ Item {
         source: Icons.exitSvg()
         color: Colors.red()
         onClicked: {
+            dataEditorLoader.sourceComponent = undefined;
+            editorData = undefined;
             metricCardTop.close();
         }
     }
@@ -70,39 +89,129 @@ Item {
     }
 
     Component {
+        // Used when there is no data set.
+        id: noDataCmp
+        Item {
+            anchors.fill: parent
+            Label {
+                id: noDataLabel
+                anchors {
+                    top: parent.top
+                    horizontalCenter: parent.horizontalCenter
+                }
+                horizontalAlignment: Label.AlignHCenter
+                text: qsTr("Пока нет данных..(")
+            }
+            OvalFramedButton {
+                anchors.centerIn: parent
+                text: qsTr("Установить")
+
+                onClicked: {
+                    switch (metricType) {
+                    case Enums.Boolean:
+                        editorData = false;
+                        break;
+                    case Enums.Integer:
+                        editorData = 1;
+                        break;
+                    case Enums.Time:
+                        editorData = Funcs.currentTime();
+                        break;
+                    }
+
+                    dataEditorLoader.updateSourceComponent();
+                }
+            }
+        }
+    }
+
+    Component {
         id: booleanEditor
-        Item {}
+        MetricCardDelegate {
+            iconSource: Icons.tickSvg()
+            iconColor: Colors.indigo()
+            topText: qsTr("Да / Нет")
+            CheckBox {
+                id: checkBox
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    leftMargin: sideMargin
+                    right: parent.right
+                    rightMargin: sideMargin
+                }
+
+                contentItem: Label {
+                    text: checkBox.text
+                    font: checkBox.font
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    leftPadding: checkBox.indicator.width + checkBox.spacing
+                    wrapMode: Label.Wrap
+                }
+
+                checked: editorData
+                text: checked ? qsTr("Да. (Галочка стоит)")
+                              : qsTr("Нет. (Потому что галочка не стоит)")
+            }
+        }
     }
 
     Component {
         id: integerEditor
-        Item {}
+        MetricCardDelegate {
+            iconSource: Icons.numbersSvg()
+            iconColor: Colors.indigo()
+            topText: qsTr("Численное значение")
+            SpinBox {
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    leftMargin: sideMargin
+                    right: parent.right
+                    rightMargin: sideMargin
+                }
+                editable: true
+                value: editorData
+                from: -100500
+                to: 100500
+            }
+        }
     }
 
     Component {
         id: timeEditor
-        Item {}
+        MetricCardDelegate {
+            iconSource: Icons.clockSvg()
+            iconColor: Colors.indigo()
+            topText: qsTr("Время")
+        }
     }
 
     Loader {
         id: dataEditorLoader
 
+        function updateSourceComponent() {
+            switch (metricType) {
+            case Enums.Boolean:
+                sourceComponent = booleanEditor;
+                break;
+            case Enums.Integer:
+                sourceComponent = integerEditor;
+                break;
+            case Enums.Time:
+                sourceComponent = timeEditor;
+                break;
+            default: sourceComponent = undefined;
+            }
+        }
+
         anchors {
             top: separator.bottom
             left: parent.left
             right: parent.right
-        }
-
-        sourceComponent: {
-            switch (metricType) {
-            case Enums.Boolean:
-                return booleanEditor;
-            case Enums.Integer:
-                return integerEditor;
-            case Enums.Time:
-                return timeEditor;
-            default: return undefined;
-            }
+            bottom: parent.bottom
         }
     }
 }

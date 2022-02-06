@@ -55,3 +55,8 @@ QDate ServiceFunctions::currentDate() const
 {
     return QDate::currentDate();
 }
+
+QTime ServiceFunctions::currentTime() const
+{
+    return QTime::currentTime();
+}
