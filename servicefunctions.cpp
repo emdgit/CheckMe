@@ -51,6 +51,21 @@ int ServiceFunctions::dateDayDiff(const QDate &d1, const QDate &d2) const noexce
     return std::abs(d1.daysTo(d2));
 }
 
+int ServiceFunctions::currentHour() const noexcept
+{
+    return currentTime().hour();
+}
+
+int ServiceFunctions::currentMinute() const noexcept
+{
+    return currentTime().minute();
+}
+
+int ServiceFunctions::clamp(int val, int min, int max) const noexcept
+{
+    return std::clamp(val, min, max);
+}
+
 QDate ServiceFunctions::currentDate() const
 {
     return QDate::currentDate();

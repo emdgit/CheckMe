@@ -10,6 +10,7 @@
         <file>MetricCard.qml</file>
         <file>OvalFramedButton.qml</file>
         <file>MetricCardDelegate.qml</file>
+        <file>TimePicker.qml</file>
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>

@@ -186,6 +186,11 @@ Item {
             iconSource: Icons.clockSvg()
             iconColor: Colors.indigo()
             topText: qsTr("Время")
+
+            TimePicker {
+                id: hoursTumbler
+                anchors.fill: parent
+            }
         }
     }
 

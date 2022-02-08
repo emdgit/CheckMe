@@ -24,6 +24,15 @@ public:
     int dateDayDiff(const QDate &d1, const QDate &d2) const noexcept;
 
     Q_INVOKABLE
+    int currentHour() const noexcept;
+
+    Q_INVOKABLE
+    int currentMinute() const noexcept;
+
+    Q_INVOKABLE
+    int clamp(int val, int min, int max) const noexcept;
+
+    Q_INVOKABLE
     QDate currentDate() const;
 
     Q_INVOKABLE
