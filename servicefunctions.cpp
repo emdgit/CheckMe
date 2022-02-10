@@ -58,7 +58,8 @@ int ServiceFunctions::currentHour() const noexcept
 
 int ServiceFunctions::currentMinute() const noexcept
 {
-    return currentTime().minute();
+    const auto min = currentTime().minute();
+    return (min / 5) * 5;
 }
 
 int ServiceFunctions::clamp(int val, int min, int max) const noexcept

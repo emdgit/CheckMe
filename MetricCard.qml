@@ -33,7 +33,7 @@ Item {
 
     function reloadData() {
         editorData
-            = MetricModel.metricData(
+                = MetricModel.metricData(
                     metricCardTop.metricFamilyNumber,
                     metricCardTop.metricDataNumber);
 
@@ -188,9 +188,9 @@ Item {
             topText: qsTr("Время")
 
             TimePicker {
-                id: hoursTumbler
                 anchors.fill: parent
             }
+
         }
     }
 
