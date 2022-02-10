@@ -23,10 +23,14 @@ public:
     Q_INVOKABLE
     void emitMetricStorageCleared();
 
+    Q_INVOKABLE
+    void emitMetricDataUpserted();
+
 signals:
 
     void metricsLoaded();
     void registeredNewMetricFamily(QString);
     void removedMetricFamily();
     void metricStorageCleared();
+    void metricDataUpserted();
 };

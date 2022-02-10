@@ -38,6 +38,11 @@ public:
     Q_INVOKABLE
     void removeMetricFamily(const QString &name);
 
+    Q_INVOKABLE
+    void upsertMetricData(const QString &name,
+                          const QDate &date,
+                          const QVariant &data);
+
 
 public slots:
     void finalize();

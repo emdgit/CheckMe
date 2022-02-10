@@ -25,7 +25,7 @@ Item {
         MetricModel.metricData(metricFamilyNumber,
                                metricDataNumber)
 
-    property var editorData
+    property var editorData: undefined
 
     signal close()
 
@@ -43,6 +43,11 @@ Item {
         }
 
         dataEditorLoader.updateSourceComponent();
+    }
+
+    function freeEditor() {
+        dataEditorLoader.sourceComponent = undefined;
+        editorData = undefined;
     }
 
     Label {
@@ -131,6 +136,12 @@ Item {
             iconSource: Icons.tickSvg()
             iconColor: Colors.indigo()
             topText: qsTr("Да / Нет")
+
+            onUpdateClicked: {
+                API.upsertMetricData(_name, metricDate, checkBox.checked);
+                metricCardTop.close();
+            }
+
             CheckBox {
                 id: checkBox
 

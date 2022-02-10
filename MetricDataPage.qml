@@ -82,6 +82,10 @@ Item {
             metricCard.reloadData();
         }
 
+        onClosed: {
+            metricCard.freeEditor();
+        }
+
         onSelectedDateChanged: {
             let d = Funcs.dateDayDiff(_startDate,
                                       selectedDate);
@@ -239,6 +243,12 @@ Item {
                         return Funcs.dateLessEqual(start, date) &&
                             Funcs.dateLessEqual(date, today);
                     }
+                    readonly property int num: Funcs.dateDayDiff(_startDate,
+                                                                 styleData.date);
+
+                    property bool hasData: {
+                        return MetricModel.hasData(_metricIndex, num);
+                    }
 
                     anchors.fill: parent
                     anchors.margins: 2.4
@@ -252,6 +262,10 @@ Item {
 
                             if (styleData.hovered) {
                                 return Colors.itemBlue();
+                            }
+
+                            if (hasData) {
+                                return Colors.transparent();
                             }
 
                             return Colors.red();
@@ -293,23 +307,37 @@ Item {
                         }
                     }
 
+                    Connections {
+                        target: Notifier
+                        function onMetricDataUpserted() {
+                            dayDlg.hasData = MetricModel.hasData(_metricIndex,
+                                                                 dayDlg.num);
+                            tickLoader.sourceComponent =
+                                    tickLoader.getSourceCmp();
+                            dayDlg.color = dayDlg.dayColor();
+                        }
+                    }
+
                     Loader {
+                        id: tickLoader
                         anchors {
                             right: parent.right
                             bottom: parent.bottom
                         }
 
-                        sourceComponent: {
+                        function getSourceCmp() {
                             if (dayDlg.inPeriod) {
                                 const number = Funcs.dateDayDiff(_startDate,
                                                                  styleData.date);
-                                if (MetricModel.hasData(_metricIndex, number)) {
+                                if (dayDlg.hasData) {
                                     return doubleTick;
                                 }
                             } else {
                                 return undefined;
                             }
                         }
+
+                        sourceComponent: getSourceCmp()
                     }
 
                     MouseArea {

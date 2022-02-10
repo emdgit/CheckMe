@@ -55,6 +55,18 @@ void AppAPI::removeMetricFamily(const QString &name)
                               Q_ARG(QString, name));
 }
 
+void AppAPI::upsertMetricData(const QString &name,
+                              const QDate &date,
+                              const QVariant &data)
+{
+    QMetaObject::invokeMethod(impl_,
+                              "upsertMetricDataImpl",
+                              Qt::QueuedConnection,
+                              Q_ARG(QString, name),
+                              Q_ARG(QDate, date),
+                              Q_ARG(QVariant, data));
+}
+
 void AppAPI::finalize()
 {
     try {

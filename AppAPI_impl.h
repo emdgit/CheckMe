@@ -21,5 +21,10 @@ class AppAPI_impl : public QObject
     Q_INVOKABLE
     void removeMetricFamilyImpl(const QString &name);
 
+    Q_INVOKABLE
+    void upsertMetricDataImpl(const QString &name,
+                              const QDate &date,
+                              const QVariant &data);
+
     ApiEnv * env_;
 };

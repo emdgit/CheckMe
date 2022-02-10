@@ -21,3 +21,8 @@ void SignalNotifier::emitMetricStorageCleared()
 {
     emit metricStorageCleared();
 }
+
+void SignalNotifier::emitMetricDataUpserted()
+{
+    emit metricDataUpserted();
+}

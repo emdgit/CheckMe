@@ -12,6 +12,8 @@ Item {
     property alias iconColor: mIcon.color
     property alias topText: describeLabel.text
 
+    signal updateClicked()
+
     anchors.fill: parent
     RowLayout {
         // Картинка и надпись про тип метрики.
@@ -39,6 +41,10 @@ Item {
 
         text: qsTr("Обновить")
         borderColor: Colors.indigo()
+
+        onClicked: {
+            parent.updateClicked();
+        }
     }
 
     Item {

@@ -69,6 +69,9 @@ bool MetricStorage::removeFamily(const QString &name)
 void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
                                 const QVariant &value)
 {
+    qDebug() << "upsertValue " << family_name
+             << date << value;
+
     auto m = metricFamily(family_name);
 
     if (!m) {
@@ -100,12 +103,19 @@ QDate MetricStorage::startDate(int index) const
 
 QVariant MetricStorage::data(int index, int number) const
 {
-    if (static_cast<size_t>(number) >= metrics_[index].size()) {
+    const auto required_date = startDate(index).addDays(number);
+    auto it = std::find_if(metrics_[index].cbegin(),
+                           metrics_[index].cend(),
+                           [&required_date](const auto &d){
+        return d.first == required_date;
+    });
+
+    if (it == metrics_[index].cend()) {
+        qDebug() << "Data " << index << number << "NO";
         return {};
     }
 
-    auto it = metrics_[index].cbegin();
-    std::advance(it, number);
+    qDebug() << "Data " << index << number << it->second;
     return it->second;
 }
 
@@ -162,7 +172,18 @@ void MetricStorage::load()
               QDate d = settings_.value(date_key).toDate();
               QVariant v = settings_.value(value_key);
 
-              metric.upsertData(d, v);
+              switch (dt) {
+              case Enums::Boolean:
+                  metric.upsertData(d, v.toBool());
+                  break;
+              case Enums::Integer:
+                  metric.upsertData(d, v.toInt());
+                  break;
+              case Enums::Time:
+                  metric.upsertData(d, v.toTime());
+                  break;
+              default: continue;
+              }
           }
           settings_.endArray();
 

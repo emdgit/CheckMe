@@ -31,3 +31,12 @@ void AppAPI_impl::removeMetricFamilyImpl(const QString &name)
         }
     }
 }
+
+void AppAPI_impl::upsertMetricDataImpl(const QString &name,
+                                       const QDate &date,
+                                       const QVariant &data)
+{
+    env_->metrics->upsertValue(name, date, data);
+    env_->metrics->save();
+    env_->notifier->emitMetricDataUpserted();
+}
