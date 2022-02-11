@@ -8,6 +8,7 @@
 #include "AppAPI.h"
 #include "MetricStorage.h"
 #include "SignalNotifier.h"
+#include "servicefunctions.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
     AppAPI api(env);
     MetricModel model(&ms);
 
+    ServiceFunctions funcs;
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
     QObject::connect(&sn,    &SignalNotifier::registeredNewMetricFamily,
@@ -49,6 +52,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     qmlRegisterSingletonInstance<AppAPI>("App", 1, 0, "API", &api);
     qmlRegisterSingletonInstance<MetricModel>("App", 1, 0, "MetricModel", &model);
+    qmlRegisterSingletonInstance<ServiceFunctions>("App.Funcs", 1, 0, "Funcs", &funcs);
     qmlRegisterUncreatableType<Enums>("App.Enums", 1, 0, "Enums", "");
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

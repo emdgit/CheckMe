@@ -10,6 +10,8 @@
 class MetricStorage
 {
 public:
+    using VariantVec = std::vector<QVariant>;
+
     MetricStorage();
 
     bool familyExists(const QString &name) const;
@@ -24,9 +26,23 @@ public:
                      const QDate &date,
                      const QVariant &value);
 
+    void removeValue(const QString &family_name,
+                     const QDate &date);
+
     int metricsCount() const;
     int metricType(int index) const;
+
     QString metricName(int index) const;
+
+    QDate startDate(int index) const;
+
+    /*!
+     * \param[in] index Номер семейства метрики.
+     * \param[in] number Порядковый номер значения
+     * внутри конкретной метрики.
+     * \return Значение или QVariant().
+     */
+    QVariant data(int index, int number) const;
 
     void save();
     void load();
@@ -65,7 +81,16 @@ public:
     int metricType(int row) const;
 
     Q_INVOKABLE
+    bool hasData(int row, int number) const;
+
+    Q_INVOKABLE
+    QVariant metricData(int row, int number) const;
+
+    Q_INVOKABLE
     QString metricName(int row) const;
+
+    Q_INVOKABLE
+    QDate metricStartDate(int row) const;
 
 
 public slots:

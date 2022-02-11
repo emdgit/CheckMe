@@ -38,3 +38,22 @@ function questionSvg() {
     return "qrc:/icons/icons/question.svg";
 }
 
+/// Иконка кнопки выхода.
+function exitSvg() {
+    return "qrc:/icons/icons/exit.svg";
+}
+
+/// Иконка стрелки влево.
+function leftArrowSvg() {
+    return "qrc:/icons/icons/left_arrow.svg";
+}
+
+/// Иконка стрелки вправо.
+function rightArrowSvg() {
+    return "qrc:/icons/icons/right_arrow.svg";
+}
+
+/// Иконка с двумя галочками как в WhatsApp.
+function doubleTickSvg() {
+    return "qrc:/icons/icons/double_tick.svg";
+}

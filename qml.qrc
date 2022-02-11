@@ -6,6 +6,11 @@
         <file>NoDataPage.qml</file>
         <file>MIcon.qml</file>
         <file>MClickableIcon.qml</file>
+        <file>MetricDataPage.qml</file>
+        <file>MetricCard.qml</file>
+        <file>OvalFramedButton.qml</file>
+        <file>MetricCardDelegate.qml</file>
+        <file>TimePicker.qml</file>
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>

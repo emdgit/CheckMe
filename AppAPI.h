@@ -33,10 +33,19 @@ public:
     Q_INVOKABLE
     void registerNewMetricFamily(const QString &name,
                                  int dataType,
-                                 bool eachDay);
+                                 bool eachDay) const;
 
     Q_INVOKABLE
-    void removeMetricFamily(const QString &name);
+    void removeMetricFamily(const QString &name) const;
+
+    Q_INVOKABLE
+    void upsertMetricData(const QString &name,
+                          const QDate &date,
+                          const QVariant &data) const;
+
+    Q_INVOKABLE
+    void resetMetricData(const QString &name,
+                         const QDate &date) const;
 
 
 public slots:

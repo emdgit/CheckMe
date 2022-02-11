@@ -1,5 +1,5 @@
 /// Как RadioButton в MaterialDark.
-function materialPink() {
+function pink() {
     return "#B39DDB";
 }
 
@@ -26,4 +26,24 @@ function red() {
 /// Цвет для тени.
 function shadow() {
     return "#80000000";
+}
+
+/// Полностью прозрачный.
+function transparent() {
+    return "transparent";
+}
+
+/// Material.Indigo
+function indigo() {
+    return "#673AB7";
+}
+
+/// 'Неактивный' серый.
+function unactiveGray() {
+    return "#6E6E6E";
+}
+
+/// Material.LightGreen.
+function lightGreen() {
+    return "#8BC34A";
 }

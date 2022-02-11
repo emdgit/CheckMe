@@ -78,6 +78,18 @@ void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
     m->upsertData(date, value);
 }
 
+void MetricStorage::removeValue(const QString &family_name,
+                                const QDate &date)
+{
+    auto m = metricFamily(family_name);
+
+    if (!m) {
+        return;
+    }
+
+    m->resetData(date);
+}
+
 int MetricStorage::metricsCount() const
 {
     return metrics_.size();
@@ -91,6 +103,27 @@ int MetricStorage::metricType(int index) const
 QString MetricStorage::metricName(int index) const
 {
     return metrics_[index].name();
+}
+
+QDate MetricStorage::startDate(int index) const
+{
+    return metrics_[index].startDate();
+}
+
+QVariant MetricStorage::data(int index, int number) const
+{
+    const auto required_date = startDate(index).addDays(number);
+    auto it = std::find_if(metrics_[index].cbegin(),
+                           metrics_[index].cend(),
+                           [&required_date](const auto &d){
+        return d.first == required_date;
+    });
+
+    if (it == metrics_[index].cend()) {
+        return {};
+    }
+
+    return it->second;
 }
 
 void MetricStorage::save()
@@ -146,7 +179,18 @@ void MetricStorage::load()
               QDate d = settings_.value(date_key).toDate();
               QVariant v = settings_.value(value_key);
 
-              metric.upsertData(d, v);
+              switch (dt) {
+              case Enums::Boolean:
+                  metric.upsertData(d, v.toBool());
+                  break;
+              case Enums::Integer:
+                  metric.upsertData(d, v.toInt());
+                  break;
+              case Enums::Time:
+                  metric.upsertData(d, v.toTime());
+                  break;
+              default: continue;
+              }
           }
           settings_.endArray();
 
@@ -155,6 +199,11 @@ void MetricStorage::load()
           }
           metrics_.push_back(metric);
     }
+
+    std::sort(metrics_.begin(), metrics_.end(),
+              [](const Metric &m1, const Metric &m2){
+        return m1.startDate() < m2.startDate();
+    });
 }
 
 Metric *MetricStorage::metricFamily(const QString &name) const
@@ -205,6 +254,16 @@ int MetricModel::metricType(int row) const
     return st_->metricType(row);
 }
 
+bool MetricModel::hasData(int row, int number) const
+{
+    return st_->data(row, number).isValid();
+}
+
+QVariant MetricModel::metricData(int row, int number) const
+{
+    return st_->data(row, number);
+}
+
 QString MetricModel::metricName(int row) const
 {
     if (row < 0) {
@@ -212,6 +271,15 @@ QString MetricModel::metricName(int row) const
     }
 
     return st_->metricName(row);
+}
+
+QDate MetricModel::metricStartDate(int row) const
+{
+    if (row < 0) {
+        return {};
+    }
+
+    return st_->startDate(row);
 }
 
 void MetricModel::updateModel()

@@ -10,6 +10,10 @@
 class Metric
 {
     using DataType = Enums::MetricDataType;
+    using pair_t = std::pair<QDate,QVariant>;
+    using vec_t = std::vector<pair_t>;
+    using pair_it = vec_t::iterator;
+
 public:
     enum class UpsertDataStatus {
         Inserted,
@@ -25,7 +29,10 @@ public:
 
     const QString & name() const;
 
-    UpsertDataStatus upsertData(const QDate &date, const QVariant &val);
+    UpsertDataStatus upsertData(const QDate &date,
+                                const QVariant &val);
+
+    void resetData(const QDate &date);
 
     const QDate &startDate() const;
     void setStartDate(const QDate &date);
@@ -34,12 +41,20 @@ public:
 
     void normalize();
 
+    size_t size() const noexcept;
+
     DataType dataType() const noexcept;
 
     inline auto begin() { return data_.begin(); }
     inline auto end() { return data_.end(); }
     inline auto cbegin() const { return data_.cbegin(); }
     inline auto cend() const { return data_.cend(); }
+
+
+protected:
+
+    pair_it find(const QDate &d);
+
 
 private:
 
@@ -56,5 +71,5 @@ private:
     bool for_each_day_ = false;
 
     /// Значения.
-    std::vector<std::pair<QDate,QVariant>> data_;
+    vec_t data_;
 };

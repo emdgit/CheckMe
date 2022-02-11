@@ -37,7 +37,7 @@ bool AppAPI::metricFamilyExists(const QString &name) const
 
 void AppAPI::registerNewMetricFamily(const QString &name,
                                      int dataType,
-                                     bool eachDay)
+                                     bool eachDay) const
 {
     QMetaObject::invokeMethod(impl_,
                               "registerNewMetricFamilyImpl",
@@ -47,12 +47,34 @@ void AppAPI::registerNewMetricFamily(const QString &name,
                               Q_ARG(bool, eachDay));
 }
 
-void AppAPI::removeMetricFamily(const QString &name)
+void AppAPI::removeMetricFamily(const QString &name) const
 {
     QMetaObject::invokeMethod(impl_,
                               "removeMetricFamilyImpl",
                               Qt::QueuedConnection,
                               Q_ARG(QString, name));
+}
+
+void AppAPI::upsertMetricData(const QString &name,
+                              const QDate &date,
+                              const QVariant &data) const
+{
+    QMetaObject::invokeMethod(impl_,
+                              "upsertMetricDataImpl",
+                              Qt::QueuedConnection,
+                              Q_ARG(QString, name),
+                              Q_ARG(QDate, date),
+                              Q_ARG(QVariant, data));
+}
+
+void AppAPI::resetMetricData(const QString &name,
+                             const QDate &date) const
+{
+    QMetaObject::invokeMethod(impl_,
+                              "resetMetricDataImpl",
+                              Qt::QueuedConnection,
+                              Q_ARG(QString, name),
+                              Q_ARG(QDate, date));
 }
 
 void AppAPI::finalize()

@@ -151,7 +151,7 @@ Item {
         }
 
         source: Icons.questionSvg()
-        color: Colors.materialPink()
+        color: Colors.pink()
         side: 20
         toolTipText: questionText(Enums.NMCE_QuestionBool)
     }
@@ -166,7 +166,7 @@ Item {
         }
 
         source: Icons.questionSvg()
-        color: Colors.materialPink()
+        color: Colors.pink()
         side: 20
         toolTipText: questionText(Enums.NMCE_QuestionInt)
     }
@@ -181,7 +181,7 @@ Item {
         }
 
         source: Icons.questionSvg()
-        color: Colors.materialPink()
+        color: Colors.pink()
         side: 20
         toolTipText: questionText(Enums.NMCE_QuestionTime)
     }
@@ -221,7 +221,7 @@ Item {
         }
 
         source: Icons.questionSvg()
-        color: Colors.materialPink()
+        color: Colors.pink()
         side: 20
         toolTipText: questionText(Enums.NMCE_QuestionEachDay)
         toolTipTimeout: 8000
