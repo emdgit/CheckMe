@@ -50,6 +50,12 @@ Item {
         editorData = undefined;
     }
 
+    function _onClose() {
+        dataEditorLoader.sourceComponent = undefined;
+        editorData = undefined;
+        metricCardTop.close();
+    }
+
     Label {
         id: dateLabel
 
@@ -72,11 +78,7 @@ Item {
 
         source: Icons.exitSvg()
         color: Colors.red()
-        onClicked: {
-            dataEditorLoader.sourceComponent = undefined;
-            editorData = undefined;
-            metricCardTop.close();
-        }
+        onClicked: { _onClose(); }
     }
 
     ToolSeparator {
@@ -139,7 +141,7 @@ Item {
 
             onUpdateClicked: {
                 API.upsertMetricData(_name, metricDate, checkBox.checked);
-                metricCardTop.close();
+                _onClose();
             }
 
             CheckBox {
@@ -175,7 +177,15 @@ Item {
             iconSource: Icons.numbersSvg()
             iconColor: Colors.indigo()
             topText: qsTr("Численное значение")
+
+            onUpdateClicked: {
+                console.log(spinBox.value);
+                API.upsertMetricData(_name, metricDate, spinBox.value);
+                _onClose();
+            }
+
             SpinBox {
+                id: spinBox
                 anchors {
                     verticalCenter: parent.verticalCenter
                     left: parent.left
@@ -184,9 +194,11 @@ Item {
                     rightMargin: sideMargin
                 }
                 editable: true
-                value: editorData
                 from: -100500
                 to: 100500
+                Component.onCompleted: {
+                    value = editorData;
+                }
             }
         }
     }
@@ -198,7 +210,15 @@ Item {
             iconColor: Colors.indigo()
             topText: qsTr("Время")
 
+            onUpdateClicked: {
+                const time = Funcs.makeTime(timePicker.hour,
+                                            timePicker.minute);
+                API.upsertMetricData(_name, metricDate, time);
+                _onClose();
+            }
+
             TimePicker {
+                id: timePicker
                 anchors.fill: parent
             }
 

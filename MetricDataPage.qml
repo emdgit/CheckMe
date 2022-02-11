@@ -246,13 +246,32 @@ Item {
                     readonly property int num: Funcs.dateDayDiff(_startDate,
                                                                  styleData.date);
 
-                    property bool hasData: {
+                    property bool hasData: false
+
+                    anchors {
+                        fill: parent
+                        margins: 2.4
+                    }
+
+                    radius: 5
+                    color: dayColor()
+                    border.color: borderColor()
+
+                    function _hasData() {
                         return MetricModel.hasData(_metricIndex, num);
                     }
 
-                    anchors.fill: parent
-                    anchors.margins: 2.4
-                    color: dayColor()
+                    function borderColor() {
+                        if (!inPeriod) {
+                            return Colors.transparent();
+                        }
+
+                        if (!hasData) {
+                            return dayColor();
+                        }
+
+                        return Colors.indigo();
+                    }
 
                     function dayColor() {
                         if (inPeriod) {
@@ -312,14 +331,12 @@ Item {
                         function onMetricDataUpserted() {
                             dayDlg.hasData = MetricModel.hasData(_metricIndex,
                                                                  dayDlg.num);
-                            tickLoader.sourceComponent =
-                                    tickLoader.getSourceCmp();
-                            dayDlg.color = dayDlg.dayColor();
                         }
                     }
 
                     Loader {
                         id: tickLoader
+
                         anchors {
                             right: parent.right
                             bottom: parent.bottom
@@ -346,6 +363,10 @@ Item {
                             dayDataPopup.selectedDate = dayDlg.day();
                             dayDataPopup.open();
                         }
+                    }
+
+                    Component.onCompleted: {
+                        hasData = _hasData();
                     }
                 }
             }

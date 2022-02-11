@@ -69,9 +69,6 @@ bool MetricStorage::removeFamily(const QString &name)
 void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
                                 const QVariant &value)
 {
-    qDebug() << "upsertValue " << family_name
-             << date << value;
-
     auto m = metricFamily(family_name);
 
     if (!m) {
@@ -111,11 +108,9 @@ QVariant MetricStorage::data(int index, int number) const
     });
 
     if (it == metrics_[index].cend()) {
-        qDebug() << "Data " << index << number << "NO";
         return {};
     }
 
-    qDebug() << "Data " << index << number << it->second;
     return it->second;
 }
 

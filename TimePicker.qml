@@ -51,7 +51,6 @@ Item {
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            //            font.pixelSize: fontMetrics.font.pixelSize * 2.25
         }
     }
 
@@ -73,6 +72,11 @@ Item {
 
         Tumbler {
             id: minutesTumbler
+
+            onCurrentIndexChanged: {
+                minute = currentIndex * 5;
+            }
+
             Layout.maximumHeight: tumblerFrame.height
             model: 12
             delegate: delegateComponent

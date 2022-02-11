@@ -38,4 +38,7 @@ public:
     Q_INVOKABLE
     QTime currentTime() const;
 
+    Q_INVOKABLE
+    QTime makeTime(int h, int m) const;
+
 };

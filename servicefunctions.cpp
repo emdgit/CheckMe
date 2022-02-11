@@ -76,3 +76,8 @@ QTime ServiceFunctions::currentTime() const
 {
     return QTime::currentTime();
 }
+
+QTime ServiceFunctions::makeTime(int h, int m) const
+{
+    return {h, m};
+}
