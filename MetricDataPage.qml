@@ -241,6 +241,8 @@ Item {
                     }
                     readonly property int num: Funcs.dateDayDiff(_startDate,
                                                                  styleData.date);
+                    readonly property bool isToday: Funcs.dateDayDiff(metricCalendar.today,
+                                                                      day()) === 0;
 
                     property bool hasData: false
 
@@ -271,7 +273,7 @@ Item {
 
                     function dayColor() {
                         if (inPeriod) {
-                            if (styleData.selected) {
+                            if (isToday) {
                                 return Colors.indigo();
                             }
 
@@ -362,6 +364,10 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
+                            if (!dayDlg.inPeriod) {
+                                return;
+                            }
+
                             dayDataPopup.selectedDate = dayDlg.day();
                             dayDataPopup.open();
                         }
