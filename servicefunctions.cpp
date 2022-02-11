@@ -81,3 +81,21 @@ QTime ServiceFunctions::makeTime(int h, int m) const
 {
     return {h, m};
 }
+
+int ServiceFunctions::extractHours(const QTime &t) const
+{
+    if (t.isNull() || !t.isValid()) {
+        return 0;
+    }
+
+    return t.hour();
+}
+
+int ServiceFunctions::extractMinutes(const QTime &t) const
+{
+    if (t.isNull() || !t.isValid()) {
+        return 0;
+    }
+
+    return t.minute();
+}

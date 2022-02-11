@@ -41,4 +41,10 @@ public:
     Q_INVOKABLE
     QTime makeTime(int h, int m) const;
 
+    Q_INVOKABLE
+    int extractHours(const QTime &t) const;
+
+    Q_INVOKABLE
+    int extractMinutes(const QTime &t) const;
+
 };

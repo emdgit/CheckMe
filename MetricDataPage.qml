@@ -82,10 +82,6 @@ Item {
             metricCard.reloadData();
         }
 
-        onClosed: {
-            metricCard.freeEditor();
-        }
-
         onSelectedDateChanged: {
             let d = Funcs.dateDayDiff(_startDate,
                                       selectedDate);

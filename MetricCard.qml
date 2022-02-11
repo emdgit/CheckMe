@@ -45,11 +45,6 @@ Item {
         dataEditorLoader.updateSourceComponent();
     }
 
-    function freeEditor() {
-        dataEditorLoader.sourceComponent = undefined;
-        editorData = undefined;
-    }
-
     function _onClose() {
         dataEditorLoader.sourceComponent = undefined;
         editorData = undefined;
@@ -220,8 +215,20 @@ Item {
             TimePicker {
                 id: timePicker
                 anchors.fill: parent
-            }
+                hour: {
+                    if (editorData === undefined) {
+                        return Funcs.currentHour();
+                    }
+                    return Funcs.extractHours(editorData);
+                }
 
+                minute: {
+                    if (editorData === undefined) {
+                        return Funcs.currentMinute();
+                    }
+                    return Funcs.extractMinutes(editorData);
+                }
+            }
         }
     }
 
