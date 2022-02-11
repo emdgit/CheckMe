@@ -26,3 +26,8 @@ void SignalNotifier::emitMetricDataUpserted()
 {
     emit metricDataUpserted();
 }
+
+void SignalNotifier::emitMetricDataRemoved()
+{
+    emit metricDataRemoved();
+}

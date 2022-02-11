@@ -12,10 +12,9 @@ const QString &Metric::name() const
     return name_;
 }
 
-Metric::UpsertDataStatus Metric::upsertData(const QDate &date, const QVariant &val)
+Metric::UpsertDataStatus Metric::upsertData(const QDate &date,
+                                            const QVariant &val)
 {
-    using pair_t = std::pair<QDate,QVariant>;
-
     if (date.daysTo(start_date_) > 0) {
         throw std::runtime_error("Cannot set date earlier than start date");
     }
@@ -23,9 +22,7 @@ Metric::UpsertDataStatus Metric::upsertData(const QDate &date, const QVariant &v
         throw std::runtime_error("Cannot set date later than today");
     }
 
-    auto it = std::find_if(begin(), end(), [&date](const pair_t &p) {
-        return p.first == date;
-    });
+    auto it = find(date);
 
     if (it == end()) {
         // Insert
@@ -40,6 +37,17 @@ Metric::UpsertDataStatus Metric::upsertData(const QDate &date, const QVariant &v
     }
 
     return UpsertDataStatus::NoChanges;
+}
+
+void Metric::resetData(const QDate &date)
+{
+    auto it = find(date);
+
+    if (it == cend()) {
+        return;
+    }
+
+    data_.erase(it);
 }
 
 const QDate &Metric::startDate() const
@@ -109,5 +117,14 @@ size_t Metric::size() const noexcept
 Metric::DataType Metric::dataType() const noexcept
 {
     return data_type_;
+}
+
+Metric::pair_it Metric::find(const QDate &d)
+{
+    // Search by date
+    return std::find_if(data_.begin(), data_.end(),
+                        [&d](const auto &p) {
+        return d == p.first;
+    });
 }
 

@@ -12,7 +12,9 @@ void AppAPI_impl::loadMetricsImpl()
     env_->notifier->emitMetricsLoaded();
 }
 
-void AppAPI_impl::registerNewMetricFamilyImpl(const QString &name, int dataType, bool eachDay)
+void AppAPI_impl::registerNewMetricFamilyImpl(const QString &name,
+                                              int dataType,
+                                              bool eachDay)
 {
     if (env_->metrics->registerNewFamily(name, static_cast<Enums::MetricDataType>(dataType), eachDay)) {
         env_->metrics->save();
@@ -39,4 +41,12 @@ void AppAPI_impl::upsertMetricDataImpl(const QString &name,
     env_->metrics->upsertValue(name, date, data);
     env_->metrics->save();
     env_->notifier->emitMetricDataUpserted();
+}
+
+void AppAPI_impl::resetMetricDataImpl(const QString &name,
+                                      const QDate &date) const
+{
+    env_->metrics->removeValue(name, date);
+    env_->metrics->save();
+    env_->notifier->emitMetricDataRemoved();
 }

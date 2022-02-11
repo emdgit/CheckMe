@@ -26,5 +26,9 @@ class AppAPI_impl : public QObject
                               const QDate &date,
                               const QVariant &data);
 
+    Q_INVOKABLE
+    void resetMetricDataImpl(const QString &name,
+                             const QDate &date) const;
+
     ApiEnv * env_;
 };

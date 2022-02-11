@@ -26,6 +26,9 @@ public:
                      const QDate &date,
                      const QVariant &value);
 
+    void removeValue(const QString &family_name,
+                     const QDate &date);
+
     int metricsCount() const;
     int metricType(int index) const;
 

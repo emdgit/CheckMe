@@ -78,6 +78,18 @@ void MetricStorage::upsertValue(const QString &family_name, const QDate &date,
     m->upsertData(date, value);
 }
 
+void MetricStorage::removeValue(const QString &family_name,
+                                const QDate &date)
+{
+    auto m = metricFamily(family_name);
+
+    if (!m) {
+        return;
+    }
+
+    m->resetData(date);
+}
+
 int MetricStorage::metricsCount() const
 {
     return metrics_.size();

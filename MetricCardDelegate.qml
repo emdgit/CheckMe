@@ -4,8 +4,11 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls 2.12
 
 import "qrc:/js/js/Colors.js" as Colors
+import "qrc:/js/js/Icons.js" as Icons
 
 Item {
+    id: metricCardDelegateTop
+
     default property alias data: innerData.data
 
     property alias iconSource: mIcon.source
@@ -13,6 +16,7 @@ Item {
     property alias topText: describeLabel.text
 
     signal updateClicked()
+    signal resetClicked()
 
     anchors.fill: parent
     RowLayout {
@@ -31,21 +35,37 @@ Item {
         Item { height: 2; Layout.fillWidth: true; }
     }
 
-    OvalFramedButton {
-        id: updateButton
+    RowLayout {
+        id: buttonsLayout
 
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
         }
 
-        text: qsTr("Обновить")
-        borderColor: Colors.indigo()
+        Item { height: 2; Layout.fillWidth: true; }
 
-        onClicked: {
-            parent.updateClicked();
+        OvalFramedButton {
+            text: qsTr("Сбросить")
+            borderColor: Colors.indigo()
+
+            onClicked: {
+                metricCardDelegateTop.resetClicked();
+            }
         }
+
+        OvalFramedButton {
+            text: qsTr("Обновить")
+            borderColor: Colors.indigo()
+
+            onClicked: {
+                metricCardDelegateTop.updateClicked();
+            }
+        }
+
+        Item { height: 2; Layout.fillWidth: true; }
     }
+
 
     Item {
         id: innerData
@@ -53,7 +73,7 @@ Item {
             top: typeLine.bottom
             left: parent.left
             right: parent.right
-            bottom: updateButton.top
+            bottom: buttonsLayout.top
         }
     }
 }

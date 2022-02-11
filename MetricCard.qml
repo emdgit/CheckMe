@@ -90,6 +90,13 @@ Item {
         orientation: Qt.Horizontal
     }
 
+    Connections {
+        target: Notifier
+        function onMetricDataRemoved() {
+            reloadData();
+        }
+    }
+
     Component {
         // Used when there is no data set.
         id: noDataCmp
@@ -139,6 +146,10 @@ Item {
                 _onClose();
             }
 
+            onResetClicked: {
+                API.resetMetricData(_name, metricDate);
+            }
+
             CheckBox {
                 id: checkBox
 
@@ -159,7 +170,10 @@ Item {
                     wrapMode: Label.Wrap
                 }
 
-                checked: editorData
+                checked: {
+                    editorData === undefined ? false
+                                             : editorData;
+                }
                 text: checked ? qsTr("Да. (Галочка стоит)")
                               : qsTr("Нет. (Потому что галочка не стоит)")
             }
@@ -174,9 +188,12 @@ Item {
             topText: qsTr("Численное значение")
 
             onUpdateClicked: {
-                console.log(spinBox.value);
                 API.upsertMetricData(_name, metricDate, spinBox.value);
                 _onClose();
+            }
+
+            onResetClicked: {
+                API.resetMetricData(_name, metricDate);
             }
 
             SpinBox {
@@ -210,6 +227,10 @@ Item {
                                             timePicker.minute);
                 API.upsertMetricData(_name, metricDate, time);
                 _onClose();
+            }
+
+            onResetClicked: {
+                API.resetMetricData(_name, metricDate);
             }
 
             TimePicker {

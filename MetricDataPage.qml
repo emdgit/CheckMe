@@ -325,6 +325,12 @@ Item {
                     Connections {
                         target: Notifier
                         function onMetricDataUpserted() {
+                            checkData();
+                        }
+                        function onMetricDataRemoved() {
+                            checkData();
+                        }
+                        function checkData() {
                             dayDlg.hasData = MetricModel.hasData(_metricIndex,
                                                                  dayDlg.num);
                         }
