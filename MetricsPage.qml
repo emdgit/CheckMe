@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
-
 import QtQuick.Templates 2.12
 
 import QtQuick.Controls.Material 2.12
@@ -16,7 +15,35 @@ import App.Enums 1.0
 Item {
     id: metricsPageTop
 
-    Material.theme: Material.Dark
+    readonly property int sideMargin: 20
+
+    Popup {
+        id: warningPopup
+
+        property string name: ""
+
+        anchors.centerIn: parent
+        width: parent.width * 0.5
+        height: parent.height * 0.75
+
+        focus: true
+        modal: true
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            color: Material.backgroundColor
+            radius: 14
+        }
+
+        contentItem: Warn {
+            onCancel: { warningPopup.close(); }
+
+            onApply: {
+                API.removeMetricFamily(warningPopup.name);
+                warningPopup.close();
+            }
+        }
+    }
 
     ListView {
         id: metricsList
@@ -120,7 +147,8 @@ Item {
                     color: Colors.red()
 
                     onClicked: {
-                        API.removeMetricFamily(nameLabel.text);
+                        warningPopup.name = nameLabel.text;
+                        warningPopup.open();
                     }
                 }
 
