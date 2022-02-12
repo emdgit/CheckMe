@@ -21,8 +21,14 @@ Item {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
             topMargin: 15
+            left: parent.left
+            leftMargin: sideMargin
+            right: parent.right
+            rightMargin: sideMargin
         }
-        text: qsTr("Удаляем '" + warningPopup.name + "'?")
+        horizontalAlignment: Label.AlignHCenter
+        text: qsTr("Удаляем '<font color=\"" + Colors.indigo() + "\">" + warningPopup.name + "</font>'?")
+        wrapMode: Label.WordWrap
     }
 
     ToolSeparator {
@@ -43,7 +49,9 @@ Item {
         anchors {
             top: separatorTop.bottom
             left: parent.left
+            leftMargin: sideMargin
             right: parent.right
+            rightMargin: sideMargin
             bottom: separatorBottom.top
         }
 
