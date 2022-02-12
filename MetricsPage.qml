@@ -23,8 +23,8 @@ Item {
         property string name: ""
 
         anchors.centerIn: parent
-        width: parent.width * 0.5
-        height: parent.height * 0.75
+        width: parent.width * 0.75
+        height: parent.height * 0.3
 
         focus: true
         modal: true

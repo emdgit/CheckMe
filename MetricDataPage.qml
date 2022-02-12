@@ -72,7 +72,8 @@ Item {
         property int dataNumber
 
         anchors.centerIn: parent
-        width: parent.width * 0.5
+        width: parent.width * 0.75
+        height: parent.height * 0.45
 
         focus: true
         modal: true
@@ -118,6 +119,14 @@ Item {
         }
 
         locale: Qt.locale("ru_ru")
+        /// property in main.qml->Loader
+        opacity: _status == Component.Ready ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 500
+            }
+        }
 
         readonly property date today: Funcs.currentDate()
 

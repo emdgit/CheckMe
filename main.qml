@@ -84,6 +84,7 @@ ApplicationWindow {
         property int _dataType: -1
         property int _metricIndex: -1
         property date _startDate: new Date()
+        property int _status: Component.Null
 
         /// Handler for MetricsPage when metric is clicked.
         function _onMetricSelected() {
@@ -93,11 +94,15 @@ ApplicationWindow {
         function _closeMetricDataPage() {
             source = metricListPage;
         }
+
+        onStatusChanged: {
+            _status = status;
+        }
     }
 
     Drawer {
         id: drawer
-        width: 0.35 * window.width
+        width: window.width * 0.55
         height: window.height
 
         signal newMetricClicked()
@@ -131,8 +136,12 @@ ApplicationWindow {
 
             footer: ItemDelegate {
                 id: footer
-                text: qsTr("Footer")
+                text: qsTr("Выйти")
                 width: parent.width
+
+                onClicked: {
+                    Qt.callLater(Qt.quit());
+                }
 
                 MenuSeparator {
                     parent: footer
@@ -141,11 +150,35 @@ ApplicationWindow {
                 }
             }
 
-            delegate: ItemDelegate {
-                text: listView.itemText(index)
+            delegate: Item {
+
                 width: parent.width
-                onClicked: {
-                    listView.itemClicked(index);
+                height: itemLabel.implicitHeight < 35 ? 40 : itemLabel.implicitHeight + 30
+
+                Label {
+                    id: itemLabel
+
+                    anchors {
+                        left: parent.left
+                        leftMargin: 15
+                        right: parent.right
+                        rightMargin: 15
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    horizontalAlignment: Label.AlignLeft
+                    verticalAlignment: Label.AlignVCenter
+
+                    text: listView.itemText(index)
+                    width: parent.width
+                    wrapMode: Label.WordWrap
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        listView.itemClicked(index);
+                    }
                 }
             }
 

@@ -193,8 +193,7 @@ Item {
             top: separator.bottom
             left: parent.left
             leftMargin: sideMargin
-            right: parent.right
-            rightMargin: sideMargin
+            right: hintEachDay.left
         }
 
         text: qsTr("Требовать на каждый день.")
