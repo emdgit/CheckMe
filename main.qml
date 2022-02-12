@@ -97,7 +97,7 @@ ApplicationWindow {
 
     Drawer {
         id: drawer
-        width: 0.35 * window.width
+        width: window.width * 0.55
         height: window.height
 
         signal newMetricClicked()
@@ -141,11 +141,31 @@ ApplicationWindow {
                 }
             }
 
-            delegate: ItemDelegate {
-                text: listView.itemText(index)
+            delegate: Item {
+
                 width: parent.width
-                onClicked: {
-                    listView.itemClicked(index);
+                height: itemLabel.implicitHeight < 40 ? 40 : itemLabel.implicitHeight + 30
+
+                Label {
+                    id: itemLabel
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    horizontalAlignment: Label.AlignLeft
+                    verticalAlignment: Label.AlignVCenter
+
+                    text: listView.itemText(index)
+                    width: parent.width
+                    wrapMode: Label.WordWrap
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        listView.itemClicked(index);
+                    }
                 }
             }
 
