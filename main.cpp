@@ -62,6 +62,9 @@ int main(int argc, char *argv[])
         }
     }, Qt::QueuedConnection);
 
+    QObject::connect(&engine, &QQmlApplicationEngine::quit,
+                     &QGuiApplication::quit);
+
     engine.rootContext()->setContextProperty("Notifier", &sn);
     engine.load(url);
 

@@ -136,8 +136,12 @@ ApplicationWindow {
 
             footer: ItemDelegate {
                 id: footer
-                text: qsTr("Footer")
+                text: qsTr("Выйти")
                 width: parent.width
+
+                onClicked: {
+                    Qt.callLater(Qt.quit());
+                }
 
                 MenuSeparator {
                     parent: footer
@@ -149,14 +153,18 @@ ApplicationWindow {
             delegate: Item {
 
                 width: parent.width
-                height: itemLabel.implicitHeight < 40 ? 40 : itemLabel.implicitHeight + 30
+                height: itemLabel.implicitHeight < 35 ? 40 : itemLabel.implicitHeight + 30
 
                 Label {
                     id: itemLabel
-                    anchors.left: parent.left
-                    anchors.leftMargin: 15
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
+
+                    anchors {
+                        left: parent.left
+                        leftMargin: 15
+                        right: parent.right
+                        rightMargin: 15
+                        verticalCenter: parent.verticalCenter
+                    }
 
                     horizontalAlignment: Label.AlignLeft
                     verticalAlignment: Label.AlignVCenter
