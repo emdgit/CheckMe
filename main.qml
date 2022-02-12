@@ -84,6 +84,7 @@ ApplicationWindow {
         property int _dataType: -1
         property int _metricIndex: -1
         property date _startDate: new Date()
+        property int _status: Component.Null
 
         /// Handler for MetricsPage when metric is clicked.
         function _onMetricSelected() {
@@ -92,6 +93,10 @@ ApplicationWindow {
 
         function _closeMetricDataPage() {
             source = metricListPage;
+        }
+
+        onStatusChanged: {
+            _status = status;
         }
     }
 

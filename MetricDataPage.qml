@@ -118,6 +118,14 @@ Item {
         }
 
         locale: Qt.locale("ru_ru")
+        /// property in main.qml->Loader
+        opacity: _status == Component.Ready ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 500
+            }
+        }
 
         readonly property date today: Funcs.currentDate()
 
