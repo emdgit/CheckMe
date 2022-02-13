@@ -73,10 +73,17 @@ Item {
 
         anchors.centerIn: parent
         width: parent.width * 0.75
-        height: parent.height * 0.45
+
+        Behavior on implicitHeight {
+            NumberAnimation {
+                duration: 250
+                easing.type: Easing.OutBack
+            }
+        }
 
         focus: true
         modal: true
+        clip: true
         closePolicy: Popup.NoAutoClose
 
         onOpened: {

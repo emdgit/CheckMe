@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.0
 
 import App 1.0
 import App.Enums 1.0
@@ -26,10 +27,13 @@ Item {
                                metricDataNumber)
 
     property var editorData: undefined
+    property int componentHeight: 0
 
     signal close()
 
-    implicitHeight: dataEditorLoader.x + 200
+    implicitHeight: dateLabel.height +
+                    separator.height +
+                    dataEditorLoader.implicitHeight
 
     function reloadData() {
         editorData
@@ -101,34 +105,41 @@ Item {
         // Used when there is no data set.
         id: noDataCmp
         Item {
-            anchors.fill: parent
-            Label {
-                id: noDataLabel
-                anchors {
-                    top: parent.top
-                    horizontalCenter: parent.horizontalCenter
+            implicitHeight: content.implicitHeight
+
+            ColumnLayout {
+                id: content
+                spacing: 15
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Label {
+                    id: noDataLabel
+                    Layout.alignment: Qt.AlignHCenter
+                    horizontalAlignment: Label.AlignHCenter
+                    text: qsTr("Пока нет данных..(")
                 }
-                horizontalAlignment: Label.AlignHCenter
-                text: qsTr("Пока нет данных..(")
-            }
-            OvalFramedButton {
-                anchors.centerIn: parent
-                text: qsTr("Установить")
 
-                onClicked: {
-                    switch (metricType) {
-                    case Enums.Boolean:
-                        editorData = false;
-                        break;
-                    case Enums.Integer:
-                        editorData = 1;
-                        break;
-                    case Enums.Time:
-                        editorData = Funcs.currentTime();
-                        break;
+                OvalFramedButton {
+                    id: setupButton
+                    Layout.alignment: Qt.AlignHCenter
+
+                    text: qsTr("Установить")
+
+                    onClicked: {
+                        switch (metricType) {
+                        case Enums.Boolean:
+                            editorData = true;
+                            break;
+                        case Enums.Integer:
+                            editorData = 1;
+                            break;
+                        case Enums.Time:
+                            editorData = Funcs.currentTime();
+                            break;
+                        }
+
+                        dataEditorLoader.updateSourceComponent();
                     }
-
-                    dataEditorLoader.updateSourceComponent();
                 }
             }
         }
@@ -137,12 +148,14 @@ Item {
     Component {
         id: booleanEditor
         MetricCardDelegate {
+            property bool value
+
             iconSource: Icons.tickSvg()
             iconColor: Colors.indigo()
             topText: qsTr("Да / Нет")
 
             onUpdateClicked: {
-                API.upsertMetricData(_name, metricDate, checkBox.checked);
+                API.upsertMetricData(_name, metricDate, value);
                 _onClose();
             }
 
@@ -150,32 +163,27 @@ Item {
                 API.resetMetricData(_name, metricDate);
             }
 
-            CheckBox {
-                id: checkBox
+            data: Item {
+                implicitHeight: radioButtons.implicitHeight
 
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    leftMargin: sideMargin
-                    right: parent.right
-                    rightMargin: sideMargin
-                }
+                Column {
+                    id: radioButtons
 
-                contentItem: Label {
-                    text: checkBox.text
-                    font: checkBox.font
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    leftPadding: checkBox.indicator.width + checkBox.spacing
-                    wrapMode: Label.Wrap
-                }
+                    RadioButton {
+                        id: yesButton
+                        checked: editorData === undefined ? true : editorData
+                        text: qsTr("Да");
+                        onCheckedChanged: {
+                            value = checked;
+                        }
+                    }
 
-                checked: {
-                    editorData === undefined ? false
-                                             : editorData;
+                    RadioButton {
+                        id: noButton
+                        checked: editorData === undefined ? false : !editorData
+                        text: qsTr("Нет");
+                    }
                 }
-                text: checked ? qsTr("Да. (Галочка стоит)")
-                              : qsTr("Нет. (Потому что галочка не стоит)")
             }
         }
     }

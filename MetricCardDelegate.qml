@@ -9,7 +9,9 @@ import "qrc:/js/js/Icons.js" as Icons
 Item {
     id: metricCardDelegateTop
 
-    default property alias data: innerData.data
+    // Including item inside don't forget to
+    // implement an 'implicitHeight' property.
+    default property alias data: innerData.sourceComponent
 
     property alias iconSource: mIcon.source
     property alias iconColor: mIcon.color
@@ -18,10 +20,10 @@ Item {
     signal updateClicked()
     signal resetClicked()
 
-    anchors.fill: parent
-    RowLayout {
-        // Картинка и надпись про тип метрики.
-        id: typeLine
+    implicitHeight: cLay.implicitHeight
+
+    ColumnLayout {
+        id: cLay
 
         anchors {
             top: parent.top
@@ -29,51 +31,46 @@ Item {
             right: parent.right
         }
 
-        Item { height: 2; Layout.fillWidth: true; }
-        MIcon { id: mIcon }
-        Label { id: describeLabel }
-        Item { height: 2; Layout.fillWidth: true; }
-    }
+        RowLayout {
+            // Картинка и надпись про тип метрики.
+            id: typeLine
 
-    RowLayout {
-        id: buttonsLayout
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
+            Item { height: 2; Layout.fillWidth: true; }
+            MIcon { id: mIcon }
+            Label { id: describeLabel }
+            Item { height: 2; Layout.fillWidth: true; }
         }
 
-        Item { height: 2; Layout.fillWidth: true; }
+        Loader {
+            id: innerData
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: 15
+        }
 
-        OvalFramedButton {
-            text: qsTr("Сбросить")
-            borderColor: Colors.indigo()
+        RowLayout {
+            id: buttonsLayout
 
-            onClicked: {
-                metricCardDelegateTop.resetClicked();
+            Item { height: 2; Layout.fillWidth: true; }
+
+            OvalFramedButton {
+                text: qsTr("Сбросить")
+                borderColor: Colors.indigo()
+
+                onClicked: {
+                    metricCardDelegateTop.resetClicked();
+                }
             }
-        }
 
-        OvalFramedButton {
-            text: qsTr("Обновить")
-            borderColor: Colors.indigo()
+            OvalFramedButton {
+                text: qsTr("Обновить")
+                borderColor: Colors.indigo()
 
-            onClicked: {
-                metricCardDelegateTop.updateClicked();
+                onClicked: {
+                    metricCardDelegateTop.updateClicked();
+                }
             }
-        }
 
-        Item { height: 2; Layout.fillWidth: true; }
-    }
-
-
-    Item {
-        id: innerData
-        anchors {
-            top: typeLine.bottom
-            left: parent.left
-            right: parent.right
-            bottom: buttonsLayout.top
+            Item { height: 2; Layout.fillWidth: true; }
         }
     }
 }

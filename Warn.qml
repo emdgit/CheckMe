@@ -21,9 +21,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
             topMargin: 15
-            left: parent.left
             leftMargin: sideMargin
-            right: parent.right
             rightMargin: sideMargin
         }
         horizontalAlignment: Label.AlignHCenter

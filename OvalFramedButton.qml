@@ -16,6 +16,7 @@ Rectangle {
     property int preferableWidth: 100
 
     height: 30
+    implicitHeight: 30
     width: preferableWidth
 
     color: Material.backgroundColor
