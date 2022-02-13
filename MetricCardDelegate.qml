@@ -12,6 +12,7 @@ Item {
     // Including item inside don't forget to
     // implement an 'implicitHeight' property.
     default property alias data: innerData.sourceComponent
+    property int dataAlignment: Qt.AlignLeft
 
     property alias iconSource: mIcon.source
     property alias iconColor: mIcon.color
@@ -43,8 +44,10 @@ Item {
 
         Loader {
             id: innerData
-            Layout.alignment: Qt.AlignLeft
+            Layout.alignment: dataAlignment
             Layout.leftMargin: 15
+            Layout.rightMargin: 15
+            Layout.fillWidth: true
         }
 
         RowLayout {

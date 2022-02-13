@@ -191,12 +191,17 @@ Item {
     Component {
         id: integerEditor
         MetricCardDelegate {
+            id: intDelegate
+
+            property int value
+
             iconSource: Icons.numbersSvg()
             iconColor: Colors.indigo()
             topText: qsTr("Численное значение")
+            dataAlignment: Qt.AlignCenter
 
             onUpdateClicked: {
-                API.upsertMetricData(_name, metricDate, spinBox.value);
+                API.upsertMetricData(_name, metricDate, value);
                 _onClose();
             }
 
@@ -204,20 +209,17 @@ Item {
                 API.resetMetricData(_name, metricDate);
             }
 
-            SpinBox {
-                id: spinBox
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    leftMargin: sideMargin
-                    right: parent.right
-                    rightMargin: sideMargin
-                }
+            data: SpinBox {
                 editable: true
                 from: -100500
                 to: 100500
+
+                onValueChanged: {
+                    intDelegate.value = value
+                }
+
                 Component.onCompleted: {
-                    value = editorData;
+                    this.value = editorData;
                 }
             }
         }
@@ -226,14 +228,17 @@ Item {
     Component {
         id: timeEditor
         MetricCardDelegate {
+            id: timeDelegate
+
+            property var value
+
             iconSource: Icons.clockSvg()
             iconColor: Colors.indigo()
             topText: qsTr("Время")
+            dataAlignment: Qt.AlignCenter
 
             onUpdateClicked: {
-                const time = Funcs.makeTime(timePicker.hour,
-                                            timePicker.minute);
-                API.upsertMetricData(_name, metricDate, time);
+                API.upsertMetricData(_name, metricDate, value);
                 _onClose();
             }
 
@@ -241,9 +246,7 @@ Item {
                 API.resetMetricData(_name, metricDate);
             }
 
-            TimePicker {
-                id: timePicker
-                anchors.fill: parent
+            data: TimePicker {
                 hour: {
                     if (editorData === undefined) {
                         return Funcs.currentHour();
@@ -256,6 +259,14 @@ Item {
                         return Funcs.currentMinute();
                     }
                     return Funcs.extractMinutes(editorData);
+                }
+
+                onHourChanged: {
+                    timeDelegate.value = Funcs.makeTime(hour, minute);
+                }
+
+                onMinuteChanged: {
+                    timeDelegate.value = Funcs.makeTime(hour, minute);
                 }
             }
         }
