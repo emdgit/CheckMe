@@ -19,6 +19,10 @@ Item {
     readonly property int verticalMargin: 15
 
     anchors.fill: parent
+    focus: true
+
+    Keys.onBackPressed: { _closeMetricDataPage(); }
+    Keys.onEscapePressed: { _closeMetricDataPage(); }
 
     Label {
         id: metricName
@@ -84,7 +88,7 @@ Item {
         focus: true
         modal: true
         clip: true
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
 
         onOpened: {
             metricCard.reloadData();
@@ -103,6 +107,7 @@ Item {
 
         contentItem: MetricCard {
             id: metricCard
+            focus: true
 
             metricFamilyNumber: dayDataPopup.familyNumber
             metricDataNumber: dayDataPopup.dataNumber
@@ -127,7 +132,7 @@ Item {
 
         locale: Qt.locale("ru_ru")
         /// property in main.qml->Loader
-        opacity: _status == Component.Ready ? 1 : 0
+        opacity: _status === Component.Ready ? 1 : 0
 
         Behavior on opacity {
             NumberAnimation {

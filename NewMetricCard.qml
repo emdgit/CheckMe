@@ -22,6 +22,7 @@ Item {
 
     signal applyClicked(string name, int dataType, bool forEachDay)
     signal cancelClicked()
+    signal backClicked()
 
     function dataType() {
         if (checkBoolean.checked) {
@@ -52,6 +53,9 @@ Item {
     }
 
     implicitHeight: buttonsRow.y + 4 * verticalMargin
+
+    Keys.onBackPressed: { nameField.clear(); backClicked(); }
+    Keys.onEscapePressed: { nameField.clear(); backClicked(); }
 
     MouseArea {
         anchors.fill: parent

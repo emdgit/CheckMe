@@ -55,6 +55,9 @@ Item {
         metricCardTop.close();
     }
 
+    Keys.onBackPressed: { _onClose(); }
+    Keys.onEscapePressed: { _onClose(); }
+
     Label {
         id: dateLabel
 
