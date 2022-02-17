@@ -1,3 +1,21 @@
+var boolType = 0, intType = 1, timeType = 2;
+
+/// Вернуть иконку, соответствующую типу данных.
+function dataTypeIcon(dataType) {
+    switch (dataType) {
+    case intType:
+        return numbersSvg();
+    case boolType:
+        return tickSvg();
+    case timeType:
+        return clockSvg();
+    default:
+        console.log("Icons.js::dataTypeIcon() invalid dataType: ",
+                    dataType);
+        return "";
+    }
+}
+
 /// Иконка с меню в виде трех горизонтальных линий.
 function linedMenuSvg() {
     return "qrc:/icons/icons/lined_menu.svg";

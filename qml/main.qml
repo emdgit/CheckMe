@@ -35,6 +35,25 @@ ApplicationWindow {
                 drawer.open();
             }
         }
+
+        Image {
+            id: appNameImg
+
+            readonly property int w: 200
+            readonly property int h: toolBar.height * 0.95
+
+            width: w
+            height: h
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            source: "qrc:/icons/icons/CheckMe.png"
+            sourceSize {
+                width: appNameImg.w
+                height: appNameImg.h
+            }
+        }
     }
 
     // TODO: rename
@@ -109,6 +128,10 @@ ApplicationWindow {
         height: window.height
 
         signal newMetricClicked()
+
+        onClosed: {
+            cmpLoader.forceActiveFocus();
+        }
 
         ListView {
             id: listView

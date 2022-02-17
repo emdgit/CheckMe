@@ -12,5 +12,6 @@
         <file>icons/left_arrow.svg</file>
         <file>icons/right_arrow.svg</file>
         <file>icons/double_tick.svg</file>
+        <file>icons/CheckMe.png</file>
     </qresource>
 </RCC>
