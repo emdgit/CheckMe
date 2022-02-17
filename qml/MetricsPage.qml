@@ -51,17 +51,8 @@ Item {
 
             /// Which icon need to show.
             function metricIcon(ind) {
-                let type = MetricModel.metricType(ind);
-                switch (type) {
-                case Enums.Boolean:
-                    return Icons.tickSvg();
-                case Enums.Integer:
-                    return Icons.numbersSvg();
-                case Enums.Time:
-                    return Icons.clockSvg();
-                default:
-                    return "";
-                }
+                const type = MetricModel.metricType(ind);
+                return Icons.dataTypeIcon(type);
             }
 
             Rectangle {

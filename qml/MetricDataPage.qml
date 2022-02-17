@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Styles 1.4
@@ -24,8 +25,8 @@ Item {
     Keys.onBackPressed: { _closeMetricDataPage(); }
     Keys.onEscapePressed: { _closeMetricDataPage(); }
 
-    Label {
-        id: metricName
+    RowLayout {
+        id: headerLayout
 
         anchors {
             top: parent.top
@@ -33,14 +34,27 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        text: _name
-        color: Material.primaryTextColor
+        Item { height: 2; Layout.fillWidth: true; }
+
+        MIcon {
+            source: Icons.dataTypeIcon(_dataType)
+            color: Colors.white()
+        }
+
+        Label {
+            text: _name
+            color: Material.primaryTextColor
+        }
+
+        Item { height: 2; Layout.fillWidth: true; }
     }
+
 
     ToolSeparator {
         id: separator
+
         anchors {
-            top: metricName.bottom
+            top: headerLayout.bottom
             left: parent.left
             leftMargin: sideMargin
             right: parent.right
@@ -54,7 +68,7 @@ Item {
         id: exitIcon
 
         anchors {
-            verticalCenter: metricName.verticalCenter
+            verticalCenter: headerLayout.verticalCenter
             right: parent.right
             rightMargin: sideMargin
         }
@@ -103,7 +117,7 @@ Item {
         id: metricCalendar
 
         anchors {
-            top: metricName.bottom
+            top: headerLayout.bottom
             topMargin: verticalMargin
             left: parent.left
             leftMargin: sideMargin
@@ -267,8 +281,13 @@ Item {
                             return Colors.transparent();
                         }
 
+                        if (isToday) {
+                            return styleData.hovered ? Colors.itemBlue()
+                                                     : Colors.indigo();
+                        }
+
                         if (!hasData) {
-                            return dayColor();
+                            return Colors.red();
                         }
 
                         return Colors.indigo();
@@ -283,15 +302,9 @@ Item {
                             if (styleData.hovered) {
                                 return Colors.itemBlue();
                             }
-
-                            if (hasData) {
-                                return Colors.transparent();
-                            }
-
-                            return Colors.red();
-                        } else {
-                            return Colors.transparent();
                         }
+
+                        return Colors.transparent();
                     }
 
                     function day() { return styleData.date; }
