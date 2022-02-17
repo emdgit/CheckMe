@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.12
 
 import QtQuick.Controls.Material 2.12
 
@@ -17,25 +16,13 @@ Item {
 
     readonly property int sideMargin: 20
 
-    Popup {
+    MPopup {
         id: warningPopup
 
         property string name: ""
 
-        anchors.centerIn: parent
-        width: parent.width * 0.75
-        height: parent.height * 0.3
-
-        focus: true
-        modal: true
-        closePolicy: Popup.NoAutoClose
-
-        background: Rectangle {
-            color: Material.backgroundColor
-            radius: 14
-        }
-
         contentItem: Warn {
+            focus: true
             onCancel: { warningPopup.close(); }
 
             onApply: {

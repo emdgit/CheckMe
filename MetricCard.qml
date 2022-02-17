@@ -33,7 +33,7 @@ Item {
 
     implicitHeight: dateLabel.height +
                     separator.height +
-                    dataEditorLoader.implicitHeight
+                    dataEditorLoader.implicitHeight + 30
 
     function reloadData() {
         editorData

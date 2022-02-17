@@ -13,6 +13,7 @@
         <file>TimePicker.qml</file>
         <file>Warn.qml</file>
         <file>MWrapContentLabel.qml</file>
+        <file>MPopup.qml</file>
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>

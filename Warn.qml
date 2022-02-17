@@ -15,17 +15,28 @@ Item {
     signal cancel()
     signal apply()
 
+    Keys.onBackPressed: { cancel(); }
+    Keys.onEscapePressed: { cancel(); }
+
+    implicitHeight: warnLabel.height +
+                    separatorTop.height +
+                    describeLabel.height +
+                    separatorBottom.height +
+                    buttonsLayout.height +
+                    30 // margins
+
     Label {
         id: warnLabel
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
-            topMargin: 15
             leftMargin: sideMargin
             rightMargin: sideMargin
         }
         horizontalAlignment: Label.AlignHCenter
-        text: qsTr("Удаляем '<font color=\"" + Colors.indigo() + "\">" + warningPopup.name + "</font>'?")
+        text: qsTr("Удаляем '<font color=\"" +
+                   Colors.indigo() + "\">" +
+                   warningPopup.name + "</font>'?")
         wrapMode: Label.WordWrap
     }
 
@@ -44,13 +55,13 @@ Item {
     }
 
     Label {
+        id: describeLabel
         anchors {
             top: separatorTop.bottom
             left: parent.left
             leftMargin: sideMargin
             right: parent.right
             rightMargin: sideMargin
-            bottom: separatorBottom.top
         }
 
         horizontalAlignment: Label.AlignHCenter
@@ -65,11 +76,11 @@ Item {
         id: separatorBottom
 
         anchors {
+            top: describeLabel.bottom
             left: parent.left
             leftMargin: warnTop.sideMargin
             right: parent.right
             rightMargin: warnTop.sideMargin
-            bottom: buttonsLayout.top
         }
 
         orientation: Qt.Horizontal
@@ -79,8 +90,7 @@ Item {
         id: buttonsLayout
 
         anchors {
-            bottom: parent.bottom
-            bottomMargin: 15
+            top: separatorBottom.bottom
             horizontalCenter: parent.horizontalCenter
         }
 
