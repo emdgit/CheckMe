@@ -1,19 +1,19 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>NewMetricCard.qml</file>
-        <file>MetricsPage.qml</file>
-        <file>NoDataPage.qml</file>
-        <file>MIcon.qml</file>
-        <file>MClickableIcon.qml</file>
-        <file>MetricDataPage.qml</file>
-        <file>MetricCard.qml</file>
-        <file>OvalFramedButton.qml</file>
-        <file>MetricCardDelegate.qml</file>
-        <file>TimePicker.qml</file>
-        <file>Warn.qml</file>
-        <file>MWrapContentLabel.qml</file>
-        <file>MPopup.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/NewMetricCard.qml</file>
+        <file>qml/MetricsPage.qml</file>
+        <file>qml/NoDataPage.qml</file>
+        <file>qml/MIcon.qml</file>
+        <file>qml/MClickableIcon.qml</file>
+        <file>qml/MetricDataPage.qml</file>
+        <file>qml/MetricCard.qml</file>
+        <file>qml/OvalFramedButton.qml</file>
+        <file>qml/MetricCardDelegate.qml</file>
+        <file>qml/TimePicker.qml</file>
+        <file>qml/Warn.qml</file>
+        <file>qml/MWrapContentLabel.qml</file>
+        <file>qml/MPopup.qml</file>
     </qresource>
     <qresource prefix="/js">
         <file>js/Icons.js</file>

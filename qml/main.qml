@@ -10,9 +10,9 @@ import App 1.0
 import App.Enums 1.0
 
 ApplicationWindow {
-    readonly property string noDataPage: "qrc:/NoDataPage.qml"
-    readonly property string metricListPage: "qrc:/MetricsPage.qml"
-    readonly property string metricDataPage: "qrc:/MetricDataPage.qml"
+    readonly property string noDataPage: "qrc:/qml/NoDataPage.qml"
+    readonly property string metricListPage: "qrc:/qml/MetricsPage.qml"
+    readonly property string metricDataPage: "qrc:/qml/MetricDataPage.qml"
 
     id: window
     visible: true
