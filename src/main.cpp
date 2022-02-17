@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     ServiceFunctions funcs;
 
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
 
     QObject::connect(&sn,    &SignalNotifier::registeredNewMetricFamily,
                      &model, &MetricModel::updateModel,
