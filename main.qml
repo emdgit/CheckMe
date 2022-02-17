@@ -37,6 +37,7 @@ ApplicationWindow {
         }
     }
 
+    // TODO: rename
     function newMetricHandler() {
         let count = MetricModel.metricsCount();
         if (count > 0) {
@@ -72,6 +73,7 @@ ApplicationWindow {
     Loader {
         id: cmpLoader
         asynchronous: true
+        focus: true
 
         anchors {
             top: toolBar.bottom
@@ -89,6 +91,7 @@ ApplicationWindow {
         /// Handler for MetricsPage when metric is clicked.
         function _onMetricSelected() {
             source = metricDataPage;
+            sourceComponent.focus = true;
         }
 
         function _closeMetricDataPage() {
@@ -195,7 +198,7 @@ ApplicationWindow {
 
         width: parent.width * 0.75
 
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
 
         background: Rectangle {
             color: Material.backgroundColor
@@ -204,11 +207,13 @@ ApplicationWindow {
 
         contentItem: NewMetricCard {
             id: metricCard
+            focus: true
             onApplyClicked: {
                 API.registerNewMetricFamily(name, dataType, forEachDay);
                 addMetricPopup.close();
             }
             onCancelClicked: { addMetricPopup.close(); }
+            onBackClicked: { addMetricPopup.close(); }
         }
     }
 

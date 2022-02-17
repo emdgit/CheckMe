@@ -35,6 +35,8 @@ Item {
         return data.toString().length < 2 ? "0" + data : data;
     }
 
+    implicitHeight: tumblerRow.implicitHeight
+
     onHourChanged: {
         hoursTumbler.currentIndex = hour;
     }
@@ -55,6 +57,8 @@ Item {
     }
 
     RowLayout {
+        id: tumblerRow
+
         anchors.fill: parent
         spacing: 5
 
@@ -62,7 +66,7 @@ Item {
 
         Tumbler {
             id: hoursTumbler
-            Layout.maximumHeight: tumblerFrame.height
+            Layout.minimumHeight: 30
             model: 24
             onCurrentIndexChanged: {
                 hour = currentIndex;
@@ -77,7 +81,7 @@ Item {
                 minute = currentIndex * 5;
             }
 
-            Layout.maximumHeight: tumblerFrame.height
+            Layout.minimumHeight: 30
             model: 12
             delegate: delegateComponent
         }

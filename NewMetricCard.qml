@@ -22,6 +22,7 @@ Item {
 
     signal applyClicked(string name, int dataType, bool forEachDay)
     signal cancelClicked()
+    signal backClicked()
 
     function dataType() {
         if (checkBoolean.checked) {
@@ -52,6 +53,9 @@ Item {
     }
 
     implicitHeight: buttonsRow.y + 4 * verticalMargin
+
+    Keys.onBackPressed: { nameField.clear(); backClicked(); }
+    Keys.onEscapePressed: { nameField.clear(); backClicked(); }
 
     MouseArea {
         anchors.fill: parent
@@ -100,9 +104,11 @@ Item {
             top: questionLabel.bottom
             left: parent.left
             leftMargin: sideMargin
+            right: hintBool.left
         }
         checked: true
         text: qsTr("Да/Нет")
+        contentItem: MWrapContentLabel { }
         ButtonGroup.group: buttonGroup
     }
 
@@ -112,8 +118,10 @@ Item {
             top: checkBoolean.bottom
             left: parent.left
             leftMargin: sideMargin
+            right: hintInt.left
         }
         text: qsTr("Численное значение")
+        contentItem: MWrapContentLabel {}
         ButtonGroup.group: buttonGroup
     }
 
@@ -123,8 +131,10 @@ Item {
             top:checkInteger.bottom
             left: parent.left
             leftMargin: sideMargin
+            right: hintTime.left
         }
         text: qsTr("Время")
+        contentItem: MWrapContentLabel {}
         ButtonGroup.group: buttonGroup
     }
 
@@ -198,16 +208,7 @@ Item {
 
         text: qsTr("Требовать на каждый день.")
         checked: false
-
-        contentItem: Label {
-            text: eachDayCheckBox.text
-            font: eachDayCheckBox.font
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            leftPadding: eachDayCheckBox.indicator.width +
-                         eachDayCheckBox.spacing
-            wrapMode: Label.Wrap
-        }
+        contentItem: MWrapContentLabel {}
     }
 
     MClickableIcon {
