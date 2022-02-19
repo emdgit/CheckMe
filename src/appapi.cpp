@@ -2,9 +2,18 @@
 #include "appapi_impl.h"
 #include "metricstorage.h"
 
+#include <QDebug>
 #include <QThread>
 
 #include <iostream>
+
+
+#include "servicefunctions.h"
+#include "chartmanager.h"
+#include <QtCharts/QChart>
+#include <QtCharts/QPieSeries>
+#include <QLegend>
+#include <QLegendMarker>
 
 AppAPI::AppAPI(ApiEnv env, QObject *parent) :
     QObject(parent), env_(env), impl_(new AppAPI_impl(&env_))
@@ -75,6 +84,42 @@ void AppAPI::resetMetricData(const QString &name,
                               Qt::QueuedConnection,
                               Q_ARG(QString, name),
                               Q_ARG(QDate, date));
+}
+
+void AppAPI::loadChartSeries(const QString &name,
+                             QQuickItem *qmlItem) const
+{
+    const auto type = env_.metrics->metricType(name);
+
+    if (type < 0) {
+        qDebug("Metric wasn't foud");
+    }
+
+    QtCharts::QAbstractSeries *series(nullptr);
+
+    switch (type) {
+    case Enums::Boolean:
+        series = new QtCharts::QPieSeries();
+        break;
+    default:
+        qDebug("Unsupported DataType");
+        return;
+    }
+
+    if (!series) {
+        qDebug("Series wasn't found");
+        return;
+    }
+
+    auto chart = ServiceFunctions::findChart(qmlItem);
+    if (!chart) {
+        qDebug("Chart wasn't found");
+        return;
+    }
+
+    env_.metrics->fillSeries(name, series);
+    chart->removeAllSeries();
+    chart->addSeries(series);
 }
 
 void AppAPI::finalize()

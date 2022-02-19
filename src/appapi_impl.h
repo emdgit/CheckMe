@@ -4,6 +4,8 @@
 
 struct ApiEnv;
 
+class QQuickItem;
+
 class AppAPI_impl : public QObject
 {
     Q_OBJECT
@@ -29,6 +31,10 @@ class AppAPI_impl : public QObject
     Q_INVOKABLE
     void resetMetricDataImpl(const QString &name,
                              const QDate &date) const;
+
+    Q_INVOKABLE
+    void loadChartSeriesImpl(const QString &name,
+                             QQuickItem *qmlItem) const;
 
     ApiEnv * env_;
 };

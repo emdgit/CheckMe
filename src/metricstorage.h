@@ -7,6 +7,12 @@
 
 #include "metric.h"
 
+class QQuickItem;
+
+namespace QtCharts {
+class QAbstractSeries;
+}
+
 class MetricStorage
 {
 public:
@@ -31,6 +37,7 @@ public:
 
     int metricsCount() const;
     int metricType(int index) const;
+    int metricType(const QString &name) const;
 
     QString metricName(int index) const;
 
@@ -46,6 +53,9 @@ public:
 
     void save();
     void load();
+
+    void fillSeries(const QString &name,
+                    QtCharts::QAbstractSeries *series) const;
 
 
 protected:

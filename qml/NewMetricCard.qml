@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.12
 
 import App 1.0
 import App.Enums 1.0
+import App.Funcs 1.0
 
 import "qrc:/js/js/Icons.js" as Icons
 import "qrc:/js/js/Colors.js" as Colors
@@ -46,8 +47,8 @@ Item {
 
             let strOut = "";
             strOut += h < 10 ? "0" + h : h;
-            strOut += ":" + m < 10 ? "0" + m : m;
-
+            strOut += ":";
+            strOut += m < 10 ? "0" + m : m;
             return strOut;
         }
 
@@ -57,7 +58,7 @@ Item {
                         "'Да' или 'Нет'.");
         case Enums.NMCE_QuestionInt:
             return qsTr("В таких записях можно будет сохранять целые числа. Например, " +
-                        randomInt(0, 101), + ".");
+                        Funcs.toString(randomInt(0, 101)) + ".");
         case Enums.NMCE_QuestionTime:
             return qsTr("Эти записи будут хранить значение времени. Как, допустим, " +
                         randomTime() + ". Ну, или " + randomTime() + ". Как пожелаете.");

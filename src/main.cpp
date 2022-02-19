@@ -1,5 +1,6 @@
 #include <QQmlApplicationEngine>
-#include <QGuiApplication>
+#include <QFontDatabase>
+#include <QApplication>
 #include <QQuickStyle>
 #include <QQmlContext>
 #include <QIcon>
@@ -9,6 +10,10 @@
 #include "metricstorage.h"
 #include "signalnotifier.h"
 #include "servicefunctions.h"
+#include "chartmanager.h"
+
+
+#include <QtCharts/QAbstractSeries>
 
 int main(int argc, char *argv[])
 {
@@ -16,17 +21,48 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QQuickStyle::setStyle("Material");
     QIcon::setThemeName("Material");
 
+
+    if (QFontDatabase::addApplicationFont("D:\\emdgit\\CheckMe\\font\\Roboto\\Roboto-Thin.ttf") == -1) {
+        qDebug("Can't load font family");
+    }
+
+    const std::vector<std::string> fonts = {
+        "Roboto-Black",
+        "Roboto-BlackItalic",
+        "Roboto-Bold",
+        "Roboto-BoldItalic",
+        "Roboto-Italic",
+        "Roboto-Light",
+        "Roboto-LightItalic",
+        "Roboto-Medium",
+        "Roboto-MediumItalic",
+        "Roboto-Regular",
+        "Roboto-Thin",
+        "Roboto-ThinItalic"
+    };
+
+    for (const auto &f : fonts) {
+        const std::string prefix = "D:\\emdgit\\CheckMe\\font\\Roboto\\";
+        const std::string font = prefix + f + ".ttf";
+
+        if (QFontDatabase::addApplicationFont(QString::fromStdString(font)) == -1) {
+            qDebug() << "Cannot add font family " << QString::fromStdString(f);
+        }
+    }
+
     MetricStorage ms;
     SignalNotifier sn;
+    ChartManager cm{&ms};
 
     ApiEnv env;
     env.metrics = &ms;
     env.notifier = &sn;
+    env.charts = &cm;
 
     AppAPI api(env);
     MetricModel model(&ms);

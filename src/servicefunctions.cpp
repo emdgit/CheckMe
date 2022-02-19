@@ -1,5 +1,11 @@
 #include "servicefunctions.h"
 
+#include <QDebug>
+#include <QQuickItem>
+#include <QGraphicsScene>
+
+#include <QtCharts/QChart>
+
 #include <iostream>
 
 bool validate_dates(const QDate &d1, const QDate &d2) noexcept
@@ -98,4 +104,27 @@ int ServiceFunctions::extractMinutes(const QTime &t) const
     }
 
     return t.minute();
+}
+
+QString ServiceFunctions::toString(const QVariant &var) const
+{
+    return var.toString();
+}
+
+QtCharts::QChart *ServiceFunctions::findChart(QQuickItem *quickItem)
+{
+    auto scene = quickItem->findChild<QGraphicsScene*>();
+
+    if (!scene) {
+        qDebug() << "Cannot find scene in qmlItem";
+        return nullptr;
+    }
+
+    for (auto &&ch : static_cast<decltype(scene->items())&&>(scene->items())) {
+        if (auto c = dynamic_cast<QtCharts::QChart*>(ch); c) {
+            return c;
+        }
+    }
+
+    return nullptr;
 }

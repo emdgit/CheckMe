@@ -1,7 +1,14 @@
 #pragma once
 
+#include <QVariant>
 #include <QObject>
 #include <QDate>
+
+class QQuickItem;
+
+namespace QtCharts {
+class QChart;
+}
 
 class ServiceFunctions : public QObject
 {
@@ -46,5 +53,10 @@ public:
 
     Q_INVOKABLE
     int extractMinutes(const QTime &t) const;
+
+    Q_INVOKABLE
+    QString toString(const QVariant &var) const;
+
+    static QtCharts::QChart * findChart(QQuickItem *quickItem);
 
 };

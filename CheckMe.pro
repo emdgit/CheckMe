@@ -1,6 +1,7 @@
-QT          += quick
-QT          += quickcontrols2
 QT          += svg
+QT          += quick
+QT          += charts
+QT          += quickcontrols2
 
 CONFIG      += c++17
 
@@ -9,6 +10,7 @@ INCLUDEPATH += $$PWD/src
 HEADERS     +=               \
             src/appapi.h      \
             src/appapi_impl.h  \
+            src/chartmanager.h \
             src/enums.h         \
             src/metric.h         \
             src/metricstorage.h   \
@@ -18,6 +20,7 @@ HEADERS     +=               \
 SOURCES     +=                \
             src/appapi.cpp     \
             src/appapi_impl.cpp \
+            src/chartmanager.cpp \
             src/enums.cpp        \
             src/main.cpp          \
             src/metric.cpp         \
@@ -25,8 +28,9 @@ SOURCES     +=                \
             src/servicefunctions.cpp \
             src/signalnotifier.cpp
 
-RESOURCES   +=     \
-            qml.qrc \
+RESOURCES   +=       \
+            fonts.qrc \
+            qml.qrc    \
             img.qrc
 
 # Default rules for deployment.

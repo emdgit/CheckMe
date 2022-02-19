@@ -6,12 +6,15 @@
 class AppAPI_impl;
 class MetricStorage;
 class SignalNotifier;
+class ChartManager;
 
 class QThread;
+class QQuickItem;
 
 struct ApiEnv {
     MetricStorage * metrics;
     SignalNotifier * notifier;
+    ChartManager * charts;
 };
 
 /// Основной API приложения
@@ -46,6 +49,10 @@ public:
     Q_INVOKABLE
     void resetMetricData(const QString &name,
                          const QDate &date) const;
+
+    Q_INVOKABLE
+    void loadChartSeries(const QString &name,
+                         QQuickItem *qmlItem) const;
 
 
 public slots:

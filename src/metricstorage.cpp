@@ -1,7 +1,12 @@
+#include "servicefunctions.h"
 #include "metricstorage.h"
 #include "enums.h"
 
 #include <QtDebug>
+#include <QtCharts/QChart>
+#include <QtCharts/QPieSlice>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QAbstractSeries>
 
 constexpr auto data_type_key = "data_type";
 constexpr auto start_date_key = "start_date";
@@ -10,6 +15,9 @@ constexpr auto metric_each_day_key = "for_each_day";
 constexpr auto date_key = "date";
 constexpr auto value_key = "value";
 
+using namespace QtCharts;
+
+using pair_t = std::pair<QDate,QVariant>;
 using DataType = Enums::MetricDataType;
 
 MetricStorage::MetricStorage() :
@@ -98,6 +106,15 @@ int MetricStorage::metricsCount() const
 int MetricStorage::metricType(int index) const
 {
     return metrics_[index].dataType();
+}
+
+int MetricStorage::metricType(const QString &name) const
+{
+    if (auto m = metricFamily(name); m) {
+        return m->dataType();
+    }
+
+    return -1;
 }
 
 QString MetricStorage::metricName(int index) const
@@ -204,6 +221,49 @@ void MetricStorage::load()
               [](const Metric &m1, const Metric &m2){
         return m1.startDate() < m2.startDate();
     });
+}
+
+void MetricStorage::fillSeries(const QString &name,
+                               QtCharts::QAbstractSeries *series) const
+{
+    using namespace QtCharts;
+
+    auto metric = metricFamily(name);
+
+    if (!metric) {
+        return;
+    }
+
+    switch (metric->dataType()) {
+    case Enums::Boolean: {
+        auto s = dynamic_cast<QPieSeries*>(series);
+
+        uint32_t positive(0), negative(0);
+
+        for (const pair_t &pair : *metric) {
+            if (pair.second.toBool()) {
+                ++positive;
+            } else {
+                ++negative;
+            }
+        }
+
+        auto all = positive + negative;
+        auto positive_percent = all ? positive * 100 / all : 0;
+        auto negative_percent = all ? negative * 100 / all : 0;
+
+        s->append(QString::fromUtf8("Да (%1%)").arg(positive_percent), positive);
+        s->append(QString::fromUtf8("Нет (%1%)").arg(negative_percent), negative);
+        break;
+    }
+    case Enums::Integer:
+        break;
+    case Enums::Time:
+        break;
+    default:
+        qDebug() << "DataTypeError";
+        return;
+    }
 }
 
 Metric *MetricStorage::metricFamily(const QString &name) const
