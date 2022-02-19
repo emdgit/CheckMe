@@ -36,18 +36,35 @@ Item {
 
     /// Text for ToolTips.
     function questionText(key) {
+        function randomInt(min, max) {
+          return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+
+        function randomTime() {
+            const h = randomInt(0, 23);
+            const m = randomInt(0, 59);
+
+            let strOut = "";
+            strOut += h < 10 ? "0" + h : h;
+            strOut += ":" + m < 10 ? "0" + m : m;
+
+            return strOut;
+        }
+
         switch (key) {
         case Enums.NMCE_QuestionBool:
-            return qsTr("Записи с этим типом данных могут принимать толко 2 значения: \
-'Да' или 'Нет'.");
+            return qsTr("Записи с этим типом данных могут принимать толко 2 значения: " +
+                        "'Да' или 'Нет'.");
         case Enums.NMCE_QuestionInt:
-            return qsTr("В таких записях можно будет сохранять целые числа. Например, 42.");
+            return qsTr("В таких записях можно будет сохранять целые числа. Например, " +
+                        randomInt(0, 101), + ".");
         case Enums.NMCE_QuestionTime:
-            return qsTr("Эти записи будут хранить значение времени. Как, допустим, 22:22. \
-Ну, или 07:00. Как пожелаете.");
+            return qsTr("Эти записи будут хранить значение времени. Как, допустим, " +
+                        randomTime() + ". Ну, или " + randomTime() + ". Как пожелаете.");
         case Enums.NMCE_QuestionEachDay:
-            return qsTr("Выбрав эту опцию, приложение будет просить заполнять данные \
-каждый день. Пропуск дня будет считаться незаполненным и обязательным к заполнению.");
+            return qsTr("Выбрав эту опцию, приложение будет просить заполнять данные " +
+                        "каждый день. Пропуск дня будет считаться незаполненным и " +
+                        "обязательным к заполнению.");
         default: return "";
         }
     }
@@ -254,8 +271,6 @@ Item {
         Button {
             id: cancelButton
             text: qsTr("Отмена")
-            Layout.preferredWidth: buttonWidth
-            Layout.minimumWidth: buttonWidth
             onClicked: {
                 nameField.clear();
                 newMetricCard.cancelClicked();
@@ -278,8 +293,6 @@ Item {
             }
 
             text: qsTr("Добавляем!")
-            Layout.preferredWidth: buttonWidth
-            Layout.minimumWidth: buttonWidth
             enabled: isEnabled()
             onClicked: {
                 let name = metricName;
