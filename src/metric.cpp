@@ -15,11 +15,14 @@ const QString &Metric::name() const
 Metric::UpsertDataStatus Metric::upsertData(const QDate &date,
                                             const QVariant &val)
 {
-    if (date.daysTo(start_date_) > 0) {
-        throw std::runtime_error("Cannot set date earlier than start date");
-    }
     if (date.daysTo(QDate::currentDate()) < 0) {
         throw std::runtime_error("Cannot set date later than today");
+    }
+
+    bool shift_start_date(false);
+
+    if (date.daysTo(start_date_) > 0) {
+        shift_start_date = true;
     }
 
     auto it = find(date);
@@ -27,6 +30,11 @@ Metric::UpsertDataStatus Metric::upsertData(const QDate &date,
     if (it == end()) {
         // Insert
         data_.emplace_back(date, val);
+
+        if (shift_start_date) {
+            start_date_ = date;
+        }
+
         return UpsertDataStatus::Inserted;
     } else {
         // Try Update

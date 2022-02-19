@@ -1,7 +1,7 @@
-#include "AppAPI_impl.h"
-#include "AppAPI.h"
-#include "MetricStorage.h"
-#include"SignalNotifier.h"
+#include "appapi.h"
+#include "appapi_impl.h"
+#include "metricstorage.h"
+#include "signalnotifier.h"
 
 AppAPI_impl::AppAPI_impl(ApiEnv *env, QObject *parent) :
     QObject(parent), env_(env) {}

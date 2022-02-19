@@ -1,5 +1,5 @@
-#include "MetricStorage.h"
-#include "Enums.h"
+#include "metricstorage.h"
+#include "enums.h"
 
 #include <QtDebug>
 
