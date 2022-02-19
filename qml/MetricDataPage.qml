@@ -247,19 +247,11 @@ Item {
                 Rectangle {
                     id: dayDlg
 
-                    readonly property bool inPeriod: {
-                        const start = _startDate;
-                        const date = styleData.date;
-                        const today = metricCalendar.today;
-
-                        return Funcs.dateLessEqual(start, date) &&
-                            Funcs.dateLessEqual(date, today);
-                    }
                     readonly property int num: Funcs.dateDayDiff(_startDate,
                                                                  styleData.date);
                     readonly property bool isToday: Funcs.dateDayDiff(metricCalendar.today,
                                                                       day()) === 0;
-
+                    property bool inPeriod: _inPeriod()
                     property bool hasData: false
 
                     anchors {
@@ -270,6 +262,15 @@ Item {
                     radius: 5
                     color: dayColor()
                     border.color: borderColor()
+
+                    function _inPeriod() {
+                        const start = _startDate;
+                        const date = styleData.date;
+                        const today = metricCalendar.today;
+
+                        return Funcs.dateLessEqual(start, date) &&
+                            Funcs.dateLessEqual(date, today);
+                    }
 
                     function _hasData() {
                         return MetricModel.hasData(_metricIndex, num);
@@ -343,6 +344,7 @@ Item {
                         target: Notifier
                         function onMetricDataUpserted() {
                             checkData();
+                            _startDate = MetricModel.metricStartDate(_metricIndex);
                         }
                         function onMetricDataRemoved() {
                             checkData();
