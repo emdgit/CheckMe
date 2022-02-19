@@ -1,6 +1,6 @@
-#include "AppAPI.h"
-#include "AppAPI_impl.h"
-#include "MetricStorage.h"
+#include "appapi.h"
+#include "appapi_impl.h"
+#include "metricstorage.h"
 
 #include <QThread>
 

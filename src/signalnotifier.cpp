@@ -1,4 +1,4 @@
-#include "SignalNotifier.h"
+#include "signalnotifier.h"
 
 SignalNotifier::SignalNotifier(QObject *parent) : QObject(parent) {}
 

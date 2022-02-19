@@ -4,10 +4,10 @@
 #include <QQmlContext>
 #include <QIcon>
 
-#include "Enums.h"
-#include "AppAPI.h"
-#include "MetricStorage.h"
-#include "SignalNotifier.h"
+#include "enums.h"
+#include "appapi.h"
+#include "metricstorage.h"
+#include "signalnotifier.h"
 #include "servicefunctions.h"
 
 int main(int argc, char *argv[])
