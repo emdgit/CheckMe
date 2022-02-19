@@ -49,7 +49,6 @@ Item {
         Item { height: 2; Layout.fillWidth: true; }
     }
 
-
     ToolSeparator {
         id: separator
 
@@ -381,7 +380,10 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             if (!dayDlg.inPeriod) {
-                                return;
+                                if (!Funcs.dateLessEqual(styleData.date,
+                                                         metricCalendar.today)) {
+                                    return;
+                                }
                             }
 
                             dayDataPopup.selectedDate = dayDlg.day();
