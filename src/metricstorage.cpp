@@ -4,8 +4,10 @@
 
 #include <QtDebug>
 #include <QtCharts/QChart>
+#include <QtCharts/QBarSet>
 #include <QtCharts/QPieSlice>
 #include <QtCharts/QPieSeries>
+#include <QtCharts/QBarSeries>
 #include <QtCharts/QAbstractSeries>
 
 constexpr auto data_type_key = "data_type";
@@ -236,24 +238,7 @@ void MetricStorage::fillSeries(const QString &name,
 
     switch (metric->dataType()) {
     case Enums::Boolean: {
-        auto s = dynamic_cast<QPieSeries*>(series);
-
-        uint32_t positive(0), negative(0);
-
-        for (const pair_t &pair : *metric) {
-            if (pair.second.toBool()) {
-                ++positive;
-            } else {
-                ++negative;
-            }
-        }
-
-        auto all = positive + negative;
-        auto positive_percent = all ? positive * 100 / all : 0;
-        auto negative_percent = all ? negative * 100 / all : 0;
-
-        s->append(QString::fromUtf8("Да (%1%)").arg(positive_percent), positive);
-        s->append(QString::fromUtf8("Нет (%1%)").arg(negative_percent), negative);
+        fillPyeSeries(static_cast<QPieSeries*>(series), metric);
         break;
     }
     case Enums::Integer:
@@ -275,6 +260,75 @@ Metric *MetricStorage::metricFamily(const QString &name) const
 
     return it == metrics_.cend() ? nullptr
                                  : const_cast<Metric*>(&*it);
+}
+
+void MetricStorage::fillPyeSeries(QtCharts::QPieSeries *series,
+                                  Metric *metric) const
+{
+    uint32_t positive(0), negative(0);
+
+    for (const pair_t &pair : *metric) {
+        if (pair.second.toBool()) {
+            ++positive;
+        } else {
+            ++negative;
+        }
+    }
+
+    auto all = positive + negative;
+    auto positive_percent = all ? positive * 100 / all : 0;
+    auto negative_percent = all ? negative * 100 / all : 0;
+
+    series->append(QString::fromUtf8("Да (%1%)").arg(positive_percent),
+                   positive);
+    series->append(QString::fromUtf8("Нет (%1%)").arg(negative_percent),
+                   negative);
+}
+
+void MetricStorage::fillBarSeries(QtCharts::QBarSeries *series,
+                                  Metric *metric) const
+{
+    if (!metric->size()) {
+        return;
+    }
+
+    std::map<int, int, std::greater<int>> nums;
+
+    // Fill value map.
+    for (const pair_t &pair : *metric) {
+        const auto val = pair.second.toInt();
+
+        if (auto p = nums.insert({val, 1}); !p.second) {
+            ++p.first->second;
+        }
+    }
+
+    constexpr auto max_bars = 5;
+
+    std::list<QString> bar_names;
+
+    if (nums.size() > max_bars) {
+        // 0 1 3 4 5 6 7
+        std::vector<std::pair<int, int>> borders;
+        const auto min = nums.end()->first;
+        const auto max = nums.begin()->first;
+        const auto step = (max - min) / nums.size();
+
+        for (size_t i(min), j(0); i < nums.size(); ++i) {
+            auto b_min = i;
+            auto b_max = j == nums.size() - 1 ? max : b_min + step;
+
+            borders.emplace_back(b_min, b_max);
+
+            i = b_max + 1;
+        }
+    }
+
+    for (const auto &[k, v] : nums) {
+        auto bar_set = new QBarSet(QString::number(k));
+        bar_set->append(v);
+        series->append(bar_set);
+    }
 }
 
 

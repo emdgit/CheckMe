@@ -12,6 +12,7 @@
 #include "chartmanager.h"
 #include <QtCharts/QChart>
 #include <QtCharts/QPieSeries>
+#include <QtCharts/QBarSeries>
 #include <QLegend>
 #include <QLegendMarker>
 
@@ -100,6 +101,9 @@ void AppAPI::loadChartSeries(const QString &name,
     switch (type) {
     case Enums::Boolean:
         series = new QtCharts::QPieSeries();
+        break;
+    case Enums::Integer:
+        series = new QtCharts::QBarSeries();
         break;
     default:
         qDebug("Unsupported DataType");

@@ -11,6 +11,8 @@ class QQuickItem;
 
 namespace QtCharts {
 class QAbstractSeries;
+class QPieSeries;
+class QBarSeries;
 }
 
 class MetricStorage
@@ -61,6 +63,11 @@ public:
 protected:
 
     Metric * metricFamily(const QString &name) const;
+
+    void fillPyeSeries(QtCharts::QPieSeries *series,
+                       Metric *metric) const;
+    void fillBarSeries(QtCharts::QBarSeries *series,
+                       Metric *metric) const;
 
 
 private:
