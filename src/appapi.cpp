@@ -7,7 +7,6 @@
 
 #include <iostream>
 
-
 #include "servicefunctions.h"
 #include "chartmanager.h"
 #include <QtCharts/QChart>
@@ -117,6 +116,9 @@ void AppAPI::loadChartSeries(const QString &name,
 
     auto chart = ServiceFunctions::findChart(qmlItem);
     if (!chart) {
+        if (series) {
+            series->deleteLater();
+        }
         qDebug("Chart wasn't found");
         return;
     }

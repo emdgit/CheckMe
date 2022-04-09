@@ -242,6 +242,7 @@ void MetricStorage::fillSeries(const QString &name,
         break;
     }
     case Enums::Integer:
+        fillBarSeries(static_cast<QBarSeries*>(series), metric);
         break;
     case Enums::Time:
         break;
@@ -304,29 +305,95 @@ void MetricStorage::fillBarSeries(QtCharts::QBarSeries *series,
     }
 
     constexpr auto max_bars = 5;
+    const auto size = nums.size();
 
-    std::list<QString> bar_names;
+    /// Struct for values. Could be as range as particular value.
+    struct ranged_value {
 
-    if (nums.size() > max_bars) {
-        // 0 1 3 4 5 6 7
-        std::vector<std::pair<int, int>> borders;
-        const auto min = nums.end()->first;
-        const auto max = nums.begin()->first;
-        const auto step = (max - min) / nums.size();
+        ranged_value() = default;
+        ranged_value(int count, int value) noexcept :
+            count(count), value(std::make_optional<int>(value)) {}
+        ranged_value(int max, int min, int count, int value) noexcept :
+            min(min), max(max), count(count), value(std::make_optional<int>(value)) {}
 
-        for (size_t i(min), j(0); i < nums.size(); ++i) {
-            auto b_min = i;
-            auto b_max = j == nums.size() - 1 ? max : b_min + step;
+        QString toString() const {
+            if (value) {
+                return QString::number(*value);
+            }
 
-            borders.emplace_back(b_min, b_max);
-
-            i = b_max + 1;
+            return QString::number(max) + " - " + QString::number(min);
         }
-    }
+
+        inline bool inRange(int val) const noexcept {
+            return min <= val && val <= max;
+        }
+
+        int min = 0;
+        int max = 0;
+        int count = 1;
+
+        std::optional<int> value = std::nullopt;
+    };
+
+    std::vector<ranged_value> values;
+
+//    if (size > max_bars) {
+//        // 0 1 3 4 5 6 7
+//        std::vector<std::pair<int, int>> borders;
+//        const auto min = (--nums.end())->first;
+//        const auto max = nums.begin()->first;
+//        auto step = (max - min) / size;
+
+//        if (!step) {
+//            ++step;
+//        }
+
+//        // Fill value borders
+//        for (size_t i(max), j(0); j < size; ++j) {
+//            auto b_max = i;
+//            auto b_min = j == size - 1 ? min : b_max - step;
+
+//            borders.emplace_back(b_max, b_min);
+
+//            i = b_min - 1;
+//        }
+
+//        // Fill ranged values
+//        auto it = borders.begin();
+
+//        for (const auto &[k, v] : nums) {
+//            while (!(it->first >= k && k >= it->second)) {
+//                ++it;
+//            }
+
+//            auto range_it = std::find_if(values.begin(), values.end(),
+//                                         [key = &k](const auto &rv){
+//                return rv.inRange(*key);
+//            });
+
+//            if (range_it == values.end()) {
+//                values.emplace_back(it->first,
+//                                    it->second,
+//                                    v,
+//                                    k);
+//            } else {
+//                range_it->count += v;
+//                range_it->value = std::nullopt;
+//            }
+//        }
+//    } else {
+//        for (const auto &[k, v] : nums) {
+//            values.emplace_back(v, k);
+//        }
+//    }
 
     for (const auto &[k, v] : nums) {
-        auto bar_set = new QBarSet(QString::number(k));
-        bar_set->append(v);
+        values.emplace_back(v, k);
+    }
+
+    for (const auto &rv : values) {
+        auto bar_set = new QBarSet(rv.toString());
+        bar_set->append(rv.count);
         series->append(bar_set);
     }
 }

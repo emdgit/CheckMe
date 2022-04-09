@@ -96,6 +96,10 @@ Item {
             metricCard.reloadData();
         }
 
+        onClosed: {
+            metricCard._onClose();
+        }
+
         onSelectedDateChanged: {
             let d = Funcs.dateDayDiff(_startDate,
                                       selectedDate);
@@ -406,10 +410,6 @@ Item {
                                 dayDataPopup.open();
                             }
                         }
-
-//                        Component.onCompleted: {
-//                            hasData = _hasData();
-//                        }
                     }
                 }
             }

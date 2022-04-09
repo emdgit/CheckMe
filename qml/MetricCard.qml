@@ -53,6 +53,7 @@ Item {
         dataEditorLoader.sourceComponent = undefined;
         editorData = undefined;
         metricCardTop.close();
+        console.log("_onClosed()")
     }
 
     Keys.onBackPressed: { _onClose(); }
