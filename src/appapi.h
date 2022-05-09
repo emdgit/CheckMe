@@ -54,6 +54,9 @@ public:
     void loadChartSeries(const QString &name,
                          QQuickItem *qmlItem) const;
 
+    Q_INVOKABLE
+    void copyConfigToClipboard() const;
+
 
 public slots:
     void finalize();

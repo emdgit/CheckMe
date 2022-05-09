@@ -139,7 +139,7 @@ ApplicationWindow {
 
             headerPositioning: ListView.OverlayHeader
 
-            model: 1
+            model: 2
 
             function itemClicked(num) {
                 drawer.close();
@@ -148,6 +148,9 @@ ApplicationWindow {
                 case 0:
                     drawer.newMetricClicked();
                     break;
+                case 1:
+                    API.copyConfigToClipboard();
+                    break;
                 }
             }
 
@@ -155,6 +158,8 @@ ApplicationWindow {
                 switch (num) {
                 case 0:
                     return qsTr("Добавить новую метрику");
+                case 1:
+                    return qsTr("Копировать метрики в буфер обмена")
                 default:
                     return qsTr("Не задано..")
                 }

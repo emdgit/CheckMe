@@ -128,6 +128,11 @@ void AppAPI::loadChartSeries(const QString &name,
     chart->addSeries(series);
 }
 
+void AppAPI::copyConfigToClipboard() const
+{
+    env_.metrics->copyConfigToClipboard();
+}
+
 void AppAPI::finalize()
 {
     try {

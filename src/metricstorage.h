@@ -8,6 +8,7 @@
 #include "metric.h"
 
 class QQuickItem;
+class QClipboard;
 
 namespace QtCharts {
 class QAbstractSeries;
@@ -59,6 +60,8 @@ public:
     void fillSeries(const QString &name,
                     QtCharts::QAbstractSeries *series) const;
 
+    void copyConfigToClipboard() const;
+
 
 protected:
 
@@ -74,6 +77,9 @@ private:
     std::vector<Metric> metrics_;
 
     QSettings settings_;
+
+    QClipboard * clipboard_;
+
 };
 
 

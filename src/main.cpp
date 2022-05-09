@@ -12,7 +12,6 @@
 #include "servicefunctions.h"
 #include "chartmanager.h"
 
-
 #include <QtCharts/QAbstractSeries>
 
 int main(int argc, char *argv[])

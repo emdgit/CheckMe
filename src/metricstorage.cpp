@@ -3,6 +3,8 @@
 #include "enums.h"
 
 #include <QtDebug>
+#include <QClipboard>
+#include <QApplication>
 #include <QtCharts/QChart>
 #include <QtCharts/QBarSet>
 #include <QtCharts/QPieSlice>
@@ -23,7 +25,10 @@ using pair_t = std::pair<QDate,QVariant>;
 using DataType = Enums::MetricDataType;
 
 MetricStorage::MetricStorage() :
-    settings_(QSettings("OGF Labs", "CheckMe")) {}
+    settings_(QSettings("OGF Labs", "CheckMe"))
+{
+    clipboard_ = QApplication::clipboard();
+}
 
 bool MetricStorage::familyExists(const QString &name) const
 {
@@ -249,6 +254,20 @@ void MetricStorage::fillSeries(const QString &name,
     default:
         qDebug() << "DataTypeError";
         return;
+    }
+}
+
+void MetricStorage::copyConfigToClipboard() const
+{
+    QFile f(settings_.fileName());
+
+    if (!f.open(QIODevice::ReadOnly)) {
+        qDebug() << "Cannot read FILE";
+    } else {
+        QString conf = f.readAll();
+        conf = conf.replace(QRegExp("\\n"), QString('\n'));
+        qDebug() << conf;
+        clipboard_->setText(conf);
     }
 }
 
