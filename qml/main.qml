@@ -79,6 +79,13 @@ ApplicationWindow {
             cmpLoader.source = "";
             cmpLoader.source = noDataPage;
         }
+        function onConfigCopyedToClipboard(positive) {
+            if (positive) {
+                notifYLabel.notify("Скопировано!", true);
+            } else {
+                notifYLabel.notify("Ошибка при копировании", false);
+            }
+        }
     }
 
     Connections {
@@ -242,6 +249,15 @@ ApplicationWindow {
             }
             onCancelClicked: { addMetricPopup.close(); }
             onBackClicked: { addMetricPopup.close(); }
+        }
+    }
+
+    NotifyLabel {
+        id: notifYLabel
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 24
         }
     }
 

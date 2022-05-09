@@ -29,6 +29,9 @@ public:
     Q_INVOKABLE
     void emitMetricDataRemoved();
 
+    Q_INVOKABLE
+    void emitConfigCopyedToClipboard(bool val);
+
 signals:
 
     void metricsLoaded();
@@ -37,4 +40,6 @@ signals:
     void metricStorageCleared();
     void metricDataUpserted();
     void metricDataRemoved();
+    void configCopyedToClipboard(bool);
+
 };

@@ -257,18 +257,20 @@ void MetricStorage::fillSeries(const QString &name,
     }
 }
 
-void MetricStorage::copyConfigToClipboard() const
+bool MetricStorage::copyConfigToClipboard() const
 {
     QFile f(settings_.fileName());
 
     if (!f.open(QIODevice::ReadOnly)) {
-        qDebug() << "Cannot read FILE";
-    } else {
-        QString conf = f.readAll();
-        conf = conf.replace(QRegExp("\\n"), QString('\n'));
-        qDebug() << conf;
-        clipboard_->setText(conf);
+        return false;
     }
+
+    QString conf = f.readAll();
+    conf = conf.replace(QRegExp("\\n"), QString('\n'));
+    qDebug() << conf;
+    clipboard_->setText(conf);
+
+    return true;
 }
 
 Metric *MetricStorage::metricFamily(const QString &name) const

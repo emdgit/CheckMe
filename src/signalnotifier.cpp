@@ -31,3 +31,8 @@ void SignalNotifier::emitMetricDataRemoved()
 {
     emit metricDataRemoved();
 }
+
+void SignalNotifier::emitConfigCopyedToClipboard(bool val)
+{
+    emit configCopyedToClipboard(val);
+}

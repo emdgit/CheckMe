@@ -1,19 +1,19 @@
 #include "appapi.h"
 #include "appapi_impl.h"
+#include "chartmanager.h"
 #include "metricstorage.h"
+#include "signalnotifier.h"
+#include "servicefunctions.h"
 
 #include <QDebug>
+#include <QLegend>
 #include <QThread>
-
-#include <iostream>
-
-#include "servicefunctions.h"
-#include "chartmanager.h"
+#include <QLegendMarker>
 #include <QtCharts/QChart>
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QBarSeries>
-#include <QLegend>
-#include <QLegendMarker>
+
+#include <iostream>
 
 AppAPI::AppAPI(ApiEnv env, QObject *parent) :
     QObject(parent), env_(env), impl_(new AppAPI_impl(&env_))
@@ -130,7 +130,8 @@ void AppAPI::loadChartSeries(const QString &name,
 
 void AppAPI::copyConfigToClipboard() const
 {
-    env_.metrics->copyConfigToClipboard();
+    auto res = env_.metrics->copyConfigToClipboard();
+    env_.notifier->emitConfigCopyedToClipboard(res);
 }
 
 void AppAPI::finalize()

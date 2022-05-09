@@ -60,7 +60,7 @@ public:
     void fillSeries(const QString &name,
                     QtCharts::QAbstractSeries *series) const;
 
-    void copyConfigToClipboard() const;
+    bool copyConfigToClipboard() const;
 
 
 protected:
