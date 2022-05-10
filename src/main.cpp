@@ -14,6 +14,8 @@
 
 #include <QtCharts/QAbstractSeries>
 
+void readFonts();
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -25,34 +27,7 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Material");
     QIcon::setThemeName("Material");
 
-
-    if (QFontDatabase::addApplicationFont("D:\\emdgit\\CheckMe\\font\\Roboto\\Roboto-Thin.ttf") == -1) {
-        qDebug("Can't load font family");
-    }
-
-    const std::vector<std::string> fonts = {
-        "Roboto-Black",
-        "Roboto-BlackItalic",
-        "Roboto-Bold",
-        "Roboto-BoldItalic",
-        "Roboto-Italic",
-        "Roboto-Light",
-        "Roboto-LightItalic",
-        "Roboto-Medium",
-        "Roboto-MediumItalic",
-        "Roboto-Regular",
-        "Roboto-Thin",
-        "Roboto-ThinItalic"
-    };
-
-    for (const auto &f : fonts) {
-        const std::string prefix = "D:\\emdgit\\CheckMe\\font\\Roboto\\";
-        const std::string font = prefix + f + ".ttf";
-
-        if (QFontDatabase::addApplicationFont(QString::fromStdString(font)) == -1) {
-            qDebug() << "Cannot add font family " << QString::fromStdString(f);
-        }
-    }
+    readFonts();
 
     MetricStorage ms;
     SignalNotifier sn;
@@ -107,4 +82,34 @@ int main(int argc, char *argv[])
                      &api, &AppAPI::finalize, Qt::DirectConnection);
 
     return app.exec();
+}
+
+void readFonts()
+{
+    const std::vector<std::string> fonts = {
+        "Roboto-Black",
+        "Roboto-BlackItalic",
+        "Roboto-Bold",
+        "Roboto-BoldItalic",
+        "Roboto-Italic",
+        "Roboto-Light",
+        "Roboto-LightItalic",
+        "Roboto-Medium",
+        "Roboto-MediumItalic",
+        "Roboto-Regular",
+        "Roboto-Thin",
+        "Roboto-ThinItalic"
+    };
+
+    const std::string prefix = ":/font/Roboto/";
+
+    for (const auto &f : fonts) {
+        const std::string font = prefix + f + ".ttf";
+
+        if (QFontDatabase::addApplicationFont(QString::fromStdString(font)) == -1) {
+            qDebug() << "Cannot add font family " << QString::fromStdString(f);
+        } else {
+            qDebug() << "Font family " << f.data() << " added";
+        }
+    }
 }
