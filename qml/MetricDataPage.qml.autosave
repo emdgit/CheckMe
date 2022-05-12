@@ -23,6 +23,7 @@ Item {
     anchors.fill: parent
     focus: true
 
+    // _closeMetricDataPage() defined in main.qml (cmpLoader)
     Keys.onBackPressed: { _closeMetricDataPage(); }
     Keys.onEscapePressed: { _closeMetricDataPage(); }
 
@@ -38,11 +39,13 @@ Item {
         Item { height: 2; Layout.fillWidth: true; }
 
         MIcon {
+            // _dataType defined in main.qml (cmpLoader)
             source: Icons.dataTypeIcon(_dataType)
             color: Colors.white()
         }
 
         Label {
+            // _name defined in main.qml (cmpLoader)
             text: _name
             color: Material.primaryTextColor
         }

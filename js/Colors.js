@@ -47,3 +47,7 @@ function unactiveGray() {
 function lightGreen() {
     return "#8BC34A";
 }
+
+function chartGlowColor() {
+    return "#15bdff";
+}

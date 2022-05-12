@@ -108,10 +108,19 @@ ApplicationWindow {
             bottom: parent.bottom
         }
 
+        /// Metric's name
         property string _name: ""
+
+        /// Type of Metric's data (Enum)
         property int _dataType: -1
+
+        /// Index of Metric in Storage
         property int _metricIndex: -1
+
+        /// First date in Metric's data
         property date _startDate: new Date()
+
+        /// Status of this Loader
         property int _status: Component.Null
 
         /// Handler for MetricsPage when metric is clicked.
