@@ -3,18 +3,22 @@ import QtCharts 2.3
 import QtGraphicalEffects 1.15
 
 import App 1.0
+import App.Enums 1.0
 
 import "qrc:/js/js/Colors.js" as Colors
 
 /// Shows metric's statistic chart and table
 /// with related data.
 Item {
+    function loadSeries() {
+        API.loadChartSeries(_name, chartView);
+    }
+
+    function clearSeries() {}
+
     ChartView {
         id: chartView
 
-        function loadSeries() {
-            API.loadChartSeries(_name, commonChart);
-        }
 
         antialiasing: true
         backgroundColor: Colors.transparent()
@@ -40,14 +44,30 @@ Item {
         }
     }
 
-    Component {
+//    Component {
+//        id: glowCmp
         Glow {
-            id: glow
             anchors.fill: chartView
             radius: 40
             samples: 80
-            color: "#15bdff"
-            source: chartView
+            color: Colors.chartGlowColor()
+            source:  {
+                if (_dataType === Enums.Integer) {
+                    return chartView;
+                }
+
+                return undefined;
+            }
         }
-    }
+//    }
+
+//    Loader {
+//        sourceComponent: {
+//            if (_dataType === Enums.Integer) {
+//                return glowCmp;
+//            }
+
+//            return undefined;
+//        }
+//    }
 }

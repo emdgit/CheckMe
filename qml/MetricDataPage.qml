@@ -23,6 +23,7 @@ Item {
     anchors.fill: parent
     focus: true
 
+    // _closeMetricDataPage() defined in main.qml (cmpLoader)
     Keys.onBackPressed: { _closeMetricDataPage(); }
     Keys.onEscapePressed: { _closeMetricDataPage(); }
 
@@ -38,11 +39,13 @@ Item {
         Item { height: 2; Layout.fillWidth: true; }
 
         MIcon {
+            // _dataType defined in main.qml (cmpLoader)
             source: Icons.dataTypeIcon(_dataType)
             color: Colors.white()
         }
 
         Label {
+            // _name defined in main.qml (cmpLoader)
             text: _name
             color: Material.primaryTextColor
         }
@@ -96,7 +99,7 @@ Item {
         }
 
         onClosed: {
-            metricCard._onClose();
+            metricCard.reset();
         }
 
         onSelectedDateChanged: {
@@ -132,9 +135,9 @@ Item {
 
         onCurrentIndexChanged: {
             if (currentIndex == 1) {
-                commonChart.loadSeries();
+                metricChartWidget.loadSeries();
             } else {
-                commonChart.clearSeries();
+                metricChartWidget.clearSeries();
             }
         }
 
@@ -414,7 +417,12 @@ Item {
             }
         }
 
-        MetricChartWidget {}
+        MetricChartWidget {
+            id: metricChartWidget
+            Component.onCompleted: {
+                metricChartWidget.loadSeries();
+            }
+        }
     }
 
     PageIndicator {

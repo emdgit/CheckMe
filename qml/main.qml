@@ -33,6 +33,7 @@ ApplicationWindow {
 
             onClicked: {
                 drawer.open();
+                console.log("callMenuButton clicked");
             }
         }
 
@@ -59,6 +60,8 @@ ApplicationWindow {
     // TODO: rename
     function newMetricHandler() {
         let count = MetricModel.metricsCount();
+        console.log("main->newMetricHandler() metrics count = ", count);
+
         if (count > 0) {
             if (cmpLoader.source == noDataPage) {
                 cmpLoader.source = metricListPage;
@@ -70,16 +73,22 @@ ApplicationWindow {
         id: notofierConnections
         target: Notifier
         function onMetricsLoaded() {
+            console.log("main->notofierConnections->onMetricsLoaded()");
             newMetricHandler();
         }
         function onRegisteredNewMetricFamily(name) {
+            console.log("main->notofierConnections->onRegisteredNewMetricFamily()",
+                        " name = ", name);
             newMetricHandler();
         }
         function onMetricStorageCleared() {
+            console.log("main->notofierConnections->onMetricStorageCleared()");
             cmpLoader.source = "";
             cmpLoader.source = noDataPage;
         }
         function onConfigCopyedToClipboard(positive) {
+            console.log("main->notofierConnections->onConfigCopyedToClipboard(), ",
+                        "positive = ", positive);
             if (positive) {
                 notifYLabel.notify("Скопировано!", true);
             } else {
@@ -92,6 +101,7 @@ ApplicationWindow {
         id: drawerConnections
         target: drawer
         function onNewMetricClicked() {
+            console.log("main->drawerConnections->onNewMetricClicked()");
             addMetricPopup.open();
         }
     }
@@ -125,15 +135,19 @@ ApplicationWindow {
 
         /// Handler for MetricsPage when metric is clicked.
         function _onMetricSelected() {
+            console.log("main->cmpLoader->_onMetricSelected()");
             source = metricDataPage;
             sourceComponent.focus = true;
         }
 
         function _closeMetricDataPage() {
+            console.log("main->cmpLoader->_closeMetricDataPage()");
             source = metricListPage;
         }
 
         onStatusChanged: {
+            console.log("main->cmpLoader->onStatusChanged(), ",
+                        "status = ", status);
             _status = status;
         }
     }
@@ -146,6 +160,7 @@ ApplicationWindow {
         signal newMetricClicked()
 
         onClosed: {
+            console.log("main->drawer->onClosed()");
             cmpLoader.forceActiveFocus();
         }
 
@@ -158,6 +173,8 @@ ApplicationWindow {
             model: 2
 
             function itemClicked(num) {
+                console.log("main->drawer->listView->itemClicked( ",
+                            num, ")");
                 drawer.close();
 
                 switch (num) {
@@ -171,6 +188,8 @@ ApplicationWindow {
             }
 
             function itemText(num) {
+                console.log("main->drawer->listView->itemText( ",
+                            num, ")");
                 switch (num) {
                 case 0:
                     return qsTr("Добавить новую метрику");
@@ -187,6 +206,7 @@ ApplicationWindow {
                 width: parent.width
 
                 onClicked: {
+                    console.log("main->drawer->listView->footer->onClicked()");
                     Qt.callLater(Qt.quit());
                 }
 
@@ -224,6 +244,7 @@ ApplicationWindow {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
+                        console.log("main->drawer->listView->delegate->MouseArea->onClicked()");
                         listView.itemClicked(index);
                     }
                 }
@@ -253,11 +274,20 @@ ApplicationWindow {
             id: metricCard
             focus: true
             onApplyClicked: {
+                console.log("main->addMetricPopup->NewMetricCard->onApplyClicked()");
+
                 API.registerNewMetricFamily(name, dataType, forEachDay);
                 addMetricPopup.close();
             }
-            onCancelClicked: { addMetricPopup.close(); }
-            onBackClicked: { addMetricPopup.close(); }
+            onCancelClicked: {
+                console.log("main->addMetricPopup->NewMetricCard->onCancelClicked()");
+
+                addMetricPopup.close();
+            }
+            onBackClicked: {
+                console.log("main->addMetricPopup->NewMetricCard->onBackClicked()");
+                addMetricPopup.close();
+            }
         }
     }
 
@@ -271,6 +301,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        console.log("main->onCompleted()");
         cmpLoader.source = noDataPage;
         API.loadMetrics();
     }

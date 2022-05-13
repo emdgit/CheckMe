@@ -50,10 +50,15 @@ Item {
     }
 
     function _onClose() {
+        reset();
+        metricCardTop.close();
+        console.log("MetricCard::_onClosed()");
+    }
+
+    function reset() {
         dataEditorLoader.sourceComponent = undefined;
         editorData = undefined;
-        metricCardTop.close();
-        console.log("_onClosed()")
+        console.log("MetricCard::reset()");
     }
 
     Keys.onBackPressed: { _onClose(); }
